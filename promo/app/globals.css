@@ -1,0 +1,298 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 20 10% 5%;
+    --foreground: 35 30% 90%;
+    --card: 20 12% 8%;
+    --card-foreground: 35 30% 90%;
+    --popover: 20 12% 8%;
+    --popover-foreground: 35 30% 90%;
+    --primary: 18 85% 45%;
+    --primary-foreground: 35 30% 95%;
+    --secondary: 20 15% 12%;
+    --secondary-foreground: 35 25% 80%;
+    --muted: 20 10% 15%;
+    --muted-foreground: 30 15% 55%;
+    --accent: 0 65% 42%;
+    --accent-foreground: 35 30% 95%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 25 15% 18%;
+    --input: 25 15% 18%;
+    --ring: 18 85% 45%;
+    --chart-1: 18 85% 45%;
+    --chart-2: 0 65% 42%;
+    --chart-3: 35 80% 55%;
+    --chart-4: 30 60% 40%;
+    --chart-5: 10 70% 50%;
+    --radius: 0.5rem;
+    --sidebar-background: 20 10% 5%;
+    --sidebar-foreground: 35 30% 90%;
+    --sidebar-primary: 18 85% 45%;
+    --sidebar-primary-foreground: 35 30% 95%;
+    --sidebar-accent: 20 15% 12%;
+    --sidebar-accent-foreground: 35 30% 90%;
+    --sidebar-border: 25 15% 18%;
+    --sidebar-ring: 18 85% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom liquid animations */
+@keyframes liquid-rise {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes liquid-wave {
+  0%, 100% {
+    border-radius: 45% 55% 55% 45% / 55% 45% 55% 45%;
+  }
+  25% {
+    border-radius: 55% 45% 45% 55% / 45% 55% 45% 55%;
+  }
+  50% {
+    border-radius: 45% 55% 55% 45% / 45% 55% 55% 45%;
+  }
+  75% {
+    border-radius: 55% 45% 45% 55% / 55% 45% 55% 45%;
+  }
+}
+
+@keyframes pour-down {
+  0% {
+    height: 0%;
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    height: 100%;
+    opacity: 0.8;
+  }
+}
+
+@keyframes bubble-float {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-40px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes swirl {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes drip {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  60% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes glass-fill {
+  0% {
+    clip-path: inset(100% 0 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(20 10% 5%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(18 85% 45% / 0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(18 85% 45% / 0.7);
+}
+
+/* Selection styling */
+::selection {
+  background: hsl(18 85% 45% / 0.3);
+  color: hsl(35 30% 95%);
+}
+
+/* Shimmer line */
+.shimmer-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(18 85% 45% / 0.6) 40%,
+    hsl(18 85% 45% / 0.9) 50%,
+    hsl(18 85% 45% / 0.6) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+  height: 1px;
+}
+
+/* Stagger children animation utility */
+.stagger-children > * {
+  opacity: 0;
+  animation: fade-up 0.6s ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 400ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 500ms; }
+
+/* Hover group pause for marquee */
+.group\/marquee:hover .animate-marquee,
+.group\/marquee:hover [style*="marquee"] {
+  animation-play-state: paused;
+}
+
+/* Magnetic button inner glow */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 hsl(18 85% 45% / 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px 5px hsl(18 85% 45% / 0.1);
+  }
+}
+
+/* Circle draw animation for SVG */
+@keyframes circle-draw {
+  from {
+    stroke-dashoffset: 264;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

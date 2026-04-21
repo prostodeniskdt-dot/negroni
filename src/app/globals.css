@@ -1,0 +1,609 @@
+@import "tailwindcss";
+
+/* ====== THEME VARIABLES (Campari identity) ====== */
+@theme {
+  --color-campari: #BB0A30;
+  --color-campari-dark: #8B1538;
+  --color-campari-darker: #5C0A20;
+  --color-campari-light: #D91B3E;
+  --color-on-campari: #ffffff;
+
+  --color-bg: #0d0608;
+  --color-surface: rgba(26, 10, 15, 0.65);
+  --color-surface-solid: #1a0a0f;
+  --color-text-primary: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.78);
+  --color-text-secondary: rgba(255, 255, 255, 0.6);
+  --color-border: rgba(255, 255, 255, 0.12);
+
+  --color-accent: #f8cf2c;
+  --color-accent-light: #fad54c;
+  --color-accent-contrast: #0d0d0d;
+
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+
+  --font-display: 'Oswald', sans-serif;
+  --font-serif: 'Lora', serif;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.5);
+
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.4s ease;
+}
+
+/* ====== LIGHT THEME OVERRIDES ====== */
+.theme-light {
+  --color-bg: #ffffff;
+  --color-surface: rgba(255, 255, 255, 0.85);
+  --color-surface-solid: #ffffff;
+  --color-text-primary: #1a1a1a;
+  --color-text-muted: rgba(26, 26, 26, 0.7);
+  --color-text-secondary: rgba(26, 26, 26, 0.5);
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-accent: #b8860b;
+  --color-accent-light: #d4a017;
+  --color-accent-contrast: #ffffff;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ====== BASE RESET ====== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-display);
+  background: linear-gradient(
+    180deg,
+    var(--color-campari) 0%,
+    var(--color-campari-dark) 20%,
+    var(--color-campari-darker) 55%,
+    #1a0a0f 85%,
+    #0d0608 100%
+  );
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--color-text-primary);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.theme-light body {
+  background: linear-gradient(
+    180deg,
+    #fef7f0 0%,
+    #fff5ee 20%,
+    #fdf2e9 55%,
+    #fef9f5 85%,
+    #ffffff 100%
+  );
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ====== REVEAL ANIMATION ====== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ====== NOISE TEXTURE OVERLAY ====== */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ====== LEAFLET MAP THEMING ====== */
+.negroni-custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+.negroni-custom-marker svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+.dark-tiles .leaflet-tile-pane {
+  filter: brightness(0.7) contrast(1.1) saturate(0.8);
+}
+.theme-light .dark-tiles .leaflet-tile-pane {
+  filter: brightness(1) contrast(1) saturate(1);
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--color-surface-solid, #1a0a0f);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+.leaflet-popup-tip {
+  background: var(--color-surface-solid, #1a0a0f);
+}
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--color-text-muted);
+}
+.leaflet-popup-content {
+  margin: 10px 14px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+}
+.theme-light .leaflet-popup-content-wrapper {
+  background: #ffffff;
+}
+.theme-light .leaflet-popup-tip {
+  background: #ffffff;
+}
+
+.popup-btn {
+  margin-top: 6px;
+  padding: 4px 8px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  background: var(--color-campari);
+  color: var(--color-on-campari);
+}
+.popup-btn:hover {
+  background: var(--color-campari-light);
+}
+
+/* ====== ACCESSIBILITY ====== */
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-campari);
+  color: var(--color-on-campari);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip-to-content:focus {
+  top: 0.75rem;
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Focus visible styles for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--color-campari);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-campari);
+  outline-offset: 2px;
+}
+
+/* Remove default focus outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ====== LANDING / PROMO ANIMATIONS ====== */
+@keyframes liquid-wave {
+  0%, 100% {
+    border-radius: 45% 55% 55% 45% / 55% 45% 55% 45%;
+  }
+  25% {
+    border-radius: 55% 45% 45% 55% / 45% 55% 45% 55%;
+  }
+  50% {
+    border-radius: 45% 55% 55% 45% / 45% 55% 55% 45%;
+  }
+  75% {
+    border-radius: 55% 45% 45% 55% / 55% 45% 55% 45%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(187, 10, 48, 0.5) 40%,
+    rgba(187, 10, 48, 0.8) 50%,
+    rgba(187, 10, 48, 0.5) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+  height: 1px;
+}
+
+.animate-liquid-wave {
+  animation: liquid-wave 8s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+/* ====== ADDITIONAL PROMO KEYFRAMES ====== */
+@keyframes liquid-rise {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes pour-down {
+  0% {
+    height: 0%;
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    height: 100%;
+    opacity: 0.8;
+  }
+}
+
+@keyframes bubble-float {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-40px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes swirl {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes drip {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  60% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}
+
+@keyframes glass-fill {
+  0% {
+    clip-path: inset(100% 0 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(187, 10, 48, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px 5px rgba(187, 10, 48, 0.1);
+  }
+}
+
+@keyframes circle-draw {
+  from {
+    stroke-dashoffset: 264;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ====== ANIMATION UTILITY CLASSES ====== */
+.animate-liquid-rise {
+  animation: liquid-rise 1s ease-out forwards;
+}
+
+.animate-pour-down {
+  animation: pour-down 1.2s ease-out forwards;
+}
+
+.animate-bubble-float {
+  animation: bubble-float 2s ease-in-out infinite;
+}
+
+.animate-swirl {
+  animation: swirl 8s linear infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.7s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.7s ease-out forwards;
+}
+
+.animate-drip {
+  animation: drip 1s ease-out forwards;
+}
+
+.animate-glass-fill {
+  animation: glass-fill 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-circle-draw {
+  animation: circle-draw 1s ease-out forwards;
+}
+
+/* ====== STAGGER CHILDREN ====== */
+.stagger-children > * {
+  opacity: 0;
+  animation: fade-up 0.6s ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 400ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 500ms; }
+
+/* ====== MARQUEE HOVER PAUSE ====== */
+[data-pause-on-hover]:hover [style*="marquee"],
+[data-pause-on-hover]:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* ====== SCROLLBAR ====== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(187, 10, 48, 0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(187, 10, 48, 0.7);
+}
+
+.theme-light ::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+.theme-light ::-webkit-scrollbar-thumb {
+  background: rgba(187, 10, 48, 0.35);
+}
+
+.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(187, 10, 48, 0.55);
+}
+
+/* ====== SELECTION ====== */
+::selection {
+  background: rgba(187, 10, 48, 0.3);
+  color: var(--color-text-primary);
+}
+
+.theme-light ::selection {
+  background: rgba(187, 10, 48, 0.25);
+  color: var(--color-text-primary);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-liquid-wave,
+  .animate-float,
+  .animate-marquee,
+  .animate-liquid-rise,
+  .animate-pour-down,
+  .animate-bubble-float,
+  .animate-swirl,
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-slide-in-left,
+  .animate-slide-in-right,
+  .animate-drip,
+  .animate-glass-fill,
+  .animate-pulse-glow,
+  .animate-circle-draw,
+  .shimmer-line,
+  .stagger-children > * {
+    animation: none !important;
+  }
+  .stagger-children > * {
+    opacity: 1;
+  }
+}
+
+/* Print styles */
+@media print {
+  .header,
+  .skip-to-content,
+  .theme-toggle-btn,
+  .lang-toggle-btn,
+  .btn-recipes,
+  footer {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  main {
+    margin-top: 0 !important;
+  }
+}

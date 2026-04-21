@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Детальный рецепт коктейля Негрони из коллекции Музея Негрони: ингредиенты, приготовление, вкусовой профиль.">
+  <title>Рецепт Негрони — Музей Негрони</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/recipe.css">
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo">Музей Негрони</a>
+    <nav class="nav">
+      <a href="index.html#about" data-i18n="nav.about">О проекте</a>
+      <a href="collection.html" data-i18n="nav.collection">Коллекция</a>
+      <a href="history.html" data-i18n="nav.history">История</a>
+      <a href="partners.html" data-i18n="nav.partners">Партнёры</a>
+      <a href="favorites.html" class="nav-favorites-link" aria-label="Избранное">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </a>
+      <button type="button" class="theme-toggle-btn nav-icon-btn" aria-label="Переключить тему"></button>
+      <button type="button" class="lang-toggle-btn nav-icon-btn" aria-label="Сменить язык">EN</button>
+      <a href="recipes.html" class="btn-recipes" data-i18n="nav.map" aria-label="Открыть карту рецептов">Карта</a>
+    </nav>
+  </header>
+
+  <main class="recipe-page">
+    <section class="recipe-main reveal">
+      <div class="recipe-intro-block">
+        <h1 id="recipeTitle" class="recipe-main-title">Название рецепта</h1>
+        <p id="recipeRegion" class="recipe-region">Регион</p>
+        <div id="recipeAuthorBar" class="recipe-author-bar"></div>
+        <div id="recipeTags" class="recipe-tags"></div>
+        <div class="recipe-actions">
+        <button type="button" id="favoriteBtn" class="btn-favorite" aria-label="Добавить в избранное">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span id="favoriteBtnText" data-i18n="recipe.addFavorite">В избранное</span>
+        </button>
+        <button type="button" id="exportBtn" class="btn-ghost" aria-label="Экспорт рецепта">
+          <span data-i18n="recipe.export">Экспорт / Печать</span>
+        </button>
+        </div>
+        <p id="recipeIntro" class="recipe-intro">Краткая история рецепта.</p>
+      </div>
+
+      <div class="recipe-tech-block">
+      <section class="recipe-meta" aria-label="Технологическая карта коктейля">
+        <div class="recipe-meta-item">
+          <strong>METHOD</strong><br>
+          <span id="recipeMethod">—</span>
+        </div>
+        <div class="recipe-meta-item">
+          <strong>GLASS</strong><br>
+          <span id="recipeGlass">—</span>
+        </div>
+        <div class="recipe-meta-item">
+          <strong>GARNISH</strong><br>
+          <span id="recipeGarnish">—</span>
+        </div>
+        <div class="recipe-meta-item">
+          <strong>ICE</strong><br>
+          <span id="recipeIce">—</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="ingredientsTitle">
+        <h2 id="ingredientsTitle" class="recipe-section-title" data-i18n="recipe.ingredients">Рецепт</h2>
+        <ul id="recipeIngredients"></ul>
+      </section>
+
+      <section aria-labelledby="stepsTitle">
+        <h2 id="stepsTitle" class="recipe-section-title" data-i18n="recipe.steps">Приготовление</h2>
+        <ol id="recipeSteps"></ol>
+      </section>
+
+      <section aria-labelledby="prebatchTitle">
+        <h2 id="prebatchTitle" class="recipe-section-title" data-i18n="recipe.prebatch">Рецепт заготовок</h2>
+        <div id="recipePrebatch"></div>
+      </section>
+      </div>
+    </section>
+
+    <aside class="recipe-sidebar reveal">
+      <div class="recipe-image-wrapper">
+        <img id="recipeImage" class="recipe-image" src="" alt="Коктейль Негрони" loading="lazy" decoding="async">
+      </div>
+
+      <section class="recipe-flavor-chart" aria-labelledby="flavorTitle">
+        <h2 id="flavorTitle" class="recipe-section-title" data-i18n="recipe.flavor">Вкусовой профиль</h2>
+        <canvas id="flavorRadar" width="400" height="400" aria-label="Карта вкусов коктейля"></canvas>
+        <p class="recipe-flavor-caption" data-i18n="flavor.caption">Горечь, сладость, кислотность, пряность, крепость — шкала 0–10</p>
+        <div id="flavorSliders" class="recipe-flavor-sliders"></div>
+      </section>
+
+      <section class="recipe-to-map">
+        <a id="toMapLink" href="recipes.html" data-i18n="recipe.showOnMap">Показать этот рецепт на карте</a>
+      </section>
+    </aside>
+  </main>
+
+  <section class="recipe-related reveal" aria-labelledby="relatedTitle">
+    <div class="recipe-related-inner">
+      <div class="recipe-related-header">
+        <h2 id="relatedTitle" class="recipe-section-title" data-i18n="recipe.related">Похожие рецепты</h2>
+        <p class="recipe-related-subtitle" data-i18n="recipe.relatedSubtitle">Другие вариации Негрони из этого региона и коллекции музея.</p>
+      </div>
+      <div id="relatedList" class="recipe-related-list" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="recipe-share reveal" aria-labelledby="shareTitle">
+    <div class="recipe-share-inner">
+      <h2 id="shareTitle" class="recipe-section-title" data-i18n="recipe.share">Поделиться рецептом</h2>
+      <div class="recipe-share-buttons">
+        <button type="button" id="shareCopyButton" class="recipe-share-btn" data-i18n="recipe.copyLink">Скопировать ссылку</button>
+      </div>
+      <p id="shareCopyStatus" class="recipe-share-status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="index.html" class="footer-logo">Музей Негрони</a>
+      <p data-i18n="footer.rights">© 2025 Музей Негрони. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="scripts/data.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/analytics.js"></script>
+  <script src="scripts/theme.js"></script>
+  <script src="scripts/i18n.js"></script>
+  <script src="scripts/reveal.js"></script>
+  <script src="scripts/recipe.js"></script>
+</body>
+</html>

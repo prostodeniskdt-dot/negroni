@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Рецепты Негрони — карта России</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Интерактивная карта рецептов Негрони по регионам России: точки на карте, города и вариации коктейля из коллекции Музея Негрони.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/map.css">
+</head>
+<body>
+  <header class="header" role="banner">
+    <a href="index.html" class="logo">Музей Негрони</a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="index.html#about" data-i18n="nav.about">О проекте</a>
+      <a href="collection.html" data-i18n="nav.collection">Коллекция</a>
+      <a href="history.html" data-i18n="nav.history">История</a>
+      <a href="partners.html" data-i18n="nav.partners">Партнёры</a>
+      <a href="favorites.html" class="nav-favorites-link" aria-label="Избранное">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </a>
+      <button type="button" class="theme-toggle-btn nav-icon-btn" aria-label="Переключить тему"></button>
+      <button type="button" class="lang-toggle-btn nav-icon-btn" aria-label="Сменить язык">EN</button>
+      <a href="recipes.html" class="btn-recipes active" data-i18n="nav.map" aria-label="Открыть карту рецептов">Карта</a>
+    </nav>
+  </header>
+
+  <div class="map-intro">
+    <h1 class="map-intro-title" data-i18n="map.title">Рецепты Негрони по регионам России</h1>
+    <p class="map-intro-desc" data-i18n="map.desc">Выберите город или точку на карте — откроются вариации коктейля из этой локации.</p>
+  </div>
+  <div class="map-layout">
+    <div class="map-full-wrapper">
+      <div id="map-full" class="dark-tiles"></div>
+    </div>
+    <aside class="map-sidebar">
+      <h2 class="map-sidebar-title" data-i18n="map.cities">Города</h2>
+      <div id="mapSidebarList" class="map-sidebar-list"></div>
+    </aside>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="scripts/data.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/analytics.js"></script>
+  <script src="scripts/theme.js"></script>
+  <script src="scripts/i18n.js"></script>
+  <script src="scripts/map.js"></script>
+</body>
+</html>

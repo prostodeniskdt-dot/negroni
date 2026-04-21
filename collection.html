@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Коллекция Музея Негрони: все вариации коктейля Негрони, собранные по регионам России и миру. Фильтр по регионам, вкусу, ингредиентам и тегам.">
+  <title>Коллекция — Музей Негрони</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/collection.css">
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="logo">Музей Негрони</a>
+    <nav class="nav">
+      <a href="index.html#about" data-i18n="nav.about">О проекте</a>
+      <a href="collection.html" class="active" data-i18n="nav.collection">Коллекция</a>
+      <a href="history.html" data-i18n="nav.history">История</a>
+      <a href="partners.html" data-i18n="nav.partners">Партнёры</a>
+      <a href="favorites.html" class="nav-favorites-link" aria-label="Избранное">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </a>
+      <button type="button" class="theme-toggle-btn nav-icon-btn" aria-label="Переключить тему"></button>
+      <button type="button" class="lang-toggle-btn nav-icon-btn" aria-label="Сменить язык">EN</button>
+      <a href="recipes.html" class="btn-recipes" data-i18n="nav.map" aria-label="Открыть карту рецептов">Карта</a>
+    </nav>
+  </header>
+
+  <main class="collection-page">
+    <header class="collection-hero reveal">
+      <h1 class="collection-hero-title" data-i18n="collection.title">Коллекция Негрони</h1>
+      <p class="collection-hero-desc" data-i18n="collection.desc">Все рецепты музея, собранные по регионам России и миру. 100+ вариаций — одна формула.</p>
+      <div id="collectionStats" class="collection-stats" aria-hidden="true">
+        <span class="collection-stat"><strong id="collectionRecipesCount">—</strong> <span data-i18n="collection.recipesCount">рецептов</span></span>
+        <span class="collection-stat"><strong id="collectionCitiesCount">—</strong> <span data-i18n="collection.citiesCount">городов</span></span>
+      </div>
+    </header>
+
+    <div class="collection-controls">
+      <div class="collection-filters">
+        <input type="search" id="searchInput" class="collection-search" placeholder="Поиск по названию..." aria-label="Поиск по названию рецепта" data-i18n="collection.search">
+        <select id="regionSelect" class="collection-select" aria-label="Фильтр по региону">
+          <option value="" data-i18n="collection.allRegions">Все регионы</option>
+        </select>
+        <input type="text" id="ingredientInput" class="collection-ingredient-input" placeholder="Поиск по ингредиентам..." aria-label="Поиск по ингредиентам" data-i18n="collection.ingredients">
+      </div>
+      <div id="collectionTags" class="collection-tags"></div>
+      <div class="collection-flavor-panel">
+        <button type="button" id="flavorToggle" class="collection-flavor-toggle" data-i18n="collection.flavor">Фильтр по вкусу</button>
+        <div id="flavorSliders" class="collection-flavor-sliders"></div>
+      </div>
+    </div>
+
+    <p id="collectionCount" class="collection-count"></p>
+    <section id="collectionGrid" class="collection-grid" aria-live="polite"></section>
+    <p id="collectionEmpty" class="collection-empty" hidden data-i18n="collection.empty">По вашему запросу рецептов не найдено.</p>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="index.html" class="footer-logo">Музей Негрони</a>
+      <p data-i18n="footer.rights">© 2025 Музей Негрони. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="scripts/data.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/analytics.js"></script>
+  <script src="scripts/theme.js"></script>
+  <script src="scripts/i18n.js"></script>
+  <script src="scripts/reveal.js"></script>
+  <script src="scripts/collection.js"></script>
+</body>
+</html>

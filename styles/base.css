@@ -1,0 +1,132 @@
+@import url("../styles.css");
+
+/* Дополнительные общие стили поверх основной темы. */
+
+.hero-actions {
+  margin: 1.5rem 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 0.65rem 1.5rem;
+}
+.hero-cta:hover {
+  box-shadow: 0 6px 18px rgba(187, 10, 48, 0.4);
+}
+
+.hero-secondary-link {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color var(--transition-base), transform var(--transition-base);
+  display: inline-block;
+}
+.hero-secondary-link:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+  transform: translateX(4px);
+}
+
+/* Общая кнопка — полная */
+.btn-primary {
+  display: inline-block;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-on-campari);
+  background: var(--color-campari);
+  border: none;
+  padding: 0.55rem 1.35rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+}
+.btn-primary:hover {
+  background: var(--color-campari-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(187, 10, 48, 0.45);
+}
+.btn-primary:focus-visible {
+  outline: 2px solid var(--color-campari-light);
+  outline-offset: 2px;
+}
+
+/* Общая кнопка — контурная */
+.btn-outline {
+  display: inline-block;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-campari);
+  background: transparent;
+  border: 2px solid var(--color-campari);
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--transition-base), color var(--transition-base), transform var(--transition-base);
+}
+.btn-outline:hover {
+  background: var(--color-campari);
+  color: var(--color-on-campari);
+  transform: translateY(-2px);
+}
+.btn-outline:focus-visible {
+  outline: 2px solid var(--color-campari-light);
+  outline-offset: 2px;
+}
+
+/* Кнопка ghost */
+.btn-ghost {
+  display: inline-block;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color var(--transition-base), color var(--transition-base), background var(--transition-base);
+}
+.btn-ghost:hover {
+  border-color: var(--color-campari);
+  color: var(--color-campari);
+  background: rgba(187, 10, 48, 0.06);
+}
+
+/* Иконка кнопки избранного */
+.btn-favorite {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  transition: all var(--transition-base);
+}
+.btn-favorite:hover {
+  border-color: var(--color-campari);
+  color: var(--color-campari);
+}
+.btn-favorite.is-active {
+  background: var(--color-campari);
+  border-color: var(--color-campari);
+  color: var(--color-on-campari);
+}
+.btn-favorite svg {
+  width: 16px;
+  height: 16px;
+}
