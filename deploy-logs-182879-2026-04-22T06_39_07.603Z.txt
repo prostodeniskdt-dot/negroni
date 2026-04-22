@@ -1,0 +1,207 @@
+09:30:39 | DEBUG | 
+09:30:39 | DEBUG | HEAD is now at 6e7b8a1 Fix: generate Prisma client during build
+09:30:39 | DEBUG |   git switch -c <new-branch-name>
+09:30:39 | DEBUG | 
+09:30:39 | DEBUG |   git switch -
+09:30:39 | DEBUG | 
+09:30:39 | DEBUG | do so (now or later) by using -c with the switch command. Example:
+09:30:39 | DEBUG | You are in 'detached HEAD' state. You can look around, make experimental
+09:30:39 | DEBUG | 
+09:30:39 | DEBUG | If you want to create a new branch to retain commits you create, you may
+09:30:39 | DEBUG | Cloning into '/workspace'...
+09:30:39 | DEBUG | Or undo this operation with:
+09:30:39 | DEBUG | 
+09:30:39 | DEBUG | changes and commit them, and you can discard any commits you make in this
+09:30:39 | DEBUG | Turn off this advice by setting config variable advice.detachedHead to false
+09:30:39 | DEBUG | 
+09:30:39 | DEBUG | state without impacting any branches by switching back to a branch.
+09:30:39 | DEBUG | Note: switching to '6e7b8a15b6bec9c6f0808799f6d3d460f3b4ef2f'.
+09:30:39 | DEBUG | 
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | #1 WARN: Empty continuation line found in: RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     && rm -rf /var/lib/apt/lists/*
+09:30:44 | DEBUG | #7 CACHED
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | #11 [ 7/11] COPY package.json pnpm-lock.yaml* package-lock.json* pnpm-workspace.yaml* ./
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | #11 DONE 0.1s
+09:30:44 | DEBUG | #1 transferring dockerfile: 1.29kB 0.0s done
+09:30:44 | DEBUG | #5 DONE 0.1s
+09:30:44 | DEBUG | #2 DONE 0.4s
+09:30:44 | DEBUG | #4 DONE 0.0s
+09:30:44 | DEBUG | #1 DONE 0.0s
+09:30:44 | DEBUG | #2 [internal] load metadata for docker.io/library/node:24-slim
+09:30:44 | DEBUG | #9 [ 4/11] RUN npm install -g pm2
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | #12 [ 8/11] RUN if [ -f pnpm-lock.yaml ]; then       echo "Detected pnpm workspace";       corepack prepare pnpm --activate && pnpm install --frozen-lockfile;     elif [ -f package-lock.json ]; then       echo "Detected npm project";       npm ci;     else       echo "No lockfile, fallback to basic install";       npm install;     fi
+09:30:44 | DEBUG | #4 transferring context: 2B done
+09:30:44 | DEBUG | #3 [1/7] FROM docker.io/library/node:24-slim@sha256:dad1a61d4421f0e72068d9f864c73c1e2a617e2cdb23edc777dbc6fe2c90e720
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | #9 CACHED
+09:30:44 | DEBUG | #6 CACHED
+09:30:44 | DEBUG | #5 transferring context: 3.44MB 0.1s done
+09:30:44 | DEBUG | #8 [ 3/11] RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     && rm -rf /var/lib/apt/lists/*
+09:30:44 | DEBUG | #1 [internal] load build definition from Dockerfile
+09:30:44 | DEBUG | #8 CACHED
+09:30:44 | DEBUG | #3 CACHED
+09:30:44 | DEBUG | #5 [internal] load build context
+09:30:44 | DEBUG | #10 [ 6/11] WORKDIR /app
+09:30:44 | INFO | Build started
+09:30:44 | DEBUG | #4 [internal] load .dockerignore
+09:30:44 | DEBUG | #6 [ 5/11] RUN groupadd --gid 2000 app && useradd --uid 2000 --gid 2000 -m -s /bin/bash app
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | #10 CACHED
+09:30:44 | DEBUG | #3 resolve docker.io/library/node:24-slim@sha256:dad1a61d4421f0e72068d9f864c73c1e2a617e2cdb23edc777dbc6fe2c90e720 done
+09:30:44 | DEBUG | #7 [ 2/11] RUN corepack enable
+09:30:44 | DEBUG | 
+09:30:44 | DEBUG | #12 0.056 Detected npm project
+09:31:01 | DEBUG | #12 18.62 
+09:31:01 | DEBUG | #12 18.62 23 packages are looking for funding
+09:31:01 | DEBUG | #12 18.62 
+09:31:01 | DEBUG | #12 18.62 added 98 packages, and audited 99 packages in 18s
+09:31:01 | DEBUG | #12 18.62   run `npm fund` for details
+09:31:01 | DEBUG | #12 18.67 
+09:31:01 | DEBUG | #12 18.67 
+09:31:01 | DEBUG | #12 18.67   npm audit fix
+09:31:01 | DEBUG | #12 18.67 1 high severity vulnerability
+09:31:01 | DEBUG | #12 18.67 To address all issues, run:
+09:31:01 | DEBUG | #12 18.67 
+09:31:01 | DEBUG | #12 18.67 Run `npm audit` for details.
+09:31:01 | DEBUG | #12 DONE 19.0s
+09:31:01 | DEBUG | #13 [ 9/11] WORKDIR /app
+09:31:01 | DEBUG | 
+09:31:02 | DEBUG | #13 DONE 0.3s
+09:31:02 | DEBUG | #14 DONE 0.1s
+09:31:02 | DEBUG | #14 [10/11] COPY --chown=app:app . .
+09:31:02 | DEBUG | 
+09:31:02 | DEBUG | #15 [11/11] RUN npm run build
+09:31:02 | DEBUG | 
+09:31:02 | DEBUG | #15 0.278 > negroni-museum@1.0.0 build
+09:31:02 | DEBUG | #15 0.278 > prisma generate && next build
+09:31:02 | DEBUG | #15 0.278 
+09:31:02 | DEBUG | #15 0.278 
+09:31:03 | DEBUG | #15 1.586 Prisma schema loaded from prisma/schema.prisma
+09:31:04 | DEBUG | #15 2.000 
+09:31:04 | DEBUG | #15 2.000 ✔ Generated Prisma Client (v6.19.3) to ./node_modules/@prisma/client in 117ms
+09:31:04 | DEBUG | #15 2.000 Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+09:31:04 | DEBUG | #15 2.000 
+09:31:04 | DEBUG | #15 2.000 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+09:31:04 | DEBUG | #15 2.000 
+09:31:04 | DEBUG | #15 2.000 
+09:31:05 | DEBUG | #15 3.059 ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+09:31:05 | DEBUG | #15 3.197 
+09:31:05 | DEBUG | #15 3.067 
+09:31:05 | DEBUG | #15 3.067 https://nextjs.org/telemetry
+09:31:05 | DEBUG | #15 3.067 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+09:31:05 | DEBUG | #15 3.067 Attention: Next.js now collects completely anonymous telemetry regarding usage.
+09:31:05 | DEBUG | #15 3.067 This information is used to shape Next.js' roadmap and prioritize features.
+09:31:05 | DEBUG | #15 3.197    ▲ Next.js 15.5.12
+09:31:05 | DEBUG | #15 3.252    Creating an optimized production build ...
+09:31:20 | DEBUG | #15 18.74  ✓ Compiled successfully in 12.1s
+09:31:21 | DEBUG | #15 18.74    Linting and checking validity of types ...
+09:31:27 | DEBUG | #15 24.85    Collecting page data ...
+09:31:29 | DEBUG | #15 27.29    Generating static pages (0/27) ...
+09:31:30 | DEBUG | #15 27.83    Generating static pages (6/27) 
+09:31:30 | DEBUG | #15 28.04    Generating static pages (13/27) 
+09:31:30 | DEBUG | #15 28.07    Generating static pages (20/27) 
+09:31:30 | DEBUG | #15 28.10  ✓ Generating static pages (27/27)
+09:31:31 | DEBUG | #15 29.02    Finalizing page optimization ...
+09:31:31 | DEBUG | #15 29.02    Collecting build traces ...
+09:31:38 | DEBUG | #15 35.93 
+09:31:38 | DEBUG | #15 35.94 ├ ○ /admin/login                         1.21 kB         103 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /admin/drinks                          178 B         106 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /admin/drinks/[id]                   1.67 kB         104 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /admin/prebatches                      178 B         106 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /admin/import                        1.03 kB         103 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /admin                                 178 B         106 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /_not-found                            996 B         103 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /admin/prebatches/new                1.38 kB         104 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /admin/partners                        178 B         106 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /admin/prebatches/[id]               1.51 kB         104 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /admin/recipes                         178 B         106 kB
+09:31:38 | DEBUG | #15 35.94 Route (app)                                 Size  First Load JS
+09:31:38 | DEBUG | #15 35.94 ┌ ○ /                                    7.77 kB         138 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /admin/drinks/new                    1.71 kB         104 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /curations                           3.13 kB         128 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/admin/drinks/[id]                 169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /collection                          3.52 kB         129 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/admin/prebatches/[id]             169 B         102 kB
+09:31:38 | DEBUG | #15 35.94   └ other shared chunks (total)          1.98 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /admin/recipes/[id]                  2.29 kB         104 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /recipe/[id]                         4.07 kB         135 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/admin/prebatches                  169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/auth/logout                       169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/auth/login                        169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/public/recipes                    169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /admin/recipes/new                   2.19 kB         104 kB
+09:31:38 | DEBUG | #15 35.94 ƒ  (Dynamic)  server-rendered on demand
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/admin/meta/partners               169 B         102 kB
+09:31:38 | DEBUG | #15 35.94   ├ chunks/4bd1b696-f785427dddbba9fb.js  54.2 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/recipes                           169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /history                             1.95 kB         127 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/admin/drinks                      169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/public/recipe/[slug]              169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 + First Load JS shared by all             102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/admin/recipes                     169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 └ ○ /submit                              2.36 kB         122 kB
+09:31:38 | DEBUG | #15 35.94 
+09:31:38 | DEBUG | #15 35.94 
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/public/partners                   169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 
+09:31:38 | DEBUG | #15 35.94 ○  (Static)   prerendered as static content
+09:31:38 | DEBUG | #15 35.94 ƒ Middleware                               34 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /recipes                             2.63 kB         128 kB
+09:31:38 | DEBUG | #15 35.94   ├ chunks/1255-a390e12b70b4a9fb.js        46 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/admin/meta/drink-categories       169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/admin/import/seed                 169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 ├ ○ /partners                            4.92 kB         136 kB
+09:31:38 | DEBUG | #15 35.94 ├ ƒ /api/admin/recipes/[id]                169 B         102 kB
+09:31:38 | DEBUG | #15 35.94 
+09:31:38 | DEBUG | #15 35.94 ├ ○ /favorites                           1.94 kB         127 kB
+09:31:38 | DEBUG | #15 DONE 36.1s
+09:31:38 | DEBUG | #16 exporting layers
+09:31:38 | DEBUG | 
+09:31:38 | DEBUG | #16 exporting to image
+09:32:27 | DEBUG | #16 exporting layers 49.4s done
+09:32:27 | DEBUG | #16 ...
+09:32:27 | DEBUG | #16 exporting to image
+09:32:27 | DEBUG | #16 exporting config sha256:fd53611a93c3cdf9e7d9d5b5b9123488b3bf3172783a0545fdfafc4dc14257d5 done
+09:32:27 | DEBUG | #17 DONE 0.0s
+09:32:27 | DEBUG | 
+09:32:27 | DEBUG | #16 exporting manifest sha256:aeca057a2391fd600a8b38039a483c31fee7a025bf1c3ee8359f195312c593b4 done
+09:32:27 | DEBUG | 
+09:32:27 | DEBUG | #16 pushing layers
+09:32:28 | DEBUG | 
+09:32:28 | DEBUG | #16 ...
+09:32:28 | DEBUG | 
+09:32:28 | DEBUG | #16 exporting to image
+09:32:28 | DEBUG | #18 DONE 0.0s
+09:32:28 | DEBUG | 
+09:32:28 | DEBUG | #16 ...
+09:32:28 | DEBUG | #19 DONE 0.0s
+09:32:28 | DEBUG | #16 exporting to image
+09:32:28 | DEBUG | 
+09:33:28 | DEBUG | #16 pushing layers 60.6s done
+09:33:28 | DEBUG | 
+09:33:28 | DEBUG | #16 ...
+09:33:28 | DEBUG | #20 DONE 0.0s
+09:33:28 | DEBUG | #16 exporting to image
+09:33:28 | DEBUG | 
+09:33:29 | DEBUG | #16 DONE 110.8s
+09:33:29 | INFO | Build succeeded
+09:33:36 | INFO | Pulling image from registry
+09:34:13 | INFO | Successfully pulled
+09:34:13 | INFO | Starting container
+09:34:13 | INFO | Scanning for exposed ports
+09:34:18 | INFO | Found 1 HTTP ports: ['3000/tcp']
+09:34:18 | INFO | Recreating container with discovered ports and healthcheck configuration
+09:34:19 | INFO | Container recreated with healthcheck, ID: 2cad9b68f7324357c8bb08810edef409b5fc575941c6354954dbec168603f2ca
+09:34:19 | INFO | Container started
+09:34:19 | INFO | Checking app's health
+09:34:19 | INFO | Waiting for container healthcheck to pass
+09:34:19 | INFO | Health status: starting
+09:36:05 | INFO | Health status: unhealthy
+09:36:05 | ERROR | Deploy failed
