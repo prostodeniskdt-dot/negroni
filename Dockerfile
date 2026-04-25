@@ -9,7 +9,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
 
 ENV HOST=0.0.0.0
 ENV PORT=3000
-ENV USE_DB=0
 
 COPY package.json package-lock.json ./
 RUN npm ci
