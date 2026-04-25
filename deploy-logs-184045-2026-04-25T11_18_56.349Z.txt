@@ -1,0 +1,245 @@
+13:59:27 | DEBUG | #4 [1/7] FROM docker.io/library/node:24-slim@sha256:03eae3ef7e88a9de535496fb488d67e02b9d96a063a8967bae657744ecd513f2
+13:59:27 | DEBUG | #2 DONE 0.6s
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | #5 transferring context: 1.96MB 0.1s done
+13:59:27 | DEBUG | #1 transferring dockerfile: 455B done
+13:59:27 | DEBUG | 
+13:59:27 | INFO | Build started
+13:59:27 | DEBUG | #4 CACHED
+13:59:27 | DEBUG | #1 [internal] load build definition from Dockerfile
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | #3 [internal] load .dockerignore
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | Build context directory: /workspace/.
+13:59:27 | DEBUG | #5 [internal] load build context
+13:59:27 | DEBUG | #2 [internal] load metadata for docker.io/library/node:24-slim
+13:59:27 | DEBUG | #3 DONE 0.0s
+13:59:27 | DEBUG | #1 DONE 0.0s
+13:59:27 | DEBUG | Dockerfile directory: /workspace/.
+13:59:27 | DEBUG | #3 transferring context: 128B done
+13:59:27 | DEBUG | #4 resolve docker.io/library/node:24-slim@sha256:03eae3ef7e88a9de535496fb488d67e02b9d96a063a8967bae657744ecd513f2 0.0s done
+13:59:27 | DEBUG | #7 0.373 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | #7 0.441 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8792 kB]
+13:59:27 | DEBUG | #7 [3/7] RUN DEBIAN_FRONTEND=noninteractive apt-get update     && apt-get install -y --no-install-recommends ca-certificates openssl     && rm -rf /var/lib/apt/lists/*
+13:59:27 | DEBUG | #6 [2/7] WORKDIR /app
+13:59:27 | DEBUG | #5 DONE 0.1s
+13:59:27 | DEBUG | #7 0.233 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | #7 0.337 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+13:59:27 | DEBUG | #6 DONE 0.1s
+13:59:27 | DEBUG | Found Dockerfile in /workspace root
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | do so (now or later) by using -c with the switch command. Example:
+13:59:27 | DEBUG | state without impacting any branches by switching back to a branch.
+13:59:27 | DEBUG | HEAD is now at 0d56082 Remove legacy static site from root
+13:59:27 | DEBUG | Cloning into '/workspace'...
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | Turn off this advice by setting config variable advice.detachedHead to false
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG |   git switch -
+13:59:27 | DEBUG | If you want to create a new branch to retain commits you create, you may
+13:59:27 | DEBUG | 
+13:59:27 | DEBUG |   git switch -c <new-branch-name>
+13:59:27 | DEBUG | Or undo this operation with:
+13:59:27 | DEBUG | Note: switching to '0d56082ddd59bda9c6e0ca4e3d458de2135a9e95'.
+13:59:27 | DEBUG | changes and commit them, and you can discard any commits you make in this
+13:59:27 | DEBUG | You are in 'detached HEAD' state. You can look around, make experimental
+13:59:28 | DEBUG | #7 1.881 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+13:59:28 | DEBUG | #7 1.881 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [297 kB]
+13:59:30 | DEBUG | #7 3.216 Fetched 9350 kB in 3s (3062 kB/s)
+13:59:31 | DEBUG | #7 3.216 Reading package lists...
+13:59:31 | DEBUG | #7 4.098 Reading package lists...
+13:59:32 | DEBUG | #7 4.934 Building dependency tree...
+13:59:32 | DEBUG | #7 5.192 Reading state information...
+13:59:32 | DEBUG | #7 5.541 The following additional packages will be installed:
+13:59:32 | DEBUG | #7 5.682 After this operation, 8933 kB of additional disk space will be used.
+13:59:32 | DEBUG | #7 5.682 0 upgraded, 3 newly installed, 0 to remove and 0 not upgraded.
+13:59:32 | DEBUG | #7 5.682 Need to get 3622 kB of archives.
+13:59:32 | DEBUG | #7 5.576 The following NEW packages will be installed:
+13:59:32 | DEBUG | #7 5.682 Get:1 http://deb.debian.org/debian-security bookworm-security/main amd64 libssl3 amd64 3.0.19-1~deb12u2 [2032 kB]
+13:59:32 | DEBUG | #7 5.578   ca-certificates libssl3 openssl
+13:59:32 | DEBUG | #7 5.542   libssl3
+13:59:32 | DEBUG | #7 5.924 Get:2 http://deb.debian.org/debian-security bookworm-security/main amd64 openssl amd64 3.0.19-1~deb12u2 [1435 kB]
+13:59:33 | DEBUG | #7 5.973 Get:3 http://deb.debian.org/debian bookworm/main amd64 ca-certificates all 20230311+deb12u1 [155 kB]
+13:59:33 | DEBUG | #7 6.159 debconf: delaying package configuration, since apt-utils is not installed
+13:59:33 | DEBUG | #7 6.216 Fetched 3622 kB in 0s (9511 kB/s)
+13:59:33 | DEBUG | #7 6.286 Selecting previously unselected package libssl3:amd64.
+13:59:33 | DEBUG | #7 6.286 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6096 files and directories currently installed.)
+13:59:33 | DEBUG | #7 6.304 Unpacking libssl3:amd64 (3.0.19-1~deb12u2) ...
+13:59:33 | DEBUG | #7 6.294 Preparing to unpack .../libssl3_3.0.19-1~deb12u2_amd64.deb ...
+13:59:33 | DEBUG | #7 6.572 Selecting previously unselected package openssl.
+13:59:33 | DEBUG | #7 6.579 Unpacking openssl (3.0.19-1~deb12u2) ...
+13:59:33 | DEBUG | #7 6.573 Preparing to unpack .../openssl_3.0.19-1~deb12u2_amd64.deb ...
+13:59:33 | DEBUG | #7 6.785 Selecting previously unselected package ca-certificates.
+13:59:33 | DEBUG | #7 6.786 Preparing to unpack .../ca-certificates_20230311+deb12u1_all.deb ...
+13:59:33 | DEBUG | #7 6.795 Unpacking ca-certificates (20230311+deb12u1) ...
+13:59:33 | DEBUG | #7 6.924 Setting up libssl3:amd64 (3.0.19-1~deb12u2) ...
+13:59:34 | DEBUG | #7 6.939 Setting up openssl (3.0.19-1~deb12u2) ...
+13:59:34 | DEBUG | #7 7.118 debconf: (TERM is not set, so the dialog frontend is not usable.)
+13:59:34 | DEBUG | #7 7.118 debconf: falling back to frontend: Readline
+13:59:34 | DEBUG | #7 7.118 debconf: unable to initialize frontend: Dialog
+13:59:34 | DEBUG | #7 6.972 Setting up ca-certificates (20230311+deb12u1) ...
+13:59:34 | DEBUG | #7 7.120 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+13:59:34 | DEBUG | #7 7.119 debconf: unable to initialize frontend: Readline
+13:59:34 | DEBUG | #7 7.120 debconf: falling back to frontend: Teletype
+13:59:34 | DEBUG | #7 7.799 Updating certificates in /etc/ssl/certs...
+13:59:35 | DEBUG | #7 8.681 142 added, 0 removed; done.
+13:59:35 | DEBUG | #7 8.764 Updating certificates in /etc/ssl/certs...
+13:59:35 | DEBUG | #7 8.753 Processing triggers for ca-certificates (20230311+deb12u1) ...
+13:59:35 | DEBUG | #7 8.730 Processing triggers for libc-bin (2.36-9+deb12u13) ...
+13:59:36 | DEBUG | #7 9.579 0 added, 0 removed; done.
+13:59:36 | DEBUG | #7 9.580 Running hooks in /etc/ca-certificates/update.d...
+13:59:36 | DEBUG | #7 9.590 done.
+13:59:37 | DEBUG | #7 DONE 10.1s
+13:59:37 | DEBUG | #8 [4/7] COPY package.json package-lock.json ./
+13:59:37 | DEBUG | 
+13:59:37 | DEBUG | 
+13:59:37 | DEBUG | #8 DONE 0.1s
+13:59:37 | DEBUG | #9 [5/7] RUN npm ci
+14:00:01 | DEBUG | #9 24.53   run `npm fund` for details
+14:00:01 | DEBUG | #9 24.53 
+14:00:01 | DEBUG | #9 24.53 added 98 packages, and audited 99 packages in 24s
+14:00:01 | DEBUG | #9 24.53 23 packages are looking for funding
+14:00:01 | DEBUG | #9 24.53 
+14:00:01 | DEBUG | #9 24.63 2 vulnerabilities (1 moderate, 1 high)
+14:00:01 | DEBUG | #9 24.63 
+14:00:01 | DEBUG | #9 24.63 Run `npm audit` for details.
+14:00:01 | DEBUG | #9 24.63   npm audit fix
+14:00:01 | DEBUG | #9 24.63 To address all issues, run:
+14:00:01 | DEBUG | #9 24.63 
+14:00:01 | DEBUG | #9 24.63 
+14:00:01 | DEBUG | #9 24.64 npm notice New minor version of npm available! 11.12.1 -> 11.13.0
+14:00:01 | DEBUG | #9 24.64 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.13.0
+14:00:01 | DEBUG | #9 24.64 npm notice
+14:00:01 | DEBUG | #9 24.64 npm notice To update run: npm install -g npm@11.13.0
+14:00:01 | DEBUG | #9 24.64 npm notice
+14:00:07 | DEBUG | #9 DONE 30.0s
+14:00:07 | DEBUG | #10 [6/7] COPY . .
+14:00:07 | DEBUG | 
+14:00:07 | DEBUG | #10 DONE 0.7s
+14:00:08 | DEBUG | #11 [7/7] RUN npm run build
+14:00:08 | DEBUG | 
+14:00:08 | DEBUG | #11 0.392 > prisma generate && next build
+14:00:08 | DEBUG | #11 0.392 
+14:00:08 | DEBUG | #11 0.392 > negroni-museum@1.0.0 build
+14:00:08 | DEBUG | #11 0.392 
+14:00:10 | DEBUG | #11 2.526 Prisma schema loaded from prisma/schema.prisma
+14:00:11 | DEBUG | #11 3.765 
+14:00:11 | DEBUG | #11 3.765 
+14:00:11 | DEBUG | #11 3.765 
+14:00:11 | DEBUG | #11 3.765 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+14:00:11 | DEBUG | #11 3.765 
+14:00:11 | DEBUG | #11 3.765 ✔ Generated Prisma Client (v6.19.3) to ./node_modules/@prisma/client in 232ms
+14:00:11 | DEBUG | #11 3.765 Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+14:00:13 | DEBUG | #11 5.489 Attention: Next.js now collects completely anonymous telemetry regarding usage.
+14:00:13 | DEBUG | #11 5.490 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+14:00:13 | DEBUG | #11 5.490 This information is used to shape Next.js' roadmap and prioritize features.
+14:00:13 | DEBUG | #11 5.490 
+14:00:13 | DEBUG | #11 5.490 https://nextjs.org/telemetry
+14:00:13 | DEBUG | #11 5.711    ▲ Next.js 15.5.12
+14:00:13 | DEBUG | #11 5.711 
+14:00:13 | DEBUG | #11 5.906    Creating an optimized production build ...
+14:00:37 | DEBUG | #11 29.93  ✓ Compiled successfully in 19.4s
+14:00:37 | DEBUG | #11 29.94    Linting and checking validity of types ...
+14:00:45 | DEBUG | #11 37.89    Collecting page data ...
+14:00:48 | DEBUG | #11 40.69    Generating static pages (0/28) ...
+14:00:49 | DEBUG | #11 41.50    Generating static pages (7/28) 
+14:00:49 | DEBUG | #11 41.53    Generating static pages (14/28) 
+14:00:49 | DEBUG | #11 41.53    Generating static pages (21/28) 
+14:00:49 | DEBUG | #11 41.58  ✓ Generating static pages (28/28)
+14:00:50 | DEBUG | #11 42.69    Collecting build traces ...
+14:00:50 | DEBUG | #11 42.69    Finalizing page optimization ...
+14:01:02 | DEBUG | #11 54.48 
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /admin/prebatches/[id]               1.51 kB         104 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /admin/recipes                         178 B         106 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /admin/recipes/[id]                  2.29 kB         104 kB
+14:01:02 | DEBUG | #11 54.50 Route (app)                                 Size  First Load JS
+14:01:02 | DEBUG | #11 54.50 ├ ○ /admin/login                         1.21 kB         103 kB
+14:01:02 | DEBUG | #11 54.50 ├ ○ /admin/import                        1.03 kB         103 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /admin/drinks                          178 B         106 kB
+14:01:02 | DEBUG | #11 54.50 ┌ ○ /                                    7.77 kB         138 kB
+14:01:02 | DEBUG | #11 54.50 ├ ○ /_not-found                            996 B         103 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /admin/prebatches                      178 B         106 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /admin/drinks/[id]                   1.67 kB         104 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /admin                                 178 B         106 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /admin/partners                        178 B         106 kB
+14:01:02 | DEBUG | #11 54.50 ├ ○ /admin/drinks/new                    1.71 kB         104 kB
+14:01:02 | DEBUG | #11 54.50 ├ ○ /admin/prebatches/new                1.38 kB         104 kB
+14:01:02 | DEBUG | #11 54.50 ├ ○ /admin/recipes/new                   2.19 kB         104 kB
+14:01:02 | DEBUG | #11 54.51 ○  (Static)   prerendered as static content
+14:01:02 | DEBUG | #11 54.50 + First Load JS shared by all             102 kB
+14:01:02 | DEBUG | #11 54.50 
+14:01:02 | DEBUG | #11 54.50 ├ ○ /history                             1.95 kB         127 kB
+14:01:02 | DEBUG | #11 54.50 ├ ○ /recipes                             2.63 kB         128 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/auth/login                        172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ├ ○ /partners                            4.92 kB         136 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/admin/drinks/[id]                 172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/auth/logout                       172 B         102 kB
+14:01:02 | DEBUG | #11 54.51 
+14:01:02 | DEBUG | #11 54.51 ƒ  (Dynamic)  server-rendered on demand
+14:01:02 | DEBUG | #11 54.50 ├ ○ /collection                          3.52 kB         129 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/admin/prebatches                  172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/admin/recipes                     172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/public/recipes                    172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ƒ Middleware                               34 kB
+14:01:02 | DEBUG | #11 54.50 
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/public/partners                   172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 └ ○ /submit                              2.36 kB         122 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/recipes                           172 B         102 kB
+14:01:02 | DEBUG | #11 54.50   ├ chunks/4bd1b696-f785427dddbba9fb.js  54.2 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/health                            172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/public/recipe/[slug]              172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/admin/drinks                      172 B         102 kB
+14:01:02 | DEBUG | #11 54.50   └ other shared chunks (total)          1.98 kB
+14:01:02 | DEBUG | #11 54.50 
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/admin/import/seed                 172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /recipe/[id]                         4.07 kB         135 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/admin/prebatches/[id]             172 B         102 kB
+14:01:02 | DEBUG | #11 54.50   ├ chunks/1255-a390e12b70b4a9fb.js        46 kB
+14:01:02 | DEBUG | #11 54.50 ├ ○ /favorites                           1.94 kB         127 kB
+14:01:02 | DEBUG | #11 54.50 ├ ○ /curations                           3.13 kB         128 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/admin/meta/drink-categories       172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/admin/meta/partners               172 B         102 kB
+14:01:02 | DEBUG | #11 54.50 ├ ƒ /api/admin/recipes/[id]                172 B         102 kB
+14:01:02 | DEBUG | #11 DONE 54.7s
+14:01:02 | DEBUG | #12 exporting layers
+14:01:02 | DEBUG | 
+14:01:02 | DEBUG | #12 exporting to image
+14:02:00 | DEBUG | #12 exporting layers 57.9s done
+14:02:00 | DEBUG | #12 exporting config sha256:f516d27ffd645f56eb71356933b3405d9c728d4df4ac712e43dfcdf7590abb91 0.0s done
+14:02:00 | DEBUG | #12 exporting manifest sha256:ccc88fcc8e41cae50c9f9547f54c22a3f937f87ea6b65fdac46ff683fd4c252a 0.0s done
+14:02:00 | DEBUG | #12 exporting to image
+14:02:00 | DEBUG | #12 pushing layers
+14:02:00 | DEBUG | 
+14:02:00 | DEBUG | #13 DONE 0.0s
+14:02:00 | DEBUG | #12 ...
+14:02:00 | DEBUG | 
+14:02:01 | DEBUG | 
+14:02:01 | DEBUG | #12 ...
+14:02:01 | DEBUG | 
+14:02:01 | DEBUG | #12 exporting to image
+14:02:01 | DEBUG | #14 DONE 0.0s
+14:03:01 | DEBUG | #12 pushing layers 61.0s done
+14:03:01 | DEBUG | #12 ...
+14:03:01 | DEBUG | #15 DONE 0.0s
+14:03:01 | DEBUG | 
+14:03:01 | DEBUG | #12 exporting to image
+14:03:01 | DEBUG | 
+14:03:02 | DEBUG | #12 DONE 119.7s
+14:03:02 | INFO | Build succeeded
+14:03:09 | INFO | Pulling image from registry
+14:03:39 | INFO | Successfully pulled
+14:03:39 | INFO | Starting container
+14:03:39 | INFO | Scanning for exposed ports
+14:03:39 | INFO | Found 1 HTTP ports: ['3000/tcp']
+14:03:39 | INFO | Recreating container with discovered ports and healthcheck configuration
+14:03:50 | INFO | Container started
+14:03:50 | INFO | Container recreated with healthcheck, ID: 68b64e4a7643594593d9dfbadda50eaa328a8b3fc7374194d7132163d52f12ef
+14:03:50 | INFO | Checking app's health
+14:03:50 | INFO | Waiting for container healthcheck to pass
+14:03:50 | INFO | Health status: starting
+14:06:50 | ERROR | Deploy failed
