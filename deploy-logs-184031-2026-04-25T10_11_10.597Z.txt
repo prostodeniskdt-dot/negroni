@@ -1,0 +1,231 @@
+13:08:33 | DEBUG | Cloning into '/workspace'...
+13:08:34 | DEBUG | 
+13:08:34 | DEBUG | 
+13:08:34 | DEBUG |   git switch -c <new-branch-name>
+13:08:34 | DEBUG | state without impacting any branches by switching back to a branch.
+13:08:34 | DEBUG |   git switch -
+13:08:34 | DEBUG | 
+13:08:34 | DEBUG | You are in 'detached HEAD' state. You can look around, make experimental
+13:08:34 | DEBUG | Turn off this advice by setting config variable advice.detachedHead to false
+13:08:34 | DEBUG | Or undo this operation with:
+13:08:34 | DEBUG | Note: switching to '620b4cf6bc30a39ff84c49cd105e4e32d16b96e0'.
+13:08:34 | DEBUG | changes and commit them, and you can discard any commits you make in this
+13:08:34 | DEBUG | If you want to create a new branch to retain commits you create, you may
+13:08:34 | DEBUG | do so (now or later) by using -c with the switch command. Example:
+13:08:34 | DEBUG | 
+13:08:34 | DEBUG | 
+13:08:34 | DEBUG | HEAD is now at 620b4cf Описание изменений
+13:08:34 | DEBUG | 
+13:08:34 | DEBUG | 
+13:08:38 | DEBUG | #5 DONE 0.1s
+13:08:38 | DEBUG | #3 [internal] load .dockerignore
+13:08:38 | DEBUG | #2 [internal] load metadata for docker.io/library/node:24-slim
+13:08:38 | DEBUG | #2 DONE 0.6s
+13:08:38 | DEBUG | #6 0.438 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+13:08:38 | DEBUG | #3 transferring context: 2B done
+13:08:38 | DEBUG | #6 0.255 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+13:08:38 | DEBUG | #1 [internal] load build definition from Dockerfile
+13:08:38 | INFO | Build started
+13:08:38 | DEBUG | #1 transferring dockerfile: 1.24kB done
+13:08:38 | DEBUG | #6 0.952 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [297 kB]
+13:08:38 | DEBUG | 
+13:08:38 | DEBUG | #6 [2/7] RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*
+13:08:38 | DEBUG | 
+13:08:38 | DEBUG | #5 transferring context: 3.44MB 0.1s done
+13:08:38 | DEBUG | #5 [internal] load build context
+13:08:38 | DEBUG | #6 0.952 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+13:08:38 | DEBUG | 
+13:08:38 | DEBUG | #1 DONE 0.0s
+13:08:38 | DEBUG | #4 CACHED
+13:08:38 | DEBUG | 
+13:08:38 | DEBUG | #4 resolve docker.io/library/node:24-slim@sha256:03eae3ef7e88a9de535496fb488d67e02b9d96a063a8967bae657744ecd513f2 0.0s done
+13:08:38 | DEBUG | #6 0.389 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+13:08:38 | DEBUG | #3 DONE 0.1s
+13:08:38 | DEBUG | 
+13:08:38 | DEBUG | #6 0.516 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8792 kB]
+13:08:38 | DEBUG | #4 [1/7] FROM docker.io/library/node:24-slim@sha256:03eae3ef7e88a9de535496fb488d67e02b9d96a063a8967bae657744ecd513f2
+13:08:39 | DEBUG | #6 2.814 Fetched 9350 kB in 3s (3527 kB/s)
+13:08:40 | DEBUG | #6 2.814 Reading package lists...
+13:08:41 | DEBUG | #6 3.951 Reading package lists...
+13:08:42 | DEBUG | #6 5.432 Reading state information...
+13:08:42 | DEBUG | #6 5.117 Building dependency tree...
+13:08:42 | DEBUG | #6 5.446 E: Unable to locate package ci
+13:08:42 | DEBUG | #6 ERROR: process "/bin/sh -c DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+13:08:42 | DEBUG | 0.389 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+13:08:42 | DEBUG | 0.952 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+13:08:42 | DEBUG | ------
+13:08:42 | DEBUG | 0.438 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+13:08:42 | DEBUG | 0.516 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8792 kB]
+13:08:42 | DEBUG | 
+13:08:42 | DEBUG | 0.952 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [297 kB]
+13:08:42 | DEBUG | 
+13:08:42 | DEBUG | ------
+13:08:42 | DEBUG | 5.446 E: Unable to locate package ci
+13:08:42 | DEBUG | 5.432 Reading state information...
+13:08:42 | DEBUG |  > [2/7] RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*:
+13:08:42 | DEBUG | 
+13:08:42 | DEBUG | --------------------
+13:08:42 | DEBUG |   17 | >>>     npm ci \
+13:08:42 | DEBUG | --------------------
+13:08:42 | DEBUG |   18 | >>>     && rm -rf /var/lib/apt/lists/*
+13:08:42 | DEBUG |   19 |     
+13:08:42 | DEBUG |   14 |     # Install system dependencies
+13:08:42 | DEBUG |   15 | >>> RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends \
+13:08:42 | DEBUG | Dockerfile:15
+13:08:42 | DEBUG |   16 | >>>     curl \
+13:08:42 | INFO | error: failed to solve: process "/bin/sh -c DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+13:08:42 | INFO | Build failed
+13:08:57 | INFO | Build started
+13:08:57 | DEBUG |   git switch -c <new-branch-name>
+13:08:57 | DEBUG |   git switch -
+13:08:57 | DEBUG | 
+13:08:57 | DEBUG | do so (now or later) by using -c with the switch command. Example:
+13:08:57 | DEBUG | HEAD is now at 620b4cf Описание изменений
+13:08:57 | DEBUG | Cloning into '/workspace'...
+13:08:57 | DEBUG | 
+13:08:57 | DEBUG | 
+13:08:57 | DEBUG | Or undo this operation with:
+13:08:57 | DEBUG | 
+13:08:57 | DEBUG | state without impacting any branches by switching back to a branch.
+13:08:57 | DEBUG | 
+13:08:57 | DEBUG | 
+13:08:57 | DEBUG | If you want to create a new branch to retain commits you create, you may
+13:08:57 | DEBUG | changes and commit them, and you can discard any commits you make in this
+13:08:57 | DEBUG | Note: switching to '620b4cf6bc30a39ff84c49cd105e4e32d16b96e0'.
+13:08:57 | DEBUG | 
+13:08:57 | DEBUG | Turn off this advice by setting config variable advice.detachedHead to false
+13:08:57 | DEBUG | You are in 'detached HEAD' state. You can look around, make experimental
+13:08:57 | DEBUG | 
+13:08:57 | DEBUG | #2 [internal] load metadata for docker.io/library/node:24-slim
+13:08:57 | DEBUG | #1 [internal] load build definition from Dockerfile
+13:08:57 | DEBUG | #1 transferring dockerfile: 1.24kB done
+13:08:57 | DEBUG | #1 DONE 0.0s
+13:08:58 | DEBUG | #2 DONE 0.7s
+13:08:58 | DEBUG | #4 resolve docker.io/library/node:24-slim@sha256:03eae3ef7e88a9de535496fb488d67e02b9d96a063a8967bae657744ecd513f2 0.0s done
+13:08:58 | DEBUG | 
+13:08:58 | DEBUG | 
+13:08:58 | DEBUG | #4 [1/7] FROM docker.io/library/node:24-slim@sha256:03eae3ef7e88a9de535496fb488d67e02b9d96a063a8967bae657744ecd513f2
+13:08:58 | DEBUG | #5 [internal] load build context
+13:08:58 | DEBUG | 
+13:08:58 | DEBUG | #3 [internal] load .dockerignore
+13:08:58 | DEBUG | #4 CACHED
+13:08:58 | DEBUG | #3 transferring context: 2B done
+13:08:58 | DEBUG | #3 DONE 0.0s
+13:08:58 | DEBUG | #5 transferring context: 3.44MB 0.2s done
+13:08:58 | DEBUG | 
+13:08:58 | DEBUG | #6 [2/7] RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*
+13:08:58 | DEBUG | #5 DONE 0.2s
+13:08:58 | DEBUG | #6 0.342 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+13:08:58 | DEBUG | #6 0.238 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+13:08:58 | DEBUG | #6 0.379 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+13:08:58 | DEBUG | #6 0.465 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8792 kB]
+13:08:59 | DEBUG | #6 0.878 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+13:08:59 | DEBUG | #6 0.878 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [297 kB]
+13:09:00 | DEBUG | #6 2.505 Fetched 9350 kB in 2s (3985 kB/s)
+13:09:01 | DEBUG | #6 2.505 Reading package lists...
+13:09:03 | DEBUG | #6 3.637 Reading package lists...
+13:09:03 | DEBUG | #6 4.819 Building dependency tree...
+13:09:03 | DEBUG | #6 ERROR: process "/bin/sh -c DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+13:09:03 | DEBUG | #6 5.075 E: Unable to locate package ci
+13:09:03 | DEBUG | #6 5.062 Reading state information...
+13:09:03 | DEBUG | ------
+13:09:03 | DEBUG | 
+13:09:03 | DEBUG | 
+13:09:03 | DEBUG | 0.878 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [297 kB]
+13:09:03 | DEBUG | 0.238 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+13:09:03 | DEBUG | 
+13:09:03 | DEBUG | 0.342 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+13:09:03 | DEBUG | 0.379 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+13:09:03 | DEBUG |  > [2/7] RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*:
+13:09:03 | DEBUG | 0.465 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8792 kB]
+13:09:03 | DEBUG | 0.878 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+13:09:03 | DEBUG | ------
+13:09:03 | DEBUG | 5.075 E: Unable to locate package ci
+13:09:03 | DEBUG |   15 | >>> RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends \
+13:09:03 | DEBUG |   19 |     
+13:09:03 | DEBUG |   14 |     # Install system dependencies
+13:09:03 | DEBUG | --------------------
+13:09:03 | DEBUG |   17 | >>>     npm ci \
+13:09:03 | INFO | error: failed to solve: process "/bin/sh -c DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+13:09:03 | DEBUG | --------------------
+13:09:03 | DEBUG | Dockerfile:15
+13:09:03 | DEBUG |   18 | >>>     && rm -rf /var/lib/apt/lists/*
+13:09:03 | DEBUG |   16 | >>>     curl \
+13:09:03 | INFO | Build failed
+13:09:27 | INFO | Build started
+13:09:27 | DEBUG | 
+13:09:27 | DEBUG | Cloning into '/workspace'...
+13:09:27 | DEBUG | do so (now or later) by using -c with the switch command. Example:
+13:09:27 | DEBUG | Note: switching to '620b4cf6bc30a39ff84c49cd105e4e32d16b96e0'.
+13:09:27 | DEBUG | You are in 'detached HEAD' state. You can look around, make experimental
+13:09:27 | DEBUG | Or undo this operation with:
+13:09:27 | DEBUG | 
+13:09:27 | DEBUG | 
+13:09:27 | DEBUG | 
+13:09:27 | DEBUG |   git switch -
+13:09:27 | DEBUG | If you want to create a new branch to retain commits you create, you may
+13:09:27 | DEBUG |   git switch -c <new-branch-name>
+13:09:27 | DEBUG | 
+13:09:27 | DEBUG | HEAD is now at 620b4cf Описание изменений
+13:09:27 | DEBUG | 
+13:09:27 | DEBUG | state without impacting any branches by switching back to a branch.
+13:09:27 | DEBUG | 
+13:09:27 | DEBUG | changes and commit them, and you can discard any commits you make in this
+13:09:27 | DEBUG | Turn off this advice by setting config variable advice.detachedHead to false
+13:09:27 | DEBUG | #2 [internal] load metadata for docker.io/library/node:24-slim
+13:09:27 | DEBUG | #1 [internal] load build definition from Dockerfile
+13:09:27 | DEBUG | #1 DONE 0.0s
+13:09:27 | DEBUG | 
+13:09:27 | DEBUG | #1 transferring dockerfile: 1.24kB done
+13:09:28 | DEBUG | #2 DONE 0.6s
+13:09:28 | DEBUG | #4 resolve docker.io/library/node:24-slim@sha256:03eae3ef7e88a9de535496fb488d67e02b9d96a063a8967bae657744ecd513f2 0.0s done
+13:09:28 | DEBUG | #3 transferring context: 2B done
+13:09:28 | DEBUG | #4 [1/7] FROM docker.io/library/node:24-slim@sha256:03eae3ef7e88a9de535496fb488d67e02b9d96a063a8967bae657744ecd513f2
+13:09:28 | DEBUG | #3 DONE 0.0s
+13:09:28 | DEBUG | #3 [internal] load .dockerignore
+13:09:28 | DEBUG | 
+13:09:28 | DEBUG | 
+13:09:28 | DEBUG | #5 [internal] load build context
+13:09:28 | DEBUG | #4 CACHED
+13:09:28 | DEBUG | 
+13:09:28 | DEBUG | #5 DONE 0.2s
+13:09:28 | DEBUG | #6 [2/7] RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*
+13:09:28 | DEBUG | #5 transferring context: 3.44MB 0.2s done
+13:09:28 | DEBUG | 
+13:09:28 | DEBUG | #6 0.247 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+13:09:28 | DEBUG | #6 0.344 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+13:09:28 | DEBUG | #6 0.379 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+13:09:28 | DEBUG | #6 0.490 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8792 kB]
+13:09:30 | DEBUG | #6 1.697 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+13:09:30 | DEBUG | #6 1.739 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [297 kB]
+13:09:31 | DEBUG | #6 3.442 Fetched 9350 kB in 3s (2859 kB/s)
+13:09:32 | DEBUG | #6 3.442 Reading package lists...
+13:09:34 | DEBUG | #6 4.596 Reading package lists...
+13:09:34 | DEBUG | #6 5.680 Building dependency tree...
+13:09:34 | DEBUG | #6 6.022 Reading state information...
+13:09:34 | DEBUG | #6 6.037 E: Unable to locate package ci
+13:09:34 | DEBUG | #6 ERROR: process "/bin/sh -c DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+13:09:34 | DEBUG | ------
+13:09:34 | DEBUG | 
+13:09:34 | DEBUG | ------
+13:09:34 | DEBUG | 
+13:09:34 | DEBUG | 0.379 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+13:09:34 | DEBUG | 1.697 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+13:09:34 | DEBUG |  > [2/7] RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*:
+13:09:34 | DEBUG | 0.490 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8792 kB]
+13:09:34 | DEBUG | 0.344 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+13:09:34 | DEBUG | 6.022 Reading state information...
+13:09:34 | DEBUG | 6.037 E: Unable to locate package ci
+13:09:34 | DEBUG | 
+13:09:34 | DEBUG | 1.739 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [297 kB]
+13:09:34 | DEBUG |   17 | >>>     npm ci \
+13:09:34 | DEBUG | --------------------
+13:09:34 | DEBUG |   15 | >>> RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends \
+13:09:34 | DEBUG |   14 |     # Install system dependencies
+13:09:34 | INFO | error: failed to solve: process "/bin/sh -c DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends     curl     npm ci     && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+13:09:34 | DEBUG |   18 | >>>     && rm -rf /var/lib/apt/lists/*
+13:09:34 | DEBUG |   16 | >>>     curl \
+13:09:34 | DEBUG | --------------------
+13:09:34 | DEBUG |   19 |     
+13:09:34 | DEBUG | Dockerfile:15
+13:09:34 | INFO | Build failed
