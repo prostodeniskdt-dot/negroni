@@ -11,6 +11,7 @@ ENV HOST=0.0.0.0
 ENV APP_HOST=0.0.0.0
 ENV PORT=3000
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV PGSSLROOTCERT=/app/root.crt
 
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -24,4 +25,4 @@ EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=10 CMD curl --fail "http://127.0.0.1:${PORT:-3000}/api/health" || exit 1
 
-CMD ["sh", "-c", "node node_modules/next/dist/bin/next start -H 0.0.0.0 -p ${PORT:-3000}"]
+CMD ["node", "scripts/start.mjs"]
