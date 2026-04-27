@@ -19,7 +19,7 @@ export default function LoginClient() {
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch('/api/user/auth/login', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ email, password }),

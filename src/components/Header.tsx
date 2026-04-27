@@ -124,23 +124,14 @@ export default function Header() {
           </button>
 
           {me ? (
-            <>
-              <Link
-                href="/cabinet"
-                className="ml-2 px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500 no-underline"
-                aria-label="Личный кабинет"
-              >
-                Кабинет
-              </Link>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500"
-                aria-label="Выйти"
-              >
-                Выйти
-              </button>
-            </>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="ml-2 px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500"
+              aria-label="Выйти"
+            >
+              Выйти
+            </button>
           ) : (
             <Link
               href="/login"
@@ -186,21 +177,13 @@ export default function Header() {
             {t('nav.map')}
           </Link>
           {me ? (
-            <>
-              <Link
-                href="/cabinet"
-                className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)] no-underline"
-              >
-                Кабинет
-              </Link>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)]"
-              >
-                Выйти
-              </button>
-            </>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)]"
+            >
+              Выйти
+            </button>
           ) : (
             <Link
               href="/login"

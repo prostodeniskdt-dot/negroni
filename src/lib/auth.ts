@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { SignJWT, jwtVerify } from 'jose';
 import type { UserRole } from '@prisma/client';
 
-const COOKIE_NAME = 'negroni_admin';
+const COOKIE_NAME = 'negroni_session';
 
 type SessionPayload = {
   sub: string;
@@ -24,7 +24,7 @@ export async function createSessionCookie(payload: SessionPayload): Promise<stri
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt(now)
-    .setExpirationTime(now + 60 * 60 * 24 * 7) // 7 days
+    .setExpirationTime(now + 60 * 60 * 24 * 30) // 30 days
     .sign(getSecret());
   return token;
 }
@@ -37,7 +37,7 @@ export async function setSession(payload: SessionPayload): Promise<void> {
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 30,
   });
 }
 

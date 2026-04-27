@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { pdf } from '@react-pdf/renderer';
 import React from 'react';
 import { prisma } from '@/lib/db';
-import { getUserSession, requireUser } from '@/lib/userAuth';
+import { getSession, requireRole } from '@/lib/auth';
 import { RecipesPdf, type PdfRecipe } from '@/lib/pdf/RecipesPdf';
 
 export const runtime = 'nodejs';
@@ -69,9 +69,9 @@ export async function GET(req: Request) {
       title = r?.name ?? 'Рецепт';
     }
   } else {
-    const session = await getUserSession();
+    const session = await getSession();
     try {
-      requireUser(session);
+      requireRole(session, ['user', 'admin']);
     } catch (e) {
       return NextResponse.json({ error: String(e) }, { status: 401 });
     }

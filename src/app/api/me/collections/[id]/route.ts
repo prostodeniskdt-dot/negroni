@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/db';
-import { getUserSession, requireUser } from '@/lib/userAuth';
+import { getSession, requireRole } from '@/lib/auth';
 
 export const runtime = 'nodejs';
 
@@ -10,9 +10,9 @@ const PatchSchema = z.object({
 });
 
 export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
-  const session = await getUserSession();
+  const session = await getSession();
   try {
-    requireUser(session);
+    requireRole(session, ['user', 'admin']);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 401 });
   }
@@ -40,9 +40,9 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
 }
 
 export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }> }) {
-  const session = await getUserSession();
+  const session = await getSession();
   try {
-    requireUser(session);
+    requireRole(session, ['user', 'admin']);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 401 });
   }
@@ -61,9 +61,9 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
 }
 
 export async function DELETE(_req: Request, ctx: { params: Promise<{ id: string }> }) {
-  const session = await getUserSession();
+  const session = await getSession();
   try {
-    requireUser(session);
+    requireRole(session, ['user', 'admin']);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 401 });
   }

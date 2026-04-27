@@ -1,11 +1,6 @@
-import { Suspense } from 'react';
-import LoginForm from './ui';
+import { redirect } from 'next/navigation';
 
 export default function AdminLoginPage() {
-  return (
-    <Suspense>
-      <LoginForm />
-    </Suspense>
-  );
+  redirect('/login?next=/admin');
 }
 

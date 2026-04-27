@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/db';
-import { getUserSession } from '@/lib/userAuth';
+import { getSession } from '@/lib/auth';
 
 export const runtime = 'nodejs';
 
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
   const parsed = BodySchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: 'INVALID_BODY', details: parsed.error.flatten() }, { status: 400 });
 
-  const session = await getUserSession();
+  const session = await getSession();
   const userId = session?.sub ?? null;
 
   const slugs = Array.from(

@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
-const COOKIE_NAME = 'negroni_admin';
-const USER_COOKIE = 'negroni_user';
+const COOKIE_NAME = 'negroni_session';
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -11,27 +10,20 @@ export async function middleware(req: NextRequest) {
 
   if (!needsAdminAuth && !needsUserAuth) return NextResponse.next();
 
+  if (pathname.startsWith('/api/auth')) return NextResponse.next();
+  if (pathname === '/login' || pathname === '/register') return NextResponse.next();
+
+  // Edge runtime: avoid heavy JWT verification here.
+  // API routes (Node.js runtime) do full verification (role checks).
+  const hasCookie = Boolean(req.cookies.get(COOKIE_NAME)?.value);
+  if (hasCookie) return NextResponse.next();
+
   if (needsAdminAuth) {
-    if (pathname === '/admin/login' || pathname.startsWith('/api/auth')) return NextResponse.next();
-
-    // Edge runtime: avoid heavy JWT verification here.
-    // API routes (Node.js runtime) do full verification.
-    const hasCookie = Boolean(req.cookies.get(COOKIE_NAME)?.value);
-    if (hasCookie) return NextResponse.next();
-
     const url = req.nextUrl.clone();
-    url.pathname = '/admin/login';
+    url.pathname = '/login';
     url.searchParams.set('next', pathname);
     return NextResponse.redirect(url);
   }
-
-  // User area
-  if (pathname.startsWith('/api/user/auth')) return NextResponse.next();
-  if (pathname === '/login' || pathname === '/register') return NextResponse.next();
-
-  const hasUserCookie = Boolean(req.cookies.get(USER_COOKIE)?.value);
-  const hasAdminCookie = Boolean(req.cookies.get(COOKIE_NAME)?.value);
-  if (hasUserCookie || hasAdminCookie) return NextResponse.next();
 
   const url = req.nextUrl.clone();
   url.pathname = '/login';

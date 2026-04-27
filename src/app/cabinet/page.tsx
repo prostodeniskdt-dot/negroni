@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import { getUserSession } from '@/lib/userAuth';
 import { getSession } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
 export default async function CabinetPage() {
-  const session = (await getUserSession()) ?? (await getSession());
+  const session = await getSession();
   const isAdmin = session?.role === 'admin';
 
   return (
@@ -19,11 +18,6 @@ export default async function CabinetPage() {
             {session ? `Вы вошли как ${session.email}` : ''}
           </p>
         </div>
-        <form action="/api/auth/logout" method="post">
-          <button className="px-4 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] hover:border-[var(--color-campari)] transition-colors">
-            Выйти
-          </button>
-        </form>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -35,6 +29,17 @@ export default async function CabinetPage() {
             <div className="font-semibold text-[var(--color-text-primary)]">Админ-панель</div>
             <div className="text-sm text-[var(--color-text-muted)] mt-1">
               Редактор рецептов, партнёров, алкоголя и метрики.
+            </div>
+          </Link>
+        )}
+        {isAdmin && (
+          <Link
+            href="/admin/metrics"
+            className="block p-5 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-campari)] transition-colors"
+          >
+            <div className="font-semibold text-[var(--color-text-primary)]">Метрика</div>
+            <div className="text-sm text-[var(--color-text-muted)] mt-1">
+              Статистика действий пользователей.
             </div>
           </Link>
         )}
