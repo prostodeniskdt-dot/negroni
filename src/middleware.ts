@@ -30,7 +30,8 @@ export async function middleware(req: NextRequest) {
   if (pathname === '/login' || pathname === '/register') return NextResponse.next();
 
   const hasUserCookie = Boolean(req.cookies.get(USER_COOKIE)?.value);
-  if (hasUserCookie) return NextResponse.next();
+  const hasAdminCookie = Boolean(req.cookies.get(COOKIE_NAME)?.value);
+  if (hasUserCookie || hasAdminCookie) return NextResponse.next();
 
   const url = req.nextUrl.clone();
   url.pathname = '/login';
