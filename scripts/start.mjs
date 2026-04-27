@@ -6,13 +6,60 @@ import path from 'node:path';
 function sanitizeDatabaseUrl(raw) {
   if (!raw) return raw;
   let s = String(raw).trim();
+
+  // Timeweb's UI often shows a full psql command. If that is pasted by accident,
+  // recover the actual connection string instead of passing the command to Prisma.
+  const pgIndex = s.indexOf('postgresql://');
+  const pgShortIndex = s.indexOf('postgres://');
+  const firstUrlIndex =
+    pgIndex >= 0 && pgShortIndex >= 0
+      ? Math.min(pgIndex, pgShortIndex)
+      : Math.max(pgIndex, pgShortIndex);
+  if (firstUrlIndex > 0) s = s.slice(firstUrlIndex);
+
   if (
     (s.startsWith('"') && s.endsWith('"') && s.length >= 2) ||
     (s.startsWith("'") && s.endsWith("'") && s.length >= 2)
   ) {
     s = s.slice(1, -1).trim();
   }
+
+  // Some panels/inputs can turn URL-encoded passwords back into raw special
+  // characters. Prisma needs credentials to be URL-encoded inside DATABASE_URL.
+  if (s.startsWith('postgresql://') || s.startsWith('postgres://')) {
+    s = encodeDatabaseCredentials(s);
+  }
+
   return s;
+}
+
+function encodeCredentialPart(value) {
+  try {
+    return encodeURIComponent(decodeURIComponent(value));
+  } catch {
+    return encodeURIComponent(value);
+  }
+}
+
+function encodeDatabaseCredentials(url) {
+  const protocolEnd = url.indexOf('://') + 3;
+  const pathStart = url.indexOf('/', protocolEnd);
+  if (pathStart === -1) return url;
+
+  const authority = url.slice(protocolEnd, pathStart);
+  const atIndex = authority.lastIndexOf('@');
+  if (atIndex === -1) return url;
+
+  const credentials = authority.slice(0, atIndex);
+  const host = authority.slice(atIndex + 1);
+  const colonIndex = credentials.indexOf(':');
+  if (colonIndex === -1) return url;
+
+  const user = credentials.slice(0, colonIndex);
+  const password = credentials.slice(colonIndex + 1);
+  const encodedCredentials = `${encodeCredentialPart(user)}:${encodeCredentialPart(password)}`;
+
+  return `${url.slice(0, protocolEnd)}${encodedCredentials}@${host}${url.slice(pathStart)}`;
 }
 
 const rawPort = process.env.PORT;
