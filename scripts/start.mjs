@@ -3,11 +3,23 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
+function sanitizeDatabaseUrl(raw) {
+  if (!raw) return raw;
+  let s = String(raw).trim();
+  if (
+    (s.startsWith('"') && s.endsWith('"') && s.length >= 2) ||
+    (s.startsWith("'") && s.endsWith("'") && s.length >= 2)
+  ) {
+    s = s.slice(1, -1).trim();
+  }
+  return s;
+}
+
 const rawPort = process.env.PORT;
 const port = Number.parseInt(rawPort ?? '', 10);
 const resolvedPort = Number.isFinite(port) && port >= 0 ? port : 3000;
 
-const rawHost = process.env.APP_HOST ?? '';
+const rawHost = process.env.APP_HOST ?? process.env.HOST ?? '';
 const host = rawHost.trim() || '0.0.0.0';
 
 const nextBin = path.join(process.cwd(), 'node_modules', 'next', 'dist', 'bin', 'next');
@@ -17,7 +29,14 @@ function run(cmd, args) {
 }
 
 function tryPrismaMigrateDeploy() {
-  if (!process.env.DATABASE_URL) return;
+  const dbUrl = sanitizeDatabaseUrl(process.env.DATABASE_URL);
+  if (!dbUrl) return;
+  process.env.DATABASE_URL = dbUrl;
+  if (!dbUrl.startsWith('postgresql://') && !dbUrl.startsWith('postgres://')) {
+    // eslint-disable-next-line no-console
+    console.error('[startup] DATABASE_URL must start with postgresql:// or postgres://');
+    return;
+  }
   const prismaCli = path.join(process.cwd(), 'node_modules', 'prisma', 'build', 'index.js');
   const hasMigrations = fs.existsSync(path.join(process.cwd(), 'prisma', 'migrations'));
   if (hasMigrations) {
@@ -30,18 +49,22 @@ function tryPrismaMigrateDeploy() {
 }
 
 function tryBootstrapAdmin() {
-  if (!process.env.DATABASE_URL) return;
+  const dbUrl = sanitizeDatabaseUrl(process.env.DATABASE_URL);
+  if (!dbUrl) return;
+  process.env.DATABASE_URL = dbUrl;
   run(process.execPath, [path.join(process.cwd(), 'scripts', 'bootstrap-admin.mjs')]);
 }
 
 try {
+  // Important: do not crash the container before Next starts.
+  // If DB init fails due to env/SSL, the app should still respond to /api/health.
   tryPrismaMigrateDeploy();
   tryBootstrapAdmin();
 } catch (e) {
-  // Fail fast: without migrations/admin bootstrap the app won't be usable.
+  // eslint-disable-next-line no-console
+  console.error('[startup] prisma init failed (continuing to start Next)');
   // eslint-disable-next-line no-console
   console.error(e);
-  process.exit(1);
 }
 
 const child = spawn(process.execPath, [nextBin, 'start', '-H', host, '-p', String(resolvedPort)], {
