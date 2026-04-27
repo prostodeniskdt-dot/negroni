@@ -9,7 +9,7 @@ export default async function CabinetPage() {
   const isEditor = session?.role === 'editor' || isAdmin;
 
   return (
-    <main className="min-h-screen px-4 py-8 md:px-6">
+    <main className="min-h-screen px-4 pb-8 pt-24 md:px-6">
       <div className="mx-auto max-w-[1180px]">
       <section className="mb-6 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-sm)] md:p-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">

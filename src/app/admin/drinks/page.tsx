@@ -16,9 +16,15 @@ export default async function AdminDrinksPage() {
   });
 
   return (
-    <main className="min-h-screen px-6 py-10 max-w-[1100px] mx-auto">
+    <main className="min-h-screen px-6 pb-10 pt-24 max-w-[1100px] mx-auto">
       <div className="flex items-center justify-between gap-4 mb-6">
         <div>
+          <Link
+            href="/admin"
+            className="mb-4 inline-flex rounded-[var(--radius-sm)] border border-[var(--color-border)] px-3 py-2 text-sm font-semibold text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)]"
+          >
+            ← К панели редакции
+          </Link>
           <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide">
             Напитки
           </h1>

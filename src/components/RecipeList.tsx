@@ -34,13 +34,23 @@ const difficultyLabels: Record<string, string> = {
   hard: 'Сложно',
 };
 
-export function RecipeList({ recipes }: { recipes: RecipeListItem[] }) {
+export function RecipeList({
+  recipes,
+  canImport = false,
+  sourceRecipeCount = 0,
+}: {
+  recipes: RecipeListItem[];
+  canImport?: boolean;
+  sourceRecipeCount?: number;
+}) {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('all');
   const [difficulty, setDifficulty] = useState('all');
   const [region, setRegion] = useState('all');
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<RecipeListItem | null>(null);
+  const [importing, setImporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const regions = useMemo(
@@ -77,10 +87,23 @@ export function RecipeList({ recipes }: { recipes: RecipeListItem[] }) {
     });
   }, [difficulty, query, recipes, region, status]);
 
-  const deleteRecipe = async (recipe: RecipeListItem) => {
-    const confirmed = window.confirm(`Удалить рецепт "${recipe.name}"? Это действие нельзя отменить.`);
-    if (!confirmed) return;
+  const importSourceRecipes = async () => {
+    setImporting(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/admin/import/seed', { method: 'POST' });
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        setError(json?.error === 'FORBIDDEN' ? 'Импорт доступен только администратору' : json?.error || 'Не удалось импортировать рецепты');
+        return;
+      }
+      router.refresh();
+    } finally {
+      setImporting(false);
+    }
+  };
 
+  const deleteRecipe = async (recipe: RecipeListItem) => {
     setDeletingId(recipe.id);
     setError(null);
     try {
@@ -90,6 +113,7 @@ export function RecipeList({ recipes }: { recipes: RecipeListItem[] }) {
         setError(json?.error || 'Не удалось удалить рецепт');
         return;
       }
+      setPendingDelete(null);
       router.refresh();
     } finally {
       setDeletingId(null);
@@ -146,7 +170,51 @@ export function RecipeList({ recipes }: { recipes: RecipeListItem[] }) {
         </div>
       )}
 
-      {filteredRecipes.length === 0 ? (
+      {recipes.length === 0 ? (
+        <section className="rounded-[var(--radius-xl)] border border-dashed border-[var(--color-campari)]/50 bg-[var(--color-surface)] p-8 text-center">
+          <div className="mx-auto max-w-2xl">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-campari)]">
+              База рецептов пуста
+            </div>
+            <h2 className="mt-2 text-2xl font-bold uppercase tracking-wide text-[var(--color-text-primary)]">
+              Существующие рецепты ещё не импортированы
+            </h2>
+            <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+              На публичной части сайта могут использоваться исходные данные из `src/data/recipes.ts`, а редактор работает с базой данных.
+              Импорт перенесёт {sourceRecipeCount || 'текущие'} рецептов в редактор.
+            </p>
+            <div className="mt-5 flex flex-wrap justify-center gap-2">
+              {canImport && (
+                <button
+                  type="button"
+                  onClick={() => void importSourceRecipes()}
+                  disabled={importing}
+                  className="rounded-[var(--radius-sm)] bg-[var(--color-campari)] px-5 py-3 font-semibold text-[var(--color-on-campari)] transition-colors hover:bg-[var(--color-campari-light)] disabled:opacity-50"
+                >
+                  {importing ? 'Импортируем...' : 'Импортировать существующие рецепты'}
+                </button>
+              )}
+              <Link
+                href="/admin/import"
+                className="inline-flex rounded-[var(--radius-sm)] border border-[var(--color-border)] px-5 py-3 font-semibold transition-colors hover:border-[var(--color-campari)]"
+              >
+                Открыть раздел импорта
+              </Link>
+              <Link
+                href="/admin/recipes/new"
+                className="inline-flex rounded-[var(--radius-sm)] border border-[var(--color-border)] px-5 py-3 font-semibold transition-colors hover:border-[var(--color-campari)]"
+              >
+                Создать вручную
+              </Link>
+            </div>
+            {!canImport && (
+              <p className="mt-3 text-xs text-[var(--color-text-secondary)]">
+                Если вы редактор, попросите администратора выполнить импорт.
+              </p>
+            )}
+          </div>
+        </section>
+      ) : filteredRecipes.length === 0 ? (
         <section className="rounded-[var(--radius-xl)] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] p-8 text-center">
           <h2 className="text-2xl font-bold uppercase tracking-wide text-[var(--color-text-primary)]">
             Рецепты не найдены
@@ -225,7 +293,7 @@ export function RecipeList({ recipes }: { recipes: RecipeListItem[] }) {
                     <button
                       type="button"
                       disabled={deletingId === recipe.id}
-                      onClick={() => deleteRecipe(recipe)}
+                      onClick={() => setPendingDelete(recipe)}
                       className="rounded-[var(--radius-sm)] border border-[var(--color-border)] px-4 py-2 text-sm font-semibold text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] disabled:opacity-50"
                     >
                       {deletingId === recipe.id ? 'Удаляем...' : 'Удалить'}
@@ -236,6 +304,39 @@ export function RecipeList({ recipes }: { recipes: RecipeListItem[] }) {
             </article>
           ))}
         </section>
+      )}
+
+      {pendingDelete && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/70 px-4">
+          <div className="w-full max-w-md rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface-solid)] p-6 shadow-[var(--shadow-lg)]">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-campari)]">
+              Опасное действие
+            </div>
+            <h2 className="mt-2 text-2xl font-bold uppercase tracking-wide text-[var(--color-text-primary)]">
+              Удалить рецепт?
+            </h2>
+            <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+              Рецепт “{pendingDelete.name}” будет удалён из редактора и связанных коллекций. Это действие нельзя отменить.
+            </p>
+            <div className="mt-5 flex flex-wrap justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setPendingDelete(null)}
+                className="rounded-[var(--radius-sm)] border border-[var(--color-border)] px-4 py-2 text-sm font-semibold transition-colors hover:border-[var(--color-campari)]"
+              >
+                Отмена
+              </button>
+              <button
+                type="button"
+                disabled={deletingId === pendingDelete.id}
+                onClick={() => void deleteRecipe(pendingDelete)}
+                className="rounded-[var(--radius-sm)] bg-[var(--color-campari)] px-4 py-2 text-sm font-semibold text-[var(--color-on-campari)] transition-colors hover:bg-[var(--color-campari-light)] disabled:opacity-50"
+              >
+                {deletingId === pendingDelete.id ? 'Удаляем...' : 'Удалить навсегда'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -118,6 +118,7 @@ export function RecipeForm({
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const title = mode === 'create' ? 'Новый рецепт' : form.name || recipe?.name || 'Редактирование рецепта';
   const publicHref = form.slug ? `/recipe/${form.slug}` : null;
@@ -233,9 +234,6 @@ export function RecipeForm({
 
   const deleteRecipe = async () => {
     if (!recipe) return;
-    const confirmed = window.confirm(`Удалить рецепт "${recipe.name}"? Это действие нельзя отменить.`);
-    if (!confirmed) return;
-
     setSaving(true);
     setError(null);
     try {
@@ -308,7 +306,7 @@ export function RecipeForm({
             {mode === 'edit' && (
               <button
                 type="button"
-                onClick={deleteRecipe}
+                onClick={() => setShowDeleteConfirm(true)}
                 disabled={saving}
                 className="rounded-[var(--radius-sm)] border border-[var(--color-border)] px-4 py-2 text-sm font-semibold text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] disabled:opacity-50"
               >
@@ -543,6 +541,39 @@ export function RecipeForm({
           </section>
         </aside>
       </div>
+
+      {showDeleteConfirm && recipe && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/70 px-4">
+          <div className="w-full max-w-md rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface-solid)] p-6 shadow-[var(--shadow-lg)]">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-campari)]">
+              Опасное действие
+            </div>
+            <h2 className="mt-2 text-2xl font-bold uppercase tracking-wide text-[var(--color-text-primary)]">
+              Удалить рецепт?
+            </h2>
+            <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+              Рецепт “{recipe.name}” будет удалён из редактора и связанных коллекций. Это действие нельзя отменить.
+            </p>
+            <div className="mt-5 flex flex-wrap justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowDeleteConfirm(false)}
+                className="rounded-[var(--radius-sm)] border border-[var(--color-border)] px-4 py-2 text-sm font-semibold transition-colors hover:border-[var(--color-campari)]"
+              >
+                Отмена
+              </button>
+              <button
+                type="button"
+                disabled={saving}
+                onClick={() => void deleteRecipe()}
+                className="rounded-[var(--radius-sm)] bg-[var(--color-campari)] px-4 py-2 text-sm font-semibold text-[var(--color-on-campari)] transition-colors hover:bg-[var(--color-campari-light)] disabled:opacity-50"
+              >
+                {saving ? 'Удаляем...' : 'Удалить навсегда'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

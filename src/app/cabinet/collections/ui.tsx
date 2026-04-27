@@ -67,7 +67,7 @@ export default function CollectionsClient() {
   const input = 'w-full px-4 py-3 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-campari)]';
 
   return (
-    <main className="min-h-screen px-6 py-10 max-w-[1100px] mx-auto">
+    <main className="min-h-screen px-6 pb-10 pt-24 max-w-[1100px] mx-auto">
       <div className="flex items-start justify-between gap-6 mb-6">
         <div>
           <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide">

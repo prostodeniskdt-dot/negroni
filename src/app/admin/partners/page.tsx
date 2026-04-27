@@ -11,7 +11,13 @@ export default async function AdminPartnersPage() {
   ]);
 
   return (
-    <main className="min-h-screen px-6 py-10 max-w-[1000px] mx-auto">
+    <main className="min-h-screen px-6 pb-10 pt-24 max-w-[1000px] mx-auto">
+      <Link
+        href="/admin"
+        className="mb-4 inline-flex rounded-[var(--radius-sm)] border border-[var(--color-border)] px-3 py-2 text-sm font-semibold text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)]"
+      >
+        ← К панели редакции
+      </Link>
       <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide mb-2">
         Партнёры и алкоголь
       </h1>

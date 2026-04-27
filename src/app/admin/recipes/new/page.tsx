@@ -14,6 +14,8 @@ export default async function NewRecipePage() {
     <AdminShell
       title="Новый рецепт"
       description="Создайте карточку рецепта через понятные секции: фото, география, автор, состав, шаги, вкус и публикация."
+      backHref="/admin/recipes"
+      backLabel="К списку рецептов"
     >
       <RecipeForm mode="create" prebatches={prebatches} />
     </AdminShell>

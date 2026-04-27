@@ -36,7 +36,7 @@ export default async function AdminMetricsPage() {
   const recipeById = new Map(recipeNames.map((r) => [r.id, r]));
 
   return (
-    <main className="min-h-screen px-6 py-10 max-w-[1100px] mx-auto">
+    <main className="min-h-screen px-6 pb-10 pt-24 max-w-[1100px] mx-auto">
       <div className="flex items-start justify-between gap-6 mb-8">
         <div>
           <h1 className="font-[var(--font-display)] text-3xl font-bold uppercase tracking-wide">

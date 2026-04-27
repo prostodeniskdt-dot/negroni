@@ -79,7 +79,7 @@ export default function NewDrinkPage() {
   const label = 'block text-xs text-[var(--color-text-secondary)] uppercase tracking-wider mb-1';
 
   return (
-    <main className="min-h-screen px-6 py-10 max-w-[900px] mx-auto">
+    <main className="min-h-screen px-6 pb-10 pt-24 max-w-[900px] mx-auto">
       <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide mb-6">
         Новый напиток
       </h1>

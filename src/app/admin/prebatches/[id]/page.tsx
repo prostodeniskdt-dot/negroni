@@ -8,7 +8,7 @@ export default async function EditPrebatchPage({ params }: { params: Promise<{ i
   const prebatch = await prisma.prebatch.findUnique({ where: { id } });
   if (!prebatch) {
     return (
-      <main className="min-h-screen px-6 py-10">
+      <main className="min-h-screen px-6 pb-10 pt-24">
         <div className="max-w-xl mx-auto p-6 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)]">
           Not found
         </div>

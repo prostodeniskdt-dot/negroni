@@ -4,6 +4,8 @@ type AdminShellProps = {
   title: string;
   eyebrow?: string;
   description?: string;
+  backHref?: string;
+  backLabel?: string;
   actions?: React.ReactNode;
   children: React.ReactNode;
 };
@@ -16,9 +18,17 @@ const adminNav = [
   { href: '/admin/metrics', label: 'Метрика', desc: 'События' },
 ];
 
-export function AdminShell({ title, eyebrow = 'Редакция сайта', description, actions, children }: AdminShellProps) {
+export function AdminShell({
+  title,
+  eyebrow = 'Редакция сайта',
+  description,
+  backHref,
+  backLabel = 'Назад',
+  actions,
+  children,
+}: AdminShellProps) {
   return (
-    <main className="min-h-screen px-4 py-8 md:px-6 lg:px-8">
+    <main className="min-h-screen px-4 pb-8 pt-24 md:px-6 lg:px-8">
       <div className="mx-auto flex max-w-[1380px] flex-col gap-6 lg:flex-row">
         <aside className="lg:sticky lg:top-24 lg:h-fit lg:w-[260px]">
           <Link
@@ -54,6 +64,14 @@ export function AdminShell({ title, eyebrow = 'Редакция сайта', des
           <header className="mb-6 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-[var(--shadow-sm)] md:p-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
+                {backHref && (
+                  <Link
+                    href={backHref}
+                    className="mb-4 inline-flex rounded-[var(--radius-sm)] border border-[var(--color-border)] px-3 py-2 text-sm font-semibold text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)]"
+                  >
+                    ← {backLabel}
+                  </Link>
+                )}
                 <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-campari)]">
                   {eyebrow}
                 </div>

@@ -16,6 +16,7 @@ export default function Header() {
   const { t, toggleLang, lang } = useI18n();
   const { count: favCount } = useFavorites();
   const [me, setMe] = useState<MeSession | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -26,11 +27,24 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
+    setAuthChecked(false);
     fetch('/api/me')
       .then((r) => r.json())
-      .then((j) => setMe(j?.session ?? null))
-      .catch(() => setMe(null));
-  }, []);
+      .then((j) => {
+        if (!cancelled) setMe(j?.session ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setMe(null);
+      })
+      .finally(() => {
+        if (!cancelled) setAuthChecked(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname]);
 
   const navLinks = [
     { href: '/#about', label: t('nav.about') },
@@ -70,7 +84,7 @@ export default function Header() {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden md:flex items-center gap-3 lg:gap-4">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -123,15 +137,27 @@ export default function Header() {
             {lang === 'ru' ? 'EN' : 'RU'}
           </button>
 
-          {me ? (
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="ml-2 px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500"
-              aria-label="Выйти"
-            >
-              Выйти
-            </button>
+          {!authChecked ? (
+            <span className="ml-2 px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-secondary)] opacity-70">
+              ...
+            </span>
+          ) : me ? (
+            <>
+              <Link
+                href="/cabinet"
+                className="ml-2 px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500 no-underline"
+              >
+                Кабинет
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500"
+                aria-label="Выйти"
+              >
+                Выйти
+              </button>
+            </>
           ) : (
             <Link
               href="/login"
@@ -176,14 +202,26 @@ export default function Header() {
           <Link href="/recipes" className="px-3 py-2 text-xs font-semibold bg-[var(--color-campari)] text-[var(--color-on-campari)] rounded-[var(--radius-sm)] no-underline">
             {t('nav.map')}
           </Link>
-          {me ? (
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)]"
-            >
-              Выйти
-            </button>
+          {!authChecked ? (
+            <span className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-[var(--radius-sm)]">
+              ...
+            </span>
+          ) : me ? (
+            <>
+              <Link
+                href="/cabinet"
+                className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)] no-underline"
+              >
+                Кабинет
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)]"
+              >
+                Выйти
+              </button>
+            </>
           ) : (
             <Link
               href="/login"

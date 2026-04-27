@@ -118,7 +118,7 @@ export default function CollectionDetailClient() {
 
   if (loading) {
     return (
-      <main className="min-h-screen px-6 py-10 max-w-[1100px] mx-auto">
+      <main className="min-h-screen px-6 pb-10 pt-24 max-w-[1100px] mx-auto">
         <div className="text-sm text-[var(--color-text-muted)]">Загрузка…</div>
       </main>
     );
@@ -126,7 +126,7 @@ export default function CollectionDetailClient() {
 
   if (!data) {
     return (
-      <main className="min-h-screen px-6 py-10 max-w-[1100px] mx-auto">
+      <main className="min-h-screen px-6 pb-10 pt-24 max-w-[1100px] mx-auto">
         <div className="text-sm text-[var(--color-text-muted)]">Подборка не найдена.</div>
         <div className="mt-4">
           <button onClick={() => router.replace('/cabinet/collections')} className="px-4 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)]">
@@ -138,7 +138,7 @@ export default function CollectionDetailClient() {
   }
 
   return (
-    <main className="min-h-screen px-6 py-10 max-w-[1100px] mx-auto">
+    <main className="min-h-screen px-6 pb-10 pt-24 max-w-[1100px] mx-auto">
       <div className="flex items-start justify-between gap-6 mb-6">
         <div>
           <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide">

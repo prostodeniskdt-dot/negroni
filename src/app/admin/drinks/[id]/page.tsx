@@ -8,7 +8,7 @@ export default async function EditDrinkPage({ params }: { params: Promise<{ id: 
   const drink = await prisma.drink.findUnique({ where: { id } });
   if (!drink) {
     return (
-      <main className="min-h-screen px-6 py-10">
+      <main className="min-h-screen px-6 pb-10 pt-24">
         <div className="max-w-xl mx-auto p-6 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)]">
           Not found
         </div>
