@@ -1,11 +1,19 @@
 import { prisma } from '@/lib/db';
-import EditRecipeClient from './ui';
+import { AdminShell } from '@/components/AdminShell';
+import { RecipeForm } from '@/components/RecipeForm';
 
 export const dynamic = 'force-dynamic';
 
 export default async function EditRecipePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const recipe = await prisma.recipe.findUnique({ where: { id } });
+  const [recipe, prebatches] = await Promise.all([
+    prisma.recipe.findUnique({ where: { id } }),
+    prisma.prebatch.findMany({
+      orderBy: { name: 'asc' },
+      select: { id: true, name: true },
+    }),
+  ]);
+
   if (!recipe) {
     return (
       <main className="min-h-screen px-6 py-10">
@@ -15,6 +23,14 @@ export default async function EditRecipePage({ params }: { params: Promise<{ id:
       </main>
     );
   }
-  return <EditRecipeClient recipe={recipe} />;
+
+  return (
+    <AdminShell
+      title={recipe.name}
+      description="Редактируйте рецепт без технической путаницы: фото, контент, вкус, prebatch и публикация собраны по рабочим секциям."
+    >
+      <RecipeForm mode="edit" recipe={recipe} prebatches={prebatches} />
+    </AdminShell>
+  );
 }
 

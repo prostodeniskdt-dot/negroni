@@ -1,77 +1,82 @@
 import Link from 'next/link';
 import { getSession } from '@/lib/auth';
+import { AdminShell } from '@/components/AdminShell';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminHomePage() {
   const session = await getSession();
+  const sections = [
+    {
+      href: '/admin/recipes',
+      title: 'Рецепты',
+      desc: 'Полный редактор рецептов: список, фото, статусы, ингредиенты и предпросмотр.',
+      action: 'Открыть редактор',
+    },
+    {
+      href: '/admin/recipes/new',
+      title: 'Новый рецепт',
+      desc: 'Быстро создать карточку, сохранить черновик или сразу опубликовать.',
+      action: 'Добавить',
+    },
+    {
+      href: '/admin/prebatches',
+      title: 'Заготовки',
+      desc: 'Библиотека prebatch для повторного использования в рецептах.',
+      action: 'Управлять',
+    },
+    {
+      href: '/admin/partners',
+      title: 'Партнёры и напитки',
+      desc: 'Каталог партнёров, категорий и алкоголя для сайта.',
+      action: 'Перейти',
+    },
+    {
+      href: '/admin/metrics',
+      title: 'Метрика',
+      desc: 'Статистика действий пользователей: страницы, рецепты, экспорт.',
+      action: 'Смотреть',
+    },
+    {
+      href: '/admin/import',
+      title: 'Импорт',
+      desc: 'Перенос данных из исходных файлов в PostgreSQL.',
+      action: 'Импортировать',
+    },
+  ];
 
   return (
-    <main className="min-h-screen px-6 py-10 max-w-[1000px] mx-auto">
-      <div className="flex items-start justify-between gap-6 mb-8">
-        <div>
-          <h1 className="font-[var(--font-display)] text-3xl font-bold uppercase tracking-wide">
-            Редактор
-          </h1>
-          <p className="text-sm text-[var(--color-text-muted)] mt-1">
-            {session ? `Вы вошли как ${session.email} (${session.role})` : ''}
-          </p>
-        </div>
+    <AdminShell
+      title="Панель редакции"
+      description={session ? `Вы вошли как ${session.email} (${session.role}). Выберите рабочий раздел или начните с рецептов.` : 'Выберите рабочий раздел.'}
+      actions={
         <form action="/api/auth/logout" method="post">
-          <button className="px-4 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] hover:border-[var(--color-campari)] transition-colors">
+          <button className="rounded-[var(--radius-sm)] border border-[var(--color-border)] px-4 py-2 font-semibold text-[var(--color-text-primary)] transition-colors hover:border-[var(--color-campari)]">
             Выйти
           </button>
         </form>
+      }
+    >
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {sections.map((section) => (
+          <Link
+            key={section.href}
+            href={section.href}
+            className="group flex min-h-[190px] flex-col justify-between rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-[var(--shadow-sm)] transition-colors hover:border-[var(--color-campari)]"
+          >
+            <div>
+              <div className="text-xl font-bold uppercase tracking-wide text-[var(--color-text-primary)]">
+                {section.title}
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-muted)]">{section.desc}</p>
+            </div>
+            <span className="mt-6 inline-flex w-fit rounded-[var(--radius-sm)] bg-[var(--color-campari)] px-4 py-2 text-sm font-semibold text-[var(--color-on-campari)] transition-colors group-hover:bg-[var(--color-campari-light)]">
+              {section.action}
+            </span>
+          </Link>
+        ))}
       </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Link
-          href="/admin/recipes"
-          className="block p-5 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-campari)] transition-colors"
-        >
-          <div className="font-semibold text-[var(--color-text-primary)]">Рецепты</div>
-          <div className="text-sm text-[var(--color-text-muted)] mt-1">
-            Создание и публикация рецептов Негрони.
-          </div>
-        </Link>
-        <Link
-          href="/admin/prebatches"
-          className="block p-5 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-campari)] transition-colors"
-        >
-          <div className="font-semibold text-[var(--color-text-primary)]">Заготовки</div>
-          <div className="text-sm text-[var(--color-text-muted)] mt-1">
-            Библиотека заготовок (prebatch).
-          </div>
-        </Link>
-        <Link
-          href="/admin/partners"
-          className="block p-5 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-campari)] transition-colors"
-        >
-          <div className="font-semibold text-[var(--color-text-primary)]">Партнёры</div>
-          <div className="text-sm text-[var(--color-text-muted)] mt-1">
-            Партнёры, категории и каталог алкоголя.
-          </div>
-        </Link>
-        <Link
-          href="/admin/import"
-          className="block p-5 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-campari)] transition-colors"
-        >
-          <div className="font-semibold text-[var(--color-text-primary)]">Импорт</div>
-          <div className="text-sm text-[var(--color-text-muted)] mt-1">
-            Перенос данных из `src/data/*.ts` в PostgreSQL.
-          </div>
-        </Link>
-        <Link
-          href="/admin/metrics"
-          className="block p-5 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-campari)] transition-colors"
-        >
-          <div className="font-semibold text-[var(--color-text-primary)]">Метрика</div>
-          <div className="text-sm text-[var(--color-text-muted)] mt-1">
-            Статистика действий пользователей: страницы, рецепты, экспорт.
-          </div>
-        </Link>
-      </div>
-    </main>
+    </AdminShell>
   );
 }
 
