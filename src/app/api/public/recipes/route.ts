@@ -6,7 +6,8 @@ export async function GET(req: Request) {
   const url = new URL(req.url);
   const status = url.searchParams.get('status') || 'published';
 
-  if (process.env.USE_DB !== '1') {
+  const useDb = Boolean(process.env.DATABASE_URL) && process.env.USE_DB !== '0';
+  if (!useDb) {
     // Minimal compatibility response
     return NextResponse.json({
       recipes: staticRecipes.map((r) => ({

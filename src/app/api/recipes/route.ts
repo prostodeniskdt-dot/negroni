@@ -6,7 +6,8 @@ import { prisma } from '@/lib/db';
  * GET /api/recipes — убедитесь, что count и ids соответствуют данным в src/data/recipes.ts
  */
 export async function GET() {
-  if (process.env.USE_DB === '1') {
+  const useDb = Boolean(process.env.DATABASE_URL) && process.env.USE_DB !== '0';
+  if (useDb) {
     const list = await prisma.recipe.findMany({ select: { slug: true } });
     return Response.json({ count: list.length, ids: list.map((r) => r.slug) });
   }

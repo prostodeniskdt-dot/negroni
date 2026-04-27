@@ -61,6 +61,15 @@ export default async function AdminHomePage() {
             Перенос данных из `src/data/*.ts` в PostgreSQL.
           </div>
         </Link>
+        <Link
+          href="/admin/metrics"
+          className="block p-5 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-campari)] transition-colors"
+        >
+          <div className="font-semibold text-[var(--color-text-primary)]">Метрика</div>
+          <div className="text-sm text-[var(--color-text-muted)] mt-1">
+            Статистика действий пользователей: страницы, рецепты, экспорт.
+          </div>
+        </Link>
       </div>
     </main>
   );

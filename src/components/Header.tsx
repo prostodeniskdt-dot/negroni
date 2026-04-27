@@ -8,11 +8,14 @@ import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Menu, X } from 'lucide-react';
 
+type MeSession = { sub: string; email: string; role: string };
+
 export default function Header() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const { t, toggleLang, lang } = useI18n();
   const { count: favCount } = useFavorites();
+  const [me, setMe] = useState<MeSession | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -20,6 +23,13 @@ export default function Header() {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/me')
+      .then((r) => r.json())
+      .then((j) => setMe(j?.session ?? null))
+      .catch(() => setMe(null));
   }, []);
 
   const navLinks = [
@@ -108,6 +118,14 @@ export default function Header() {
           </button>
 
           <Link
+            href={me ? '/cabinet' : '/login'}
+            className="ml-2 px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500 no-underline"
+            aria-label={me ? 'Личный кабинет' : 'Войти'}
+          >
+            {me ? 'Кабинет' : 'Войти'}
+          </Link>
+
+          <Link
             href="/recipes"
             className="ml-2 px-5 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-campari)]/40 text-[var(--color-campari)] bg-transparent hover:bg-[var(--color-campari)] hover:text-[var(--color-on-campari)] transition-all duration-500 no-underline"
             aria-label={t('nav.map')}
@@ -140,6 +158,12 @@ export default function Header() {
           </button>
           <Link href="/recipes" className="px-3 py-2 text-xs font-semibold bg-[var(--color-campari)] text-[var(--color-on-campari)] rounded-[var(--radius-sm)] no-underline">
             {t('nav.map')}
+          </Link>
+          <Link
+            href={me ? '/cabinet' : '/login'}
+            className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)] no-underline"
+          >
+            {me ? 'Кабинет' : 'Войти'}
           </Link>
           <button
             type="button"

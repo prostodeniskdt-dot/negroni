@@ -38,6 +38,24 @@ export default function FavoritesPage() {
     URL.revokeObjectURL(url);
   }, [favoriteEntries, t]);
 
+  const handleShare = useCallback(async () => {
+    const res = await fetch('/api/me/share-links', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ kind: 'favorites' }),
+    });
+    if (!res.ok) return;
+    const j = await res.json().catch(() => ({}));
+    const url = j?.url ? `${window.location.origin}${j.url}` : '';
+    if (!url) return;
+    await navigator.clipboard.writeText(url).catch(() => {});
+    alert('Ссылка скопирована в буфер обмена.');
+  }, []);
+
+  const handlePdf = useCallback(() => {
+    window.location.href = '/api/export/pdf?kind=favorites';
+  }, []);
+
   const handleClear = useCallback(() => {
     if (typeof window !== 'undefined' && window.confirm(t('favorites.removeConfirm'))) {
       clear();
@@ -65,6 +83,22 @@ export default function FavoritesPage() {
               className="px-5 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {t('favorites.export')}
+            </button>
+            <button
+              type="button"
+              onClick={handleShare}
+              disabled={favoriteEntries.length === 0}
+              className="px-5 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Поделиться
+            </button>
+            <button
+              type="button"
+              onClick={handlePdf}
+              disabled={favoriteEntries.length === 0}
+              className="px-5 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              PDF
             </button>
             <button
               type="button"

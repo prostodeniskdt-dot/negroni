@@ -5,7 +5,8 @@ import { getRecipeById } from '@/data/recipes';
 export async function GET(_req: Request, ctx: { params: Promise<{ slug: string }> }) {
   const { slug } = await ctx.params;
 
-  if (process.env.USE_DB !== '1') {
+  const useDb = Boolean(process.env.DATABASE_URL) && process.env.USE_DB !== '0';
+  if (!useDb) {
     const entry = getRecipeById(slug);
     if (!entry) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
     return NextResponse.json({ recipe: entry, source: 'static' });

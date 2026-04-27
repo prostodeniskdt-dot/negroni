@@ -11,12 +11,32 @@ enum UserRole {
   admin
   editor
   partner
+  user
 }
 
 enum ContentStatus {
   draft
   published
   archived
+}
+
+enum ShareKind {
+  favorites
+  collection
+  recipe
+}
+
+enum EventType {
+  page_view
+  time_on_page
+  favorite_add
+  favorite_remove
+  collection_create
+  collection_delete
+  collection_add
+  collection_remove
+  share_create
+  pdf_export
 }
 
 model User {
@@ -29,9 +49,106 @@ model User {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
+  // Profile (for regular users)
+  firstName    String?
+  lastName     String?
+  username     String?   @unique
+  barName      String?
+  city         String?
+
   recipes      Recipe[]  @relation("RecipeCreatedBy")
   prebatches   Prebatch[] @relation("PrebatchCreatedBy")
   drinks       Drink[]   @relation("DrinkCreatedBy")
+
+  favorites    Favorite[]
+  collections  Collection[]
+  shareLinks   ShareLink[]
+  events       Event[]
+}
+
+model Favorite {
+  userId    String
+  recipeId  String
+  createdAt DateTime @default(now())
+
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe    Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@id([userId, recipeId])
+  @@index([recipeId])
+}
+
+model Collection {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CollectionItem[]
+  shareLinks ShareLink[]
+
+  @@index([userId])
+}
+
+model CollectionItem {
+  collectionId String
+  recipeId     String
+  position     Int       @default(0)
+  createdAt    DateTime  @default(now())
+
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  recipe       Recipe      @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@id([collectionId, recipeId])
+  @@index([recipeId])
+}
+
+model ShareLink {
+  token        String    @id @default(cuid())
+  kind         ShareKind
+  lang         String?   // "ru" | "en"
+  userId       String
+  collectionId String?
+  recipeId     String?
+  createdAt    DateTime  @default(now())
+  expiresAt    DateTime?
+
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collection   Collection? @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  recipe       Recipe?     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([collectionId])
+  @@index([recipeId])
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  ts          DateTime  @default(now())
+  type        EventType
+  path        String
+  referrer    String?
+  durationMs  Int?
+
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  anonymousId String
+  sessionId   String
+
+  recipeId    String?
+  recipe      Recipe?   @relation(fields: [recipeId], references: [id], onDelete: SetNull)
+
+  meta        Json?
+
+  @@index([ts])
+  @@index([type])
+  @@index([userId])
+  @@index([anonymousId])
+  @@index([path])
+  @@index([recipeId])
 }
 
 model Partner {
@@ -150,6 +267,11 @@ model Recipe {
 
   createdById    String?
   createdBy      User?         @relation("RecipeCreatedBy", fields: [createdById], references: [id])
+
+  favorites      Favorite[]
+  collectionItems CollectionItem[]
+  shareLinks     ShareLink[]
+  events         Event[]
 
   @@index([status])
   @@index([region])

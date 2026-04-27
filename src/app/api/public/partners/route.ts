@@ -3,7 +3,8 @@ import { prisma } from '@/lib/db';
 import { partners as staticPartners, drinkCategories as staticCategories, drinks as staticDrinks } from '@/data/partners';
 
 export async function GET() {
-  if (process.env.USE_DB !== '1') {
+  const useDb = Boolean(process.env.DATABASE_URL) && process.env.USE_DB !== '0';
+  if (!useDb) {
     return NextResponse.json({
       partners: staticPartners,
       categories: staticCategories,
