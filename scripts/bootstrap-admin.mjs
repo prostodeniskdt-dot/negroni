@@ -19,17 +19,19 @@ async function main() {
   });
 
   try {
-    const usersCount = await prisma.user.count();
-    if (usersCount > 0) return;
-
     const email = normalizeEmail(adminEmail);
     const passwordHash = await bcrypt.hash(adminPassword, 12);
-    await prisma.user.create({
-      data: { email, passwordHash, role: 'admin' },
+    const hasAnyAdmin = (await prisma.user.count({ where: { role: 'admin' } })) > 0;
+    if (hasAnyAdmin) return;
+
+    await prisma.user.upsert({
+      where: { email },
+      update: { passwordHash, role: 'admin' },
+      create: { email, passwordHash, role: 'admin' },
       select: { id: true },
     });
     // eslint-disable-next-line no-console
-    console.log(`[bootstrap-admin] created first admin: ${email}`);
+    console.log(`[bootstrap-admin] ensured admin user: ${email}`);
   } finally {
     await prisma.$disconnect().catch(() => {});
   }
