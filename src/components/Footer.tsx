@@ -142,7 +142,16 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-[var(--color-border)]/20 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-[var(--color-text-secondary)]">
-            {t('footer.rights')}
+            © 2025 {t('logo')}. Все права защищены. Проект команды{' '}
+            <a
+              href="https://barbossonline.ru/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--color-text-muted)] underline decoration-[var(--color-campari)]/50 underline-offset-4 transition-colors hover:text-[var(--color-campari)]"
+            >
+              Бар Босс Онлайн
+            </a>
+            . Основатель — Виталий Аршук.
           </p>
         </div>
       </div>

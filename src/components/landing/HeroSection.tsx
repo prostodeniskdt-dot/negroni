@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
-const HERO_IMAGE_SRC = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1920';
-const HERO_IMAGE_ALT = 'Негрони коктейль';
+const HERO_IMAGE_SRC = 'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=1920';
+const HERO_IMAGE_ALT = 'Классический Негрони с апельсином';
 
 function useAnimatedCounter(target: number, duration: number, start: boolean) {
   const [count, setCount] = useState(0);
@@ -175,7 +175,7 @@ export function HeroSection() {
               }`}
               style={{ transitionDelay: '0.95s' }}
             >
-              {t('hero.title').toUpperCase()}
+              {t('hero.title')}
             </span>
           </span>
         </h1>
