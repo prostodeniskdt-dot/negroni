@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
-const HERO_IMAGE_SRC = 'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=1920';
-const HERO_IMAGE_ALT = 'Классический Негрони с апельсином';
+const HERO_IMAGE_SRC = '/images/Negronifon.jpg';
+const HERO_IMAGE_ALT = 'Negroni фон';
 
 function useAnimatedCounter(target: number, duration: number, start: boolean) {
   const [count, setCount] = useState(0);
@@ -157,7 +157,7 @@ export function HeroSection() {
           </span>
         </div>
 
-        <h1 className="mt-8 font-[var(--font-display)] text-5xl md:text-7xl lg:text-9xl font-bold leading-[0.9] tracking-tight text-balance">
+        <h1 className="mt-8 font-[var(--font-display)] text-5xl md:text-7xl lg:text-9xl font-bold leading-[0.92] tracking-tight text-balance">
           <span className="block text-[var(--color-text-primary)] overflow-hidden">
             <span
               className={`inline-block transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
@@ -168,7 +168,7 @@ export function HeroSection() {
               {t('hero.subtitle').toUpperCase()}
             </span>
           </span>
-          <span className="block text-[var(--color-campari)] mt-1 overflow-hidden">
+          <span className="block text-[var(--color-campari)] mt-1 overflow-hidden pb-2">
             <span
               className={`inline-block transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
                 loaded ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'

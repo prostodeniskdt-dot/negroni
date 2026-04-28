@@ -79,8 +79,21 @@ export default function Header() {
             <div className="absolute inset-1 rounded-full bg-[var(--color-campari)]/40 animate-liquid-wave [animation-delay:0.5s]" />
             <div className="absolute inset-2 rounded-full bg-[var(--color-campari)]/70" />
           </div>
-          <span className="font-[var(--font-display)] text-xl tracking-wide text-[var(--color-text-primary)] group-hover:text-[var(--color-campari)] transition-colors duration-500">
-            {t('logo')}
+          <span className="flex flex-col leading-none">
+            <span className="font-[var(--font-display)] text-xl tracking-wide text-[var(--color-text-primary)] group-hover:text-[var(--color-campari)] transition-colors duration-500">
+              {t('logo')}
+            </span>
+            <span className="mt-1 text-[10px] tracking-[0.22em] uppercase text-[var(--color-text-secondary)]">
+              от{' '}
+              <a
+                href="https://barbossonline.ru/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--color-text-muted)] underline decoration-[var(--color-campari)]/50 underline-offset-4 hover:text-[var(--color-campari)] transition-colors"
+              >
+                Бар Босс Онлайн
+              </a>
+            </span>
           </span>
         </Link>
 
