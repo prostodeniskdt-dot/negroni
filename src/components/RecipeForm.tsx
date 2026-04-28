@@ -55,6 +55,53 @@ const fieldClass =
   'w-full rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-[var(--color-text-primary)] outline-none transition-colors placeholder:text-[var(--color-text-secondary)] focus:border-[var(--color-campari)]';
 const labelClass = 'mb-1 block text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]';
 
+const fieldLabels: Partial<Record<keyof RecipeFormState, string>> = {
+  slug: 'Slug',
+  city: 'Город',
+  lat: 'Широта',
+  lng: 'Долгота',
+  name: 'Название рецепта',
+  region: 'Регион',
+  author: 'Автор',
+  bar: 'Бар',
+  difficulty: 'Сложность',
+  category: 'Категория',
+  barDescription: 'Описание бара',
+  barCity: 'Город бара',
+  intro: 'Вступление',
+  image: 'Фото / URL изображения',
+  method: 'Метод',
+  glass: 'Бокал',
+  garnish: 'Гарнир',
+  ice: 'Лёд',
+  flavorBitter: 'Горечь',
+  flavorSweet: 'Сладость',
+  flavorSour: 'Кислотность',
+  flavorSpicy: 'Пряность',
+  flavorStrong: 'Крепость',
+  ingredients: 'Ингредиенты',
+  steps: 'Шаги приготовления',
+  status: 'Статус',
+};
+
+const requiredFields: StringField[] = [
+  'slug',
+  'city',
+  'name',
+  'region',
+  'author',
+  'bar',
+  'category',
+  'barDescription',
+  'barCity',
+  'intro',
+  'image',
+  'method',
+  'glass',
+  'garnish',
+  'ice',
+];
+
 const flavorFields = [
   { key: 'flavorBitter', label: 'Горечь' },
   { key: 'flavorSweet', label: 'Сладость' },
@@ -119,6 +166,7 @@ export function RecipeForm({
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
 
   const title = mode === 'create' ? 'Новый рецепт' : form.name || recipe?.name || 'Редактирование рецепта';
   const publicHref = form.slug ? `/recipe/${form.slug}` : null;
@@ -157,6 +205,7 @@ export function RecipeForm({
 
   const setField = (field: StringField, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    if (field === 'image') setImageFailed(false);
     setDirty(true);
     setNotice(null);
   };
@@ -203,7 +252,39 @@ export function RecipeForm({
     status: statusOverride ?? form.status,
   });
 
+  const validateBeforeSave = () => {
+    const missing = requiredFields.filter((field) => !form[field].trim());
+    const invalidNumbers = [
+      ['lat', form.lat],
+      ['lng', form.lng],
+      ...flavorFields.map((field) => [field.key, form[field.key]]),
+    ].filter(([, value]) => !Number.isFinite(Number(value)));
+    const invalidFlavor = flavorFields.filter((field) => {
+      const value = Number(form[field.key]);
+      return !Number.isInteger(value) || value < 0 || value > 10;
+    });
+    const missingLists = [
+      form.ingredients.map((item) => item.trim()).filter(Boolean).length ? null : 'ingredients',
+      form.steps.map((item) => item.trim()).filter(Boolean).length ? null : 'steps',
+    ].filter(Boolean) as Array<keyof RecipeFormState>;
+
+    const messages = [
+      missing.length ? `Заполните обязательные поля: ${missing.map((field) => fieldLabels[field] ?? field).join(', ')}.` : null,
+      missingLists.length ? `Добавьте хотя бы один пункт: ${missingLists.map((field) => fieldLabels[field] ?? field).join(', ')}.` : null,
+      invalidNumbers.length ? `Проверьте числовые поля: ${invalidNumbers.map(([field]) => fieldLabels[field as keyof RecipeFormState] ?? field).join(', ')}.` : null,
+      invalidFlavor.length ? `Вкусовой профиль должен быть целыми числами от 0 до 10: ${invalidFlavor.map((field) => field.label).join(', ')}.` : null,
+    ].filter(Boolean);
+
+    return messages.length ? messages.join('\n') : null;
+  };
+
   const save = async (statusOverride?: string) => {
+    const validationError = validateBeforeSave();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
     setSaving(true);
     setError(null);
     setNotice(null);
@@ -216,7 +297,7 @@ export function RecipeForm({
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(humanizeError(json?.error));
+        setError(formatSaveError(json));
         return;
       }
 
@@ -240,7 +321,7 @@ export function RecipeForm({
       const res = await fetch(`/api/admin/recipes/${recipe.id}`, { method: 'DELETE' });
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
-        setError(humanizeError(json?.error));
+        setError(formatSaveError(json));
         return;
       }
       router.replace('/admin/recipes');
@@ -264,6 +345,7 @@ export function RecipeForm({
         return;
       }
       setField('image', json.url);
+      setImageFailed(false);
       setNotice('Фото загружено. Не забудьте сохранить рецепт.');
     } finally {
       setUploading(false);
@@ -340,10 +422,7 @@ export function RecipeForm({
 
           <FormSection title="Фото" description="Загрузите файл, вставьте URL или сбросьте изображение до стандартного.">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-[280px_1fr]">
-              <div
-                className="aspect-[4/3] rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-cover bg-center"
-                style={{ backgroundImage: `url(${form.image || DEFAULT_RECIPE_IMAGE})` }}
-              />
+              <ImagePreview src={form.image || DEFAULT_RECIPE_IMAGE} alt="Предпросмотр фото рецепта" imageFailed={imageFailed} onError={() => setImageFailed(true)} />
               <div className="space-y-3">
                 <input
                   ref={fileInputRef}
@@ -481,11 +560,7 @@ export function RecipeForm({
             <p className="mt-1 text-sm text-[var(--color-text-muted)]">
               {dirty ? 'Есть несохранённые изменения.' : 'Все последние изменения сохранены или форма ещё не менялась.'}
             </p>
-            {error && (
-              <div className="mt-3 rounded-[var(--radius-md)] border border-[var(--color-campari)]/50 bg-[var(--color-campari)]/10 px-3 py-2 text-sm">
-                {error}
-              </div>
-            )}
+            {error && <ErrorBox error={error} />}
             {notice && (
               <div className="mt-3 rounded-[var(--radius-md)] border border-[var(--color-success)]/40 bg-[var(--color-success)]/10 px-3 py-2 text-sm text-[var(--color-text-primary)]">
                 {notice}
@@ -520,7 +595,7 @@ export function RecipeForm({
           </section>
 
           <section className="overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-sm)]">
-            <div className="aspect-[4/3] bg-cover bg-center" style={{ backgroundImage: `url(${form.image || DEFAULT_RECIPE_IMAGE})` }} />
+            <ImagePreview src={form.image || DEFAULT_RECIPE_IMAGE} alt={form.name || 'Предпросмотр рецепта'} imageFailed={imageFailed} onError={() => setImageFailed(true)} compact />
             <div className="p-5">
               <div className="mb-3 flex items-center justify-between gap-2">
                 <StatusPill status={form.status} />
@@ -587,6 +662,44 @@ function FormSection({ title, description, children }: { title: string; descript
       </div>
       <div className="space-y-4">{children}</div>
     </section>
+  );
+}
+
+function ImagePreview({
+  src,
+  alt,
+  imageFailed,
+  onError,
+  compact,
+}: {
+  src: string;
+  alt: string;
+  imageFailed: boolean;
+  onError: () => void;
+  compact?: boolean;
+}) {
+  return (
+    <div className={`${compact ? 'aspect-[4/3]' : 'aspect-[4/3]'} overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-bg)]/50`}>
+      {!imageFailed ? (
+        // Use a plain img here: it previews freshly uploaded /uploads files without Next image cache/config friction.
+        <img src={src} alt={alt} onError={onError} className="h-full w-full object-cover" />
+      ) : (
+        <div className="flex h-full flex-col items-center justify-center gap-2 p-4 text-center text-sm text-[var(--color-text-muted)]">
+          <span className="font-semibold text-[var(--color-text-primary)]">Фото не открылось</span>
+          <span>Проверьте URL или загрузите файл заново.</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ErrorBox({ error }: { error: string }) {
+  return (
+    <div className="mt-3 rounded-[var(--radius-md)] border border-[var(--color-campari)]/50 bg-[var(--color-campari)]/10 px-3 py-2 text-sm">
+      {error.split('\n').map((line) => (
+        <div key={line}>{line}</div>
+      ))}
+    </div>
   );
 }
 
@@ -776,4 +889,22 @@ function humanizeError(error: string) {
   if (error === 'FILE_TOO_LARGE') return 'Файл слишком большой. Максимум 5 МБ.';
   if (error === 'UNSUPPORTED_FILE_TYPE') return 'Поддерживаются только PNG, JPEG, WebP и GIF.';
   return error || 'Что-то пошло не так.';
+}
+
+function formatSaveError(json: any) {
+  const fieldErrors = json?.details?.fieldErrors;
+  if (fieldErrors && typeof fieldErrors === 'object') {
+    const messages = Object.entries(fieldErrors)
+      .filter(([, errors]) => Array.isArray(errors) && errors.length)
+      .map(([field, errors]) => {
+        const label = fieldLabels[field as keyof RecipeFormState] ?? field;
+        return `${label}: ${(errors as string[]).join(', ')}`;
+      });
+
+    if (messages.length) {
+      return `Проверьте поля:\n${messages.join('\n')}`;
+    }
+  }
+
+  return humanizeError(json?.error);
 }

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { pdf } from '@react-pdf/renderer';
 import React from 'react';
+import { readFile } from 'fs/promises';
+import path from 'path';
 import { prisma } from '@/lib/db';
 import { getSession, requireRole } from '@/lib/auth';
 import { RecipesPdf, type PdfRecipe } from '@/lib/pdf/RecipesPdf';
@@ -15,20 +17,45 @@ const QuerySchema = z.object({
   lang: z.string().optional(),
 });
 
-function normalizeRecipes(list: any[]): PdfRecipe[] {
-  return list.map((r) => ({
+const imageContentTypes: Record<string, string> = {
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  webp: 'image/webp',
+  gif: 'image/gif',
+};
+
+async function normalizeImageForPdf(image?: string | null) {
+  if (!image) return null;
+  if (!image.startsWith('/uploads/recipes/')) return image;
+
+  const filename = path.basename(image);
+  const extension = filename.split('.').pop()?.toLowerCase() ?? '';
+  const contentType = imageContentTypes[extension];
+  if (!contentType) return null;
+
+  try {
+    const file = await readFile(path.join(process.cwd(), 'public', 'uploads', 'recipes', filename));
+    return `data:${contentType};base64,${file.toString('base64')}`;
+  } catch {
+    return null;
+  }
+}
+
+async function normalizeRecipes(list: any[]): Promise<PdfRecipe[]> {
+  return Promise.all(list.map(async (r) => ({
     slug: r.slug,
     name: r.name,
     region: r.region,
     intro: r.intro,
-    image: r.image,
+    image: await normalizeImageForPdf(r.image),
     method: r.method,
     glass: r.glass,
     garnish: r.garnish,
     ice: r.ice,
     ingredients: r.ingredients ?? [],
     steps: r.steps ?? [],
-  }));
+  })));
 }
 
 export async function GET(req: Request) {
@@ -101,7 +128,7 @@ export async function GET(req: Request) {
     }
   }
 
-  const doc = React.createElement(RecipesPdf, { title, recipes: normalizeRecipes(recipes) });
+  const doc = React.createElement(RecipesPdf, { title, recipes: await normalizeRecipes(recipes) });
   // @react-pdf/renderer provides Node helpers; `toBuffer()` is the most compatible for Response.
   const buf: Buffer = await (pdf(doc) as any).toBuffer();
   const body = new Uint8Array(buf);

@@ -1,5 +1,19 @@
 import React from 'react';
-import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, Image, StyleSheet, Font } from '@react-pdf/renderer';
+
+Font.register({
+  family: 'Roboto',
+  fonts: [
+    {
+      src: 'https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff',
+      fontWeight: 400,
+    },
+    {
+      src: 'https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmWUlfBBc4.woff',
+      fontWeight: 700,
+    },
+  ],
+});
 
 export type PdfRecipe = {
   slug: string;
@@ -17,36 +31,40 @@ export type PdfRecipe = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 32,
+    paddingTop: 34,
+    paddingBottom: 34,
+    paddingHorizontal: 36,
     fontSize: 11,
-    fontFamily: 'Helvetica',
-    color: '#111',
+    fontFamily: 'Roboto',
+    color: '#1c1c1c',
+    backgroundColor: '#ffffff',
   },
   header: {
-    marginBottom: 14,
+    marginBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    paddingBottom: 10,
+    borderBottomColor: '#e6d8d8',
+    paddingBottom: 12,
   },
-  title: { fontSize: 20, fontWeight: 700, textTransform: 'uppercase' },
-  region: { marginTop: 4, color: '#666', fontSize: 12 },
-  intro: { marginTop: 10, lineHeight: 1.4, color: '#333' },
-  heroRow: { flexDirection: 'row', gap: 14, marginTop: 14 },
-  heroImage: { width: 180, height: 135, objectFit: 'cover', borderRadius: 6 },
+  title: { fontSize: 22, fontWeight: 700, textTransform: 'uppercase', color: '#5c0a20' },
+  region: { marginTop: 5, color: '#7a6268', fontSize: 11 },
+  intro: { marginTop: 10, lineHeight: 1.45, color: '#333', fontSize: 11 },
+  heroRow: { flexDirection: 'row', marginTop: 12 },
+  heroImage: { width: 160, height: 120, objectFit: 'cover' },
   tech: {
     flexGrow: 1,
+    marginLeft: 14,
     borderWidth: 1,
-    borderColor: '#eee',
-    borderRadius: 6,
+    borderColor: '#eadddd',
     padding: 10,
   },
-  techLabel: { fontSize: 9, color: '#777', textTransform: 'uppercase' },
-  techValue: { marginTop: 2, marginBottom: 8, fontSize: 11 },
-  section: { marginTop: 16 },
-  h3: { fontSize: 12, fontWeight: 700, textTransform: 'uppercase', marginBottom: 6 },
-  li: { marginBottom: 3, lineHeight: 1.35 },
-  footer: { marginTop: 18, borderTopWidth: 1, borderTopColor: '#eee', paddingTop: 8, color: '#777', fontSize: 9 },
+  techLabel: { fontSize: 8, color: '#8b1538', textTransform: 'uppercase', fontWeight: 700 },
+  techValue: { marginTop: 2, marginBottom: 7, fontSize: 10, color: '#222' },
+  section: { marginTop: 14 },
+  h3: { fontSize: 12, fontWeight: 700, textTransform: 'uppercase', marginBottom: 7, color: '#5c0a20' },
+  li: { marginBottom: 4, lineHeight: 1.35, fontSize: 10.5 },
+  footer: { marginTop: 18, borderTopWidth: 1, borderTopColor: '#eadddd', paddingTop: 8, color: '#7a6268', fontSize: 8 },
   recipeSeparator: { marginTop: 10, marginBottom: 0 },
+  empty: { color: '#777', fontSize: 10 },
 });
 
 function TechBlock({ label, value }: { label: string; value: string }) {
@@ -75,7 +93,7 @@ export function RecipesPdf({
             <Text style={styles.intro}>{r.intro}</Text>
           </View>
 
-          <View style={styles.heroRow}>
+          <View style={styles.heroRow} wrap={false}>
             {r.image ? <Image style={styles.heroImage} src={r.image} /> : null}
             <View style={styles.tech}>
               <TechBlock label="Метод" value={r.method} />
@@ -87,16 +105,24 @@ export function RecipesPdf({
 
           <View style={styles.section}>
             <Text style={styles.h3}>Ингредиенты</Text>
-            {r.ingredients.map((x, i) => (
-              <Text key={i} style={styles.li}>• {x}</Text>
-            ))}
+            {r.ingredients.length ? (
+              r.ingredients.map((x, i) => (
+                <Text key={i} style={styles.li}>- {x}</Text>
+              ))
+            ) : (
+              <Text style={styles.empty}>Ингредиенты не указаны</Text>
+            )}
           </View>
 
           <View style={styles.section}>
             <Text style={styles.h3}>Шаги</Text>
-            {r.steps.map((x, i) => (
-              <Text key={i} style={styles.li}>{i + 1}. {x}</Text>
-            ))}
+            {r.steps.length ? (
+              r.steps.map((x, i) => (
+                <Text key={i} style={styles.li}>{i + 1}. {x}</Text>
+              ))
+            ) : (
+              <Text style={styles.empty}>Шаги не указаны</Text>
+            )}
           </View>
 
           <View style={styles.footer}>
