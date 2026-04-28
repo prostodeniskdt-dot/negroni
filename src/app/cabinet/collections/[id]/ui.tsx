@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useFavorites } from '@/hooks/useFavorites';
-import { getRecipeById } from '@/data/recipes';
+import { usePublicRecipes } from '@/hooks/usePublicRecipes';
+import { getRecipeByIdFrom } from '@/lib/public-recipes';
 
 type CollectionDetail = { id: string; name: string; slugs: string[]; updatedAt: string };
 
@@ -13,6 +14,7 @@ export default function CollectionDetailClient() {
   const router = useRouter();
   const id = typeof params.id === 'string' ? params.id : params.id?.[0] ?? '';
   const { favorites } = useFavorites();
+  const { recipes } = usePublicRecipes();
 
   const [data, setData] = useState<CollectionDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -112,7 +114,7 @@ export default function CollectionDetailClient() {
     reload();
   };
 
-  const items = useMemo(() => (data?.slugs ?? []).map((slug) => ({ slug, entry: getRecipeById(slug) })), [data?.slugs]);
+  const items = useMemo(() => (data?.slugs ?? []).map((slug) => ({ slug, entry: getRecipeByIdFrom(recipes, slug) })), [data?.slugs, recipes]);
 
   const input = 'w-full px-4 py-3 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-campari)]';
 

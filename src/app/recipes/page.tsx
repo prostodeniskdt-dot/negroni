@@ -3,11 +3,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
-import { recipes } from '@/data/recipes';
+import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import MapLeaflet from '@/components/MapLeaflet';
 
 export default function RecipesPage() {
   const { t } = useI18n();
+  const { recipes } = usePublicRecipes();
   const [focusId, setFocusId] = useState<string | null>(null);
   const [activeCity, setActiveCity] = useState<string | null>(null);
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');

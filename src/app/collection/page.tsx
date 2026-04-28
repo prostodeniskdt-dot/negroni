@@ -4,16 +4,18 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
+import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
+import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import {
-  recipes,
-  getAllRegions,
-  getAllTags,
-  getAllCategories,
-  getAllDifficulties,
-  filterRecipes,
   type RecipeEntry,
 } from '@/data/recipes';
+import {
+  filterRecipesFrom,
+  getAllCategoriesFrom,
+  getAllRegionsFrom,
+  getAllTagsFrom,
+} from '@/lib/public-recipes';
 
 const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
 
@@ -27,6 +29,7 @@ function getUniqueCitiesCount(entries: RecipeEntry[]): number {
 export default function CollectionPage() {
   const { t } = useI18n();
   const { isFavorite, toggle } = useFavorites();
+  const { recipes, source } = usePublicRecipes();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
@@ -40,13 +43,12 @@ export default function CollectionPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [sortBy, setSortBy] = useState<'name' | 'region' | 'difficulty'>('name');
 
-  const regions = useMemo(() => getAllRegions(), []);
-  const tags = useMemo(() => getAllTags(), []);
-  const categories = useMemo(() => getAllCategories(), []);
-  const difficulties = useMemo(() => getAllDifficulties(), []);
+  const regions = useMemo(() => getAllRegionsFrom(recipes), [recipes]);
+  const tags = useMemo(() => getAllTagsFrom(recipes), [recipes]);
+  const categories = useMemo(() => getAllCategoriesFrom(recipes), [recipes]);
 
   const filteredResults = useMemo(() => {
-    const results = filterRecipes({
+    const results = filterRecipesFrom(recipes, {
       query: searchQuery || undefined,
       region: selectedRegion || undefined,
       tags: activeTags.length > 0 ? activeTags : undefined,
@@ -88,11 +90,12 @@ export default function CollectionPage() {
     selectedCategory,
     selectedDifficulty,
     sortBy,
+    recipes,
   ]);
 
   const uniqueCitiesCount = useMemo(
     () => getUniqueCitiesCount(recipes),
-    []
+    [recipes]
   );
 
   const toggleTag = (tag: string) => {
@@ -295,6 +298,7 @@ export default function CollectionPage() {
 
         <p className="mt-4 text-[var(--color-text-muted)]">
           {t('collection.found')}: {filteredResults.length}
+          {source === 'db' ? ' · данные из редактора' : ''}
         </p>
       </Reveal>
 
@@ -312,12 +316,12 @@ export default function CollectionPage() {
                 href={`/recipe/${entry.id}`}
                 className="block group relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] transition-all duration-[var(--transition-base)] hover:-translate-y-1 hover:border-[var(--color-campari)] hover:shadow-[var(--shadow-lg),0_0_24px_rgba(187,10,48,0.15)]"
               >
-                <div
-                  className="card-media aspect-[4/3] bg-cover bg-center"
-                  style={{ backgroundImage: `url(${entry.recipe.image})` }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-60" />
-                </div>
+                <PublicRecipeImage
+                  src={entry.recipe.image}
+                  alt={entry.recipe.name}
+                  className="card-media aspect-[4/3]"
+                  overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-60" />}
+                />
                 <div className="relative p-5">
                   <button
                     type="button"

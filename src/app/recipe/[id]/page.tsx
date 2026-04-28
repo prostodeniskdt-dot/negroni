@@ -2,29 +2,27 @@
 
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useCallback, useMemo, useState } from 'react';
 import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
+import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
-import {
-  getRecipeById,
-  recipes,
-  type Prebatch,
-  type RecipeEntry,
-} from '@/data/recipes';
+import { PublicRecipeImage } from '@/components/PublicRecipeImage';
+import { type Prebatch, type RecipeEntry } from '@/data/recipes';
+import { getRecipeByIdFrom } from '@/lib/public-recipes';
 
 const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
 
 function getRelatedRecipes(
+  entries: RecipeEntry[],
   currentId: string,
   currentRegion: string,
   limit: number = 3
 ): RecipeEntry[] {
-  const sameRegion = recipes.filter(
+  const sameRegion = entries.filter(
     (r) => r.id !== currentId && r.recipe.region === currentRegion
   );
-  const others = recipes.filter(
+  const others = entries.filter(
     (r) => r.id !== currentId && r.recipe.region !== currentRegion
   );
   const combined = [...sameRegion, ...others];
@@ -36,12 +34,13 @@ export default function RecipePage() {
   const id = typeof params.id === 'string' ? params.id : params.id?.[0] ?? '';
   const { t } = useI18n();
   const { isFavorite, toggle } = useFavorites();
+  const { recipes } = usePublicRecipes();
   const [copyFeedback, setCopyFeedback] = useState<'copied' | 'error' | null>(null);
 
-  const entry = useMemo(() => getRecipeById(id), [id]);
+  const entry = useMemo(() => getRecipeByIdFrom(recipes, id), [id, recipes]);
   const related = useMemo(
-    () => (entry ? getRelatedRecipes(id, entry.recipe.region) : []),
-    [entry, id]
+    () => (entry ? getRelatedRecipes(recipes, id, entry.recipe.region) : []),
+    [entry, id, recipes]
   );
 
   const handleCopyLink = useCallback(() => {
@@ -277,16 +276,11 @@ export default function RecipePage() {
           {/* Right column (sidebar) */}
           <div className="space-y-6 order-first lg:order-none">
             <Reveal>
-              <div className="relative aspect-[4/3] rounded-[var(--radius-md)] overflow-hidden border border-[var(--color-border)]">
-                <Image
-                  src={recipe.image}
-                  alt={recipe.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                  priority
-                />
-              </div>
+              <PublicRecipeImage
+                src={recipe.image}
+                alt={recipe.name}
+                className="aspect-[4/3] rounded-[var(--radius-md)] border border-[var(--color-border)]"
+              />
             </Reveal>
 
             <Reveal>
@@ -440,15 +434,11 @@ export default function RecipePage() {
                 href={`/recipe/${r.id}`}
                 className="block p-4 bg-[var(--color-bg)]/30 border border-[var(--color-border)] rounded-[var(--radius-md)] hover:border-[var(--color-campari)] hover:-translate-y-0.5 transition-all group"
               >
-                <div className="aspect-[4/3] relative rounded overflow-hidden mb-3">
-                  <Image
-                    src={r.recipe.image}
-                    alt={r.recipe.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 640px) 100vw, 280px"
-                  />
-                </div>
+                <PublicRecipeImage
+                  src={r.recipe.image}
+                  alt={r.recipe.name}
+                  className="aspect-[4/3] rounded mb-3"
+                />
                 <h4 className="font-[var(--font-display)] font-bold text-[var(--color-text-primary)]">
                   {r.recipe.name}
                 </h4>

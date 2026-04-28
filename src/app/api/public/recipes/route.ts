@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { recipes as staticRecipes } from '@/data/recipes';
+import { dbRecipeToEntry, staticPublicRecipes } from '@/lib/public-recipes';
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -10,13 +10,7 @@ export async function GET(req: Request) {
   if (!useDb) {
     // Minimal compatibility response
     return NextResponse.json({
-      recipes: staticRecipes.map((r) => ({
-        slug: r.id,
-        city: r.city,
-        lat: r.lat,
-        lng: r.lng,
-        recipe: r.recipe,
-      })),
+      recipes: staticPublicRecipes(),
       source: 'static',
     });
   }
@@ -26,6 +20,6 @@ export async function GET(req: Request) {
     orderBy: { updatedAt: 'desc' },
   });
 
-  return NextResponse.json({ recipes: list, source: 'db' });
+  return NextResponse.json({ recipes: list.map(dbRecipeToEntry), source: 'db' });
 }
 

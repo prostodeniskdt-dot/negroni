@@ -4,14 +4,17 @@ import { useCallback } from 'react';
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
-import { recipes, getRecipeById } from '@/data/recipes';
+import { usePublicRecipes } from '@/hooks/usePublicRecipes';
+import { PublicRecipeImage } from '@/components/PublicRecipeImage';
+import { getRecipeByIdFrom } from '@/lib/public-recipes';
 
 export default function FavoritesPage() {
   const { t } = useI18n();
   const { favorites, remove, clear } = useFavorites();
+  const { recipes } = usePublicRecipes();
 
   const favoriteEntries = favorites
-    .map((id) => getRecipeById(id))
+    .map((id) => getRecipeByIdFrom(recipes, id))
     .filter((entry): entry is NonNullable<typeof entry> => !!entry);
 
   const handleExport = useCallback(() => {
@@ -135,12 +138,12 @@ export default function FavoritesPage() {
                 className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] transition-all duration-[var(--transition-base)] hover:border-[var(--color-campari)] group"
               >
                 <Link href={`/recipe/${entry.id}`} className="block">
-                  <div
-                    className="relative aspect-[4/3] bg-cover bg-center"
-                    style={{ backgroundImage: `url(${entry.recipe.image})` }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-60" />
-                  </div>
+                  <PublicRecipeImage
+                    src={entry.recipe.image}
+                    alt={entry.recipe.name}
+                    className="aspect-[4/3]"
+                    overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-60" />}
+                  />
                   <div className="relative p-5">
                     <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">
                       {entry.recipe.region}

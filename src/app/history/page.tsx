@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
+import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
-import { getRecipeById } from '@/data/recipes';
+import { PublicRecipeImage } from '@/components/PublicRecipeImage';
+import { getRecipeByIdFrom } from '@/lib/public-recipes';
 
 const timelineEvents = [
   { year: '1860', key: '1860', image: null, link: null },
@@ -18,7 +20,8 @@ const timelineEvents = [
 
 export default function HistoryPage() {
   const { t, lang } = useI18n();
-  const classicRecipe = getRecipeById('classic');
+  const { recipes } = usePublicRecipes();
+  const classicRecipe = getRecipeByIdFrom(recipes, 'classic');
 
   return (
     <>
@@ -69,13 +72,11 @@ export default function HistoryPage() {
                     {t(`history.${event.key}.desc`)}
                   </p>
                   {hasImage && (
-                    <div className="mb-4 overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)]">
-                      <img
-                        src={classicRecipe.recipe.image}
-                        alt=""
-                        className="w-full aspect-[4/3] object-cover"
-                      />
-                    </div>
+                    <PublicRecipeImage
+                      src={classicRecipe.recipe.image}
+                      alt={classicRecipe.recipe.name}
+                      className="mb-4 aspect-[4/3] rounded-[var(--radius-md)] border border-[var(--color-border)]"
+                    />
                   )}
                   {hasLink && (
                     <Link

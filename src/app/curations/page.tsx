@@ -2,12 +2,15 @@
 
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
+import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
+import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import { curations } from '@/data/curations';
-import { getRecipeById } from '@/data/recipes';
+import { getRecipeByIdFrom } from '@/lib/public-recipes';
 
 export default function CurationsPage() {
   const { t, lang } = useI18n();
+  const { recipes } = usePublicRecipes();
 
   return (
     <>
@@ -30,7 +33,7 @@ export default function CurationsPage() {
       <section className="px-6 py-10 max-w-[1200px] mx-auto space-y-10">
         {curations.map((curation, idx) => {
           const curationRecipes = curation.recipeIds
-            .map((id) => getRecipeById(id))
+            .map((id) => getRecipeByIdFrom(recipes, id))
             .filter(Boolean);
 
           return (
@@ -57,12 +60,12 @@ export default function CurationsPage() {
                         href={`/recipe/${entry.id}`}
                         className="block group relative overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/30 transition-all hover:-translate-y-1 hover:border-[var(--color-campari)] hover:shadow-[var(--shadow-md)]"
                       >
-                        <div
-                          className="aspect-[4/3] bg-cover bg-center relative"
-                          style={{ backgroundImage: `url(${entry.recipe.image})` }}
-                        >
-                          <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-50" />
-                        </div>
+                        <PublicRecipeImage
+                          src={entry.recipe.image}
+                          alt={entry.recipe.name}
+                          className="aspect-[4/3]"
+                          overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-50" />}
+                        />
                         <div className="p-4">
                           <span className="inline-block text-[0.65rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-1.5">
                             {entry.recipe.region}

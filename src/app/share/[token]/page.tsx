@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/db';
+import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 
 export const dynamic = 'force-dynamic';
 
@@ -79,12 +80,12 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
               href={`/recipe/${r.slug}`}
               className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] transition-all duration-[var(--transition-base)] hover:border-[var(--color-campari)] group"
             >
-              <div
-                className="relative aspect-[4/3] bg-cover bg-center"
-                style={{ backgroundImage: `url(${r.image})` }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-60" />
-              </div>
+              <PublicRecipeImage
+                src={r.image}
+                alt={r.name}
+                className="aspect-[4/3]"
+                overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-60" />}
+              />
               <div className="relative p-5">
                 <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">
                   {r.region}

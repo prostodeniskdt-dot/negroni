@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
-import { getRecipeById } from '@/data/recipes';
+import { usePublicRecipes } from '@/hooks/usePublicRecipes';
+import { getRecipeByIdFrom } from '@/lib/public-recipes';
 
 const FEATURED_IDS = ['classic', 'moscow', 'spb', 'yaroslavl', 'kazan', 'sochi', 'ekb'] as const;
 
 export function TeaserCollection() {
   const { t } = useI18n();
+  const { recipes } = usePublicRecipes();
   const titleRef = useRef<HTMLDivElement>(null);
   const [titleVisible, setTitleVisible] = useState(false);
 
@@ -26,7 +28,7 @@ export function TeaserCollection() {
     return () => observer.disconnect();
   }, []);
 
-  const featured = FEATURED_IDS.map((id) => getRecipeById(id)).filter(Boolean);
+  const featured = FEATURED_IDS.map((id) => getRecipeByIdFrom(recipes, id)).filter(Boolean);
 
   return (
     <section
