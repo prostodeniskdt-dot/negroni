@@ -31,8 +31,26 @@ export interface Drink {
   nameEn: string;
   partnerId: string;
   image?: string;
+  tagline?: string;
+  taglineEn?: string;
   description: string;
   descriptionEn: string;
+  producer?: string;
+  producerEn?: string;
+  origin?: string;
+  originEn?: string;
+  abv?: string;
+  volume?: string;
+  tastingNotes?: string;
+  serve?: string;
+  serveEn?: string;
+  buyUrl?: string;
+  buyLabel?: string;
+  buyLabelEn?: string;
+  purchaseNote?: string;
+  purchaseNoteEn?: string;
+  recipeHints?: string;
+  sortOrder?: number;
 }
 
 // Партнёры (заглушки)
@@ -122,8 +140,26 @@ export const drinks: Drink[] = [
     nameEn: 'Classic Gin',
     partnerId: 'general',
     image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400',
+    tagline: 'Сухая база для канонического Негрони',
+    taglineEn: 'A dry base for a canonical Negroni',
     description: 'Универсальный лондонский сухой джин для классической тройки.',
     descriptionEn: 'Universal London dry gin for the classic trio.',
+    producer: 'Negroni Museum Selection',
+    producerEn: 'Negroni Museum Selection',
+    origin: 'Великобритания / учебная карточка',
+    originEn: 'United Kingdom / demo card',
+    abv: '40%',
+    volume: '700 мл',
+    tastingNotes: 'Можжевельник, лимонная цедра, сухие травы, чистый финиш',
+    serve: 'Лучше работает в классике 1:1:1 с красным вермутом и биттером.',
+    serveEn: 'Best in the 1:1:1 classic with red vermouth and bitter.',
+    buyUrl: 'https://barbossonline.ru/',
+    buyLabel: 'Уточнить у партнёра',
+    buyLabelEn: 'Ask partner',
+    purchaseNote: 'Заглушка карточки: здесь будет ссылка на магазин, дистрибьютора или страницу бренда.',
+    purchaseNoteEn: 'Demo card: this place will contain a store, distributor or brand link.',
+    recipeHints: 'classic-negroni,moscow-negroni',
+    sortOrder: 10,
   },
   {
     id: 'gin-floral',
@@ -132,8 +168,26 @@ export const drinks: Drink[] = [
     nameEn: 'Floral Gin',
     partnerId: 'partner-gin',
     image: 'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400',
+    tagline: 'Для мягких авторских твистов',
+    taglineEn: 'For soft signature twists',
     description: 'Цветочные и травяные ноты для более мягкого профиля.',
     descriptionEn: 'Floral and herbal notes for a softer profile.',
+    producer: 'Gin House',
+    producerEn: 'Gin House',
+    origin: 'Россия / демо-партнёр',
+    originEn: 'Russia / demo partner',
+    abv: '43%',
+    volume: '500 мл',
+    tastingNotes: 'Лаванда, ромашка, кориандр, цитрусовые корки',
+    serve: 'Подходит для белых и цветочных твистов Негрони.',
+    serveEn: 'Fits white and floral Negroni twists.',
+    buyUrl: 'https://barbossonline.ru/',
+    buyLabel: 'Где купить',
+    buyLabelEn: 'Where to buy',
+    purchaseNote: 'Добавьте контакты поставщика, условия заказа и географию доставки.',
+    purchaseNoteEn: 'Add supplier contacts, order terms and delivery geography.',
+    recipeHints: 'floral-negroni,white-negroni',
+    sortOrder: 20,
   },
   {
     id: 'gin-citrus',
@@ -152,8 +206,26 @@ export const drinks: Drink[] = [
     nameEn: 'Red Vermouth',
     partnerId: 'general',
     image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=400',
+    tagline: 'Сладкий вермут для классической связки',
+    taglineEn: 'Sweet vermouth for the classic build',
     description: 'Сладкий красный вермут — основа канонического Негрони.',
     descriptionEn: 'Sweet red vermouth — the base of the canonical Negroni.',
+    producer: 'Vermouth & Co',
+    producerEn: 'Vermouth & Co',
+    origin: 'Италия / учебная карточка',
+    originEn: 'Italy / demo card',
+    abv: '16%',
+    volume: '750 мл',
+    tastingNotes: 'Полынь, карамель, специи, апельсиновая корка',
+    serve: 'Охлаждать после открытия, использовать в классике и выдержанных вариациях.',
+    serveEn: 'Keep chilled after opening, use in classics and aged variations.',
+    buyUrl: 'https://barbossonline.ru/',
+    buyLabel: 'Перейти к партнёру',
+    buyLabelEn: 'Open partner page',
+    purchaseNote: 'Здесь можно разместить актуальную цену, город и способ покупки.',
+    purchaseNoteEn: 'Place current price, city and purchase method here.',
+    recipeHints: 'classic-negroni,barrel-negroni',
+    sortOrder: 10,
   },
   {
     id: 'vermouth-white',
@@ -182,8 +254,26 @@ export const drinks: Drink[] = [
     nameEn: 'Campari',
     partnerId: 'general',
     image: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=400',
+    tagline: 'Горькое сердце Негрони',
+    taglineEn: 'The bitter heart of Negroni',
     description: 'Классический итальянский биттер — неизменный ингредиент Негрони.',
     descriptionEn: 'Classic Italian bitter — the constant ingredient of the Negroni.',
+    producer: 'Bitter Lab',
+    producerEn: 'Bitter Lab',
+    origin: 'Италия / учебная карточка',
+    originEn: 'Italy / demo card',
+    abv: '25%',
+    volume: '700 мл',
+    tastingNotes: 'Горький апельсин, травы, коренья, красные ягоды',
+    serve: 'Использовать как основной горький компонент или сравнивать с локальными биттерами.',
+    serveEn: 'Use as the core bitter component or compare with local bitters.',
+    buyUrl: 'https://barbossonline.ru/',
+    buyLabel: 'Информация о покупке',
+    buyLabelEn: 'Purchase info',
+    purchaseNote: 'В реальной карточке будет ссылка на партнёрский каталог или форму заявки.',
+    purchaseNoteEn: 'A real card will link to the partner catalog or request form.',
+    recipeHints: 'classic-negroni,boulevardier',
+    sortOrder: 10,
   },
   {
     id: 'bitter-local',
@@ -230,10 +320,22 @@ export function getCategoryById(id: string): DrinkCategory | undefined {
   return drinkCategories.find((c) => c.id === id);
 }
 
+export function getCategoryBySlug(slug: string): DrinkCategory | undefined {
+  return drinkCategories.find((c) => c.slug === slug || c.id === slug);
+}
+
 export function getDrinksByCategory(categoryId: string): Drink[] {
-  return drinks.filter((d) => d.categoryId === categoryId);
+  return drinks
+    .filter((d) => d.categoryId === categoryId)
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || a.name.localeCompare(b.name, 'ru'));
 }
 
 export function getDrinkById(id: string): Drink | undefined {
   return drinks.find((d) => d.id === id);
+}
+
+export function getDrinkByCategoryAndId(categorySlug: string, drinkId: string): Drink | undefined {
+  const category = getCategoryBySlug(categorySlug);
+  if (!category) return undefined;
+  return drinks.find((d) => d.categoryId === category.id && d.id === drinkId);
 }

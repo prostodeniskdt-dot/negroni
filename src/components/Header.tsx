@@ -69,33 +69,44 @@ export default function Header() {
           : 'bg-transparent border-b border-transparent'
       }`}
     >
+      <a
+        href="https://barbossonline.ru/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute right-6 top-1 hidden md:inline-flex text-[9px] tracking-[0.24em] uppercase text-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-colors no-underline"
+      >
+        Бар Босс Онлайн
+      </a>
       <nav className="flex items-center justify-between px-6 py-4 md:px-8 lg:px-12">
-        <Link
-          href="/"
-          className="flex items-center gap-3 group shrink-0 no-underline"
-        >
-          <div className="relative w-8 h-8">
-            <div className="absolute inset-0 rounded-full bg-[var(--color-campari)]/20 animate-liquid-wave" />
-            <div className="absolute inset-1 rounded-full bg-[var(--color-campari)]/40 animate-liquid-wave [animation-delay:0.5s]" />
-            <div className="absolute inset-2 rounded-full bg-[var(--color-campari)]/70" />
-          </div>
-          <span className="flex flex-col leading-none">
+        <div className="flex items-center gap-3 shrink-0">
+          <Link
+            href="/"
+            className="flex items-center gap-3 group no-underline"
+          >
+            <div className="relative w-8 h-8">
+              <div className="absolute inset-0 rounded-full bg-[var(--color-campari)]/20 animate-liquid-wave" />
+              <div className="absolute inset-1 rounded-full bg-[var(--color-campari)]/40 animate-liquid-wave [animation-delay:0.5s]" />
+              <div className="absolute inset-2 rounded-full bg-[var(--color-campari)]/70" />
+            </div>
             <span className="font-[var(--font-display)] text-xl tracking-wide text-[var(--color-text-primary)] group-hover:text-[var(--color-campari)] transition-colors duration-500">
               {t('logo')}
             </span>
-            <span className="mt-1 text-[10px] tracking-[0.22em] uppercase text-[var(--color-text-secondary)]">
-              от{' '}
-              <a
-                href="https://barbossonline.ru/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[var(--color-text-muted)] underline decoration-[var(--color-campari)]/50 underline-offset-4 hover:text-[var(--color-campari)] transition-colors"
-              >
-                Бар Босс Онлайн
-              </a>
+          </Link>
+          <a
+            href="https://barbossonline.ru/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex flex-col leading-none no-underline"
+            aria-label="Бар Босс Онлайн"
+          >
+            <span className="text-[9px] tracking-[0.24em] uppercase text-[var(--color-text-secondary)]">
+              от
             </span>
-          </span>
-        </Link>
+            <span className="mt-1 text-[10px] tracking-[0.24em] uppercase text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors">
+              Бар Босс Онлайн
+            </span>
+          </a>
+        </div>
 
         <div className="hidden md:flex items-center gap-3 lg:gap-4">
           {navLinks.map((link) => (
@@ -270,6 +281,15 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <a
+            href="https://barbossonline.ru/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenuOpen(false)}
+            className="py-3 text-base tracking-widest uppercase text-[var(--color-campari)] hover:text-[var(--color-text-primary)] border-b border-[var(--color-border)]/30"
+          >
+            Бар Босс Онлайн
+          </a>
         </div>
       </div>
     </header>

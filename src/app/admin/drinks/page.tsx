@@ -12,7 +12,7 @@ export default async function AdminDrinksPage() {
   const drinks = await prisma.drink.findMany({
     where,
     orderBy: { updatedAt: 'desc' },
-    select: { id: true, name: true, partnerId: true, categoryId: true, status: true, updatedAt: true },
+    select: { id: true, name: true, partnerId: true, categoryId: true, status: true, updatedAt: true, buyUrl: true },
   });
 
   return (
@@ -41,9 +41,10 @@ export default async function AdminDrinksPage() {
       </div>
 
       <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)]">
-        <div className="grid grid-cols-[1.2fr_2fr_1fr_1fr] gap-3 px-4 py-3 border-b border-[var(--color-border)] text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">
+        <div className="grid grid-cols-[1.2fr_2fr_1fr_1fr_1fr] gap-3 px-4 py-3 border-b border-[var(--color-border)] text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">
           <div>ID</div>
           <div>Name</div>
+          <div>Buy link</div>
           <div>Status</div>
           <div>Updated</div>
         </div>
@@ -51,10 +52,11 @@ export default async function AdminDrinksPage() {
           <Link
             key={d.id}
             href={`/admin/drinks/${d.id}`}
-            className="grid grid-cols-[1.2fr_2fr_1fr_1fr] gap-3 px-4 py-3 border-b border-[var(--color-border)] hover:bg-[var(--color-bg)]/40 transition-colors"
+            className="grid grid-cols-[1.2fr_2fr_1fr_1fr_1fr] gap-3 px-4 py-3 border-b border-[var(--color-border)] hover:bg-[var(--color-bg)]/40 transition-colors"
           >
             <div className="text-sm text-[var(--color-text-muted)]">{d.id}</div>
             <div className="text-sm text-[var(--color-text-primary)] font-medium">{d.name}</div>
+            <div className="text-sm text-[var(--color-text-muted)]">{d.buyUrl ? 'есть' : 'нет'}</div>
             <div className="text-sm text-[var(--color-text-muted)]">{d.status}</div>
             <div className="text-sm text-[var(--color-text-muted)]">{new Date(d.updatedAt).toLocaleString('ru-RU')}</div>
           </Link>

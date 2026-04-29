@@ -678,11 +678,31 @@ function ImagePreview({
   onError: () => void;
   compact?: boolean;
 }) {
+  const [aspectRatio, setAspectRatio] = useState<string | undefined>();
+
+  useEffect(() => {
+    setAspectRatio(undefined);
+  }, [src]);
+
   return (
-    <div className={`${compact ? 'aspect-[4/3]' : 'aspect-[4/3]'} overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-bg)]/50`}>
+    <div
+      className={`${compact ? 'aspect-[4/3]' : 'aspect-[4/3]'} overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-bg)]/50`}
+      style={aspectRatio ? { aspectRatio } : undefined}
+    >
       {!imageFailed ? (
         // Use a plain img here: it previews freshly uploaded /uploads files without Next image cache/config friction.
-        <img src={src} alt={alt} onError={onError} className="h-full w-full object-cover" />
+        <img
+          src={src}
+          alt={alt}
+          onLoad={(event) => {
+            const image = event.currentTarget;
+            if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+              setAspectRatio(`${image.naturalWidth} / ${image.naturalHeight}`);
+            }
+          }}
+          onError={onError}
+          className="block h-full w-full object-contain"
+        />
       ) : (
         <div className="flex h-full flex-col items-center justify-center gap-2 p-4 text-center text-sm text-[var(--color-text-muted)]">
           <span className="font-semibold text-[var(--color-text-primary)]">Фото не открылось</span>

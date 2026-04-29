@@ -25,8 +25,26 @@ export default function EditDrinkClient({
     name: drink.name,
     nameEn: drink.nameEn,
     image: drink.image ?? '',
+    tagline: drink.tagline ?? '',
+    taglineEn: drink.taglineEn ?? '',
     description: drink.description,
     descriptionEn: drink.descriptionEn,
+    producer: drink.producer ?? '',
+    producerEn: drink.producerEn ?? '',
+    origin: drink.origin ?? '',
+    originEn: drink.originEn ?? '',
+    abv: drink.abv ?? '',
+    volume: drink.volume ?? '',
+    tastingNotes: drink.tastingNotes ?? '',
+    serve: drink.serve ?? '',
+    serveEn: drink.serveEn ?? '',
+    buyUrl: drink.buyUrl ?? '',
+    buyLabel: drink.buyLabel ?? '',
+    buyLabelEn: drink.buyLabelEn ?? '',
+    purchaseNote: drink.purchaseNote ?? '',
+    purchaseNoteEn: drink.purchaseNoteEn ?? '',
+    recipeHints: drink.recipeHints ?? '',
+    sortOrder: String(drink.sortOrder ?? 0),
     status: drink.status,
   });
 
@@ -46,8 +64,26 @@ export default function EditDrinkClient({
           name: form.name.trim(),
           nameEn: form.nameEn.trim(),
           image: form.image.trim() || null,
+          tagline: form.tagline.trim() || null,
+          taglineEn: form.taglineEn.trim() || null,
           description: form.description.trim(),
           descriptionEn: form.descriptionEn.trim(),
+          producer: form.producer.trim() || null,
+          producerEn: form.producerEn.trim() || null,
+          origin: form.origin.trim() || null,
+          originEn: form.originEn.trim() || null,
+          abv: form.abv.trim() || null,
+          volume: form.volume.trim() || null,
+          tastingNotes: form.tastingNotes.trim() || null,
+          serve: form.serve.trim() || null,
+          serveEn: form.serveEn.trim() || null,
+          buyUrl: form.buyUrl.trim() || null,
+          buyLabel: form.buyLabel.trim() || null,
+          buyLabelEn: form.buyLabelEn.trim() || null,
+          purchaseNote: form.purchaseNote.trim() || null,
+          purchaseNoteEn: form.purchaseNoteEn.trim() || null,
+          recipeHints: form.recipeHints.trim() || null,
+          sortOrder: Number(form.sortOrder) || 0,
           status: form.status,
         }),
       });
@@ -142,6 +178,16 @@ export default function EditDrinkClient({
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
+              <label className={label}>tagline</label>
+              <input className={input} value={form.tagline} onChange={(e) => onChange('tagline', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>taglineEn</label>
+              <input className={input} value={form.taglineEn} onChange={(e) => onChange('taglineEn', e.target.value)} />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
               <label className={label}>description</label>
               <textarea className={input} rows={4} value={form.description} onChange={(e) => onChange('description', e.target.value)} />
             </div>
@@ -149,6 +195,78 @@ export default function EditDrinkClient({
               <label className={label}>descriptionEn</label>
               <textarea className={input} rows={4} value={form.descriptionEn} onChange={(e) => onChange('descriptionEn', e.target.value)} />
             </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className={label}>producer</label>
+              <input className={input} value={form.producer} onChange={(e) => onChange('producer', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>producerEn</label>
+              <input className={input} value={form.producerEn} onChange={(e) => onChange('producerEn', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>origin</label>
+              <input className={input} value={form.origin} onChange={(e) => onChange('origin', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>originEn</label>
+              <input className={input} value={form.originEn} onChange={(e) => onChange('originEn', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>abv</label>
+              <input className={input} value={form.abv} onChange={(e) => onChange('abv', e.target.value)} placeholder="40%" />
+            </div>
+            <div>
+              <label className={label}>volume</label>
+              <input className={input} value={form.volume} onChange={(e) => onChange('volume', e.target.value)} placeholder="700 мл" />
+            </div>
+          </div>
+          <div>
+            <label className={label}>tasting notes (через запятую)</label>
+            <input className={input} value={form.tastingNotes} onChange={(e) => onChange('tastingNotes', e.target.value)} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className={label}>serve</label>
+              <textarea className={input} rows={3} value={form.serve} onChange={(e) => onChange('serve', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>serveEn</label>
+              <textarea className={input} rows={3} value={form.serveEn} onChange={(e) => onChange('serveEn', e.target.value)} />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className={label}>buyUrl</label>
+              <input className={input} value={form.buyUrl} onChange={(e) => onChange('buyUrl', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>buyLabel</label>
+              <input className={input} value={form.buyLabel} onChange={(e) => onChange('buyLabel', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>buyLabelEn</label>
+              <input className={input} value={form.buyLabelEn} onChange={(e) => onChange('buyLabelEn', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>sortOrder</label>
+              <input className={input} type="number" value={form.sortOrder} onChange={(e) => onChange('sortOrder', e.target.value)} />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className={label}>purchaseNote</label>
+              <textarea className={input} rows={3} value={form.purchaseNote} onChange={(e) => onChange('purchaseNote', e.target.value)} />
+            </div>
+            <div>
+              <label className={label}>purchaseNoteEn</label>
+              <textarea className={input} rows={3} value={form.purchaseNoteEn} onChange={(e) => onChange('purchaseNoteEn', e.target.value)} />
+            </div>
+          </div>
+          <div>
+            <label className={label}>recipeHints (ID рецептов или подсказки через запятую)</label>
+            <input className={input} value={form.recipeHints} onChange={(e) => onChange('recipeHints', e.target.value)} />
           </div>
           <div>
             <label className={label}>status</label>

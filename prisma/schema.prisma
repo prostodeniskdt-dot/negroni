@@ -188,8 +188,26 @@ model Drink {
   name          String
   nameEn        String
   image         String?
+  tagline       String?
+  taglineEn     String?
   description   String
   descriptionEn String
+  producer      String?
+  producerEn    String?
+  origin        String?
+  originEn      String?
+  abv           String?
+  volume        String?
+  tastingNotes  String?
+  serve         String?
+  serveEn       String?
+  buyUrl        String?
+  buyLabel      String?
+  buyLabelEn    String?
+  purchaseNote  String?
+  purchaseNoteEn String?
+  recipeHints   String?
+  sortOrder     Int           @default(0)
   status        ContentStatus @default(published)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt

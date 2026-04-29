@@ -1,0 +1,199 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import Reveal from '@/components/Reveal';
+import {
+  drinkCategories,
+  drinks,
+  getCategoryBySlug,
+  getDrinkByCategoryAndId,
+  getPartnerById,
+} from '@/data/partners';
+import { getRecipesForDrink } from '@/lib/recipe-queries';
+
+export function generateStaticParams() {
+  return drinks.flatMap((drink) => {
+    const category = drinkCategories.find((item) => item.id === drink.categoryId);
+    return category ? [{ category: category.slug, drink: drink.id }] : [];
+  });
+}
+
+export default async function PartnerDrinkPage({
+  params,
+}: {
+  params: Promise<{ category: string; drink: string }>;
+}) {
+  const { category: categorySlug, drink: drinkId } = await params;
+  const category = getCategoryBySlug(categorySlug);
+  const drink = getDrinkByCategoryAndId(categorySlug, drinkId);
+  if (!category || !drink) notFound();
+
+  const partner = getPartnerById(drink.partnerId);
+  const { recipes: recipeList, isGeneralPartner } = getRecipesForDrink(drink.id);
+  const tastingNotes = drink.tastingNotes
+    ?.split(',')
+    .map((note) => note.trim())
+    .filter(Boolean);
+
+  return (
+    <main className="min-h-screen pt-24">
+      <Reveal as="section" className="px-6 py-10 max-w-[1200px] mx-auto">
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/partners"
+            className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm text-[var(--color-text-muted)] hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-colors"
+          >
+            ← Все категории
+          </Link>
+          <Link
+            href={`/partners/${category.slug}`}
+            className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm text-[var(--color-text-muted)] hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-colors"
+          >
+            {category.name}
+          </Link>
+        </div>
+
+        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+          <div>
+            <span className="text-sm uppercase tracking-[0.24em] text-[var(--color-campari)]">
+              {partner?.name ?? 'Партнёрский продукт'}
+            </span>
+            <h1 className="mt-3 font-[var(--font-display)] text-[clamp(2.5rem,7vw,5.5rem)] font-bold uppercase leading-none text-[var(--color-text-primary)]">
+              {drink.name}
+            </h1>
+            {drink.tagline && (
+              <p className="mt-4 text-xl text-[var(--color-text-primary)]">
+                {drink.tagline}
+              </p>
+            )}
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)] font-[var(--font-serif)]">
+              {drink.description}
+            </p>
+
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              {[
+                ['Категория', category.name],
+                ['Крепость', drink.abv],
+                ['Объём', drink.volume],
+                ['Производитель', drink.producer],
+                ['Происхождение', drink.origin],
+                ['Партнёр', partner?.name],
+              ]
+                .filter(([, value]) => Boolean(value))
+                .map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4"
+                  >
+                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+                      {label}
+                    </p>
+                    <p className="mt-2 text-[var(--color-text-primary)]">{value}</p>
+                  </div>
+                ))}
+            </div>
+          </div>
+
+          <aside className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <div className="flex min-h-[360px] items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-bg)] p-4">
+              {drink.image ? (
+                <Image
+                  src={drink.image}
+                  alt={drink.name}
+                  width={720}
+                  height={720}
+                  className="max-h-[420px] w-full object-contain"
+                  sizes="(max-width: 1024px) 100vw, 420px"
+                  priority
+                />
+              ) : (
+                <div className="text-5xl">🍸</div>
+              )}
+            </div>
+
+            <div className="mt-5 space-y-4">
+              {drink.buyUrl && (
+                <a
+                  href={drink.buyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-campari)] px-5 py-3 text-sm font-semibold uppercase tracking-wider text-[var(--color-on-campari)] transition-colors hover:bg-[var(--color-campari-light)]"
+                >
+                  {drink.buyLabel ?? 'Где купить'}
+                </a>
+              )}
+              {drink.purchaseNote && (
+                <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
+                  {drink.purchaseNote}
+                </p>
+              )}
+            </div>
+          </aside>
+        </div>
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          <section className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+            <h2 className="font-[var(--font-display)] text-xl font-bold uppercase text-[var(--color-text-primary)]">
+              Вкус и подача
+            </h2>
+            {tastingNotes && tastingNotes.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {tastingNotes.map((note) => (
+                  <span
+                    key={note}
+                    className="rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-1.5 text-sm text-[var(--color-text-muted)]"
+                  >
+                    {note}
+                  </span>
+                ))}
+              </div>
+            )}
+            {drink.serve && (
+              <p className="mt-5 text-[var(--color-text-muted)] leading-relaxed">
+                {drink.serve}
+              </p>
+            )}
+          </section>
+
+          <section className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+            <h2 className="font-[var(--font-display)] text-xl font-bold uppercase text-[var(--color-text-primary)]">
+              В каких рецептах встречается
+            </h2>
+            {recipeList.length > 0 ? (
+              <div className="mt-4 space-y-3">
+                {recipeList.slice(0, 6).map((entry) => (
+                  <Link
+                    key={entry.id}
+                    href={`/recipe/${entry.id}`}
+                    className="block rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/50 p-4 transition-colors hover:border-[var(--color-campari)]"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-semibold text-[var(--color-text-primary)]">
+                          {entry.recipe.name}
+                        </p>
+                        <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+                          {entry.city}
+                          {entry.recipe.bar !== '—' && ` • ${entry.recipe.bar}`}
+                        </p>
+                      </div>
+                      {isGeneralPartner(entry) && (
+                        <span className="shrink-0 rounded-full bg-[var(--color-campari)]/15 px-2 py-1 text-xs text-[var(--color-campari)]">
+                          база
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-4 text-sm text-[var(--color-text-muted)]">
+                Пока рецепты не привязаны. Добавьте ключевые слова или ручные связи в следующем шаге CMS.
+              </p>
+            )}
+          </section>
+        </div>
+      </Reveal>
+    </main>
+  );
+}

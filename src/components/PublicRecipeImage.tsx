@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fallbackRecipeImage } from '@/lib/public-recipes';
 
 export function PublicRecipeImage({
@@ -15,15 +15,30 @@ export function PublicRecipeImage({
   overlay?: React.ReactNode;
 }) {
   const [failed, setFailed] = useState(false);
+  const [aspectRatio, setAspectRatio] = useState<string | undefined>();
   const resolvedSrc = !failed && src ? src : fallbackRecipeImage;
 
+  useEffect(() => {
+    setFailed(false);
+    setAspectRatio(undefined);
+  }, [src]);
+
   return (
-    <div className={`relative overflow-hidden bg-[var(--color-bg)] ${className}`}>
+    <div
+      className={`relative overflow-hidden bg-[var(--color-bg)] ${className}`}
+      style={aspectRatio ? { aspectRatio } : undefined}
+    >
       <img
         src={resolvedSrc}
         alt={alt}
+        onLoad={(event) => {
+          const image = event.currentTarget;
+          if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+            setAspectRatio(`${image.naturalWidth} / ${image.naturalHeight}`);
+          }
+        }}
         onError={() => setFailed(true)}
-        className="h-full w-full object-cover"
+        className="block h-full w-full object-contain"
         loading="lazy"
       />
       {overlay}

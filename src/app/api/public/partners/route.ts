@@ -16,7 +16,7 @@ export async function GET() {
   const [partners, categories, drinks] = await Promise.all([
     prisma.partner.findMany({ orderBy: { name: 'asc' } }),
     prisma.drinkCategory.findMany({ orderBy: { name: 'asc' } }),
-    prisma.drink.findMany({ where: { status: 'published' }, orderBy: { name: 'asc' } }),
+    prisma.drink.findMany({ where: { status: 'published' }, orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }] }),
   ]);
 
   return NextResponse.json({ partners, categories, drinks, source: 'db' });

@@ -10,8 +10,26 @@ const UpsertSchema = z.object({
   name: z.string().min(1),
   nameEn: z.string().min(1),
   image: z.string().nullable().optional(),
+  tagline: z.string().nullable().optional(),
+  taglineEn: z.string().nullable().optional(),
   description: z.string().min(1),
   descriptionEn: z.string().min(1),
+  producer: z.string().nullable().optional(),
+  producerEn: z.string().nullable().optional(),
+  origin: z.string().nullable().optional(),
+  originEn: z.string().nullable().optional(),
+  abv: z.string().nullable().optional(),
+  volume: z.string().nullable().optional(),
+  tastingNotes: z.string().nullable().optional(),
+  serve: z.string().nullable().optional(),
+  serveEn: z.string().nullable().optional(),
+  buyUrl: z.string().nullable().optional(),
+  buyLabel: z.string().nullable().optional(),
+  buyLabelEn: z.string().nullable().optional(),
+  purchaseNote: z.string().nullable().optional(),
+  purchaseNoteEn: z.string().nullable().optional(),
+  recipeHints: z.string().nullable().optional(),
+  sortOrder: z.coerce.number().int().default(0),
   status: z.enum(['draft', 'published', 'archived']).default('published'),
 });
 
@@ -31,7 +49,7 @@ export async function GET() {
   const list = await prisma.drink.findMany({
     where,
     orderBy: { updatedAt: 'desc' },
-    select: { id: true, name: true, partnerId: true, categoryId: true, status: true, updatedAt: true },
+    select: { id: true, name: true, partnerId: true, categoryId: true, status: true, updatedAt: true, buyUrl: true },
   });
   return NextResponse.json({ drinks: list });
 }
