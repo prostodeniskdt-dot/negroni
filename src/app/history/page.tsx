@@ -2,62 +2,124 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
 import { useI18n } from '@/hooks/useI18n';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import { getRecipeByIdFrom } from '@/lib/public-recipes';
 
+const HISTORY_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp'] as const;
+
 const timelineEvents = [
   {
     year: '1860',
     key: '1860',
-    imageSrc: '/images/Negronifon.png',
     link: null,
   },
   {
     year: '1919',
     key: '1919',
-    imageSrc: '/images/StoriNegroni.png',
     link: '/recipe/classic',
   },
   {
     year: '1920',
     key: '1920',
-    imageSrc: '/images/Negronifon.png',
     link: null,
   },
   {
     year: '1947',
     key: '1947',
-    imageSrc: '/images/StoriNegroni.png',
     link: null,
   },
   {
     year: '2000',
     key: '2000',
-    imageSrc: '/images/Negronifon.png',
     link: null,
   },
   {
     year: '2013',
     key: '2013',
-    imageSrc: '/images/StoriNegroni.png',
     link: null,
   },
   {
     year: '2024',
     key: '2024',
-    imageSrc: '/images/Negronifon.png',
     link: null,
   },
   {
     year: '2025',
     key: '2025',
-    imageSrc: '/images/StoriNegroni.png',
     link: '/collection',
   },
 ] as const;
+
+function HistoryHoverPopover({
+  imageKey,
+  alt,
+  year,
+  title,
+  lang,
+  priority,
+  align,
+}: {
+  imageKey: string;
+  alt: string;
+  year: string;
+  title: string;
+  lang: string;
+  priority: boolean;
+  align: 'left' | 'right';
+}) {
+  const [extIdx, setExtIdx] = useState(0);
+  const [broken, setBroken] = useState(false);
+  if (broken) return null;
+
+  const src = `/images/history/${imageKey}${HISTORY_IMAGE_EXTENSIONS[extIdx]}`;
+
+  return (
+    <div
+      className={`hidden md:block absolute top-6 ${
+        align === 'left' ? '-left-6 -translate-x-full' : '-right-6 translate-x-full'
+      } w-[280px] lg:w-[320px] pointer-events-none z-30 opacity-0 scale-[0.98] translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:scale-100 group-focus-within:translate-y-0`}
+      aria-hidden
+    >
+      <div className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-solid)] shadow-[var(--shadow-lg)]">
+        <div className="relative aspect-[4/3]">
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes="320px"
+            className="object-cover"
+            priority={priority}
+            onError={() => {
+              if (extIdx < HISTORY_IMAGE_EXTENSIONS.length - 1) {
+                setExtIdx((i) => i + 1);
+                return;
+              }
+              setBroken(true);
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.55)] via-transparent to-transparent" />
+        </div>
+        <div className="px-4 py-3">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-[0.7rem] tracking-[0.25em] uppercase text-[var(--color-accent)] font-semibold">
+              {year}
+            </span>
+            <span className="text-[0.7rem] text-[var(--color-text-secondary)]">
+              {lang === 'ru' ? 'Наведи' : 'Hover'}
+            </span>
+          </div>
+          <div className="mt-1 text-sm text-[var(--color-text-primary)] font-[var(--font-display)] uppercase tracking-wide line-clamp-2">
+            {title}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function HistoryPage() {
   const { t, lang } = useI18n();
@@ -94,7 +156,6 @@ export default function HistoryPage() {
           {timelineEvents.map((event, idx) => {
             const isLeft = idx % 2 === 0;
             const hasImage = classicRecipe && event.key === '1919';
-            const hasHoverImage = Boolean(event.imageSrc);
             const hasLink = event.link;
             return (
               <Reveal
@@ -153,43 +214,15 @@ export default function HistoryPage() {
                       </p>
 
                       {/* Hover image popover (desktop) */}
-                      {hasHoverImage && (
-                        <div
-                          className={`hidden md:block absolute top-6 ${
-                            isLeft ? '-left-6' : '-right-6'
-                          } translate-x-0 ${
-                            isLeft ? '-translate-x-full' : 'translate-x-full'
-                          } w-[280px] lg:w-[320px] pointer-events-none z-30 opacity-0 scale-[0.98] translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:scale-100 group-focus-within:translate-y-0`}
-                          aria-hidden
-                        >
-                          <div className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface-solid)] shadow-[var(--shadow-lg)]">
-                            <div className="relative aspect-[4/3]">
-                              <Image
-                                src={event.imageSrc}
-                                alt={t(`history.${event.key}.title`)}
-                                fill
-                                sizes="320px"
-                                className="object-cover"
-                                priority={idx < 2}
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.55)] via-transparent to-transparent" />
-                            </div>
-                            <div className="px-4 py-3">
-                              <div className="flex items-center justify-between gap-3">
-                                <span className="text-[0.7rem] tracking-[0.25em] uppercase text-[var(--color-accent)] font-semibold">
-                                  {event.year}
-                                </span>
-                                <span className="text-[0.7rem] text-[var(--color-text-secondary)]">
-                                  {lang === 'ru' ? 'Наведи' : 'Hover'}
-                                </span>
-                              </div>
-                              <div className="mt-1 text-sm text-[var(--color-text-primary)] font-[var(--font-display)] uppercase tracking-wide line-clamp-2">
-                                {t(`history.${event.key}.title`)}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
+                      <HistoryHoverPopover
+                        imageKey={event.key}
+                        alt={t(`history.${event.key}.title`)}
+                        year={event.year}
+                        title={t(`history.${event.key}.title`)}
+                        lang={lang}
+                        priority={idx < 2}
+                        align={isLeft ? 'left' : 'right'}
+                      />
 
                       {hasImage && (
                         <PublicRecipeImage
