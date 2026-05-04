@@ -48,6 +48,7 @@ export default function Header() {
 
   const navLinks = [
     { href: '/#about', label: t('nav.about') },
+    { href: '/russian-negroni-week', label: t('nav.rnw') || 'Russian Negroni Week' },
     { href: '/collection', label: t('nav.collection') },
     { href: '/curations', label: t('nav.curations') || 'Подборки' },
     { href: '/history', label: t('nav.history') },

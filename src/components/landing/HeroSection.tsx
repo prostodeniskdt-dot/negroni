@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
-const HERO_IMAGE_SRC = '/images/Negronifon.jpg';
+const HERO_IMAGE_SRC = '/images/Negronifon.png';
 const HERO_IMAGE_ALT = 'Negroni фон';
 
 function useAnimatedCounter(target: number, duration: number, start: boolean) {

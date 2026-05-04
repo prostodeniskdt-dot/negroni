@@ -1,6 +1,7 @@
 const ru: Record<string, string> = {
   // Nav
   'nav.about': 'О проекте',
+  'nav.rnw': 'Russian Negroni Week',
   'nav.collection': 'Коллекция',
   'nav.map': 'Карта',
   'nav.history': 'История',

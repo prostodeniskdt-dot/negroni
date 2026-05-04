@@ -40,8 +40,13 @@ export default function HistoryPage() {
 
       {/* Timeline */}
       <Reveal as="section" className="px-6 py-12 max-w-[900px] mx-auto relative">
+        {/* Ambient backdrop for depth */}
         <div
-          className="absolute left-1/2 top-0 bottom-0 w-px bg-[var(--color-campari)]/40 -translate-x-1/2 hidden md:block"
+          className="absolute -top-16 left-1/2 -translate-x-1/2 w-[min(980px,95vw)] h-[520px] bg-[radial-gradient(ellipse_at_center,rgba(248,207,44,0.07)_0%,transparent_60%)] blur-2xl pointer-events-none"
+          aria-hidden
+        />
+        <div
+          className="absolute left-1/2 top-0 bottom-0 w-px bg-[linear-gradient(to_bottom,transparent,rgba(187,10,48,0.6),transparent)] -translate-x-1/2 hidden md:block"
           aria-hidden
         />
         <div className="space-y-12 md:space-y-16">
@@ -62,32 +67,82 @@ export default function HistoryPage() {
                     isLeft ? 'md:text-right md:pr-8' : 'md:text-left md:pl-8'
                   }`}
                 >
-                  <span className="inline-block text-[var(--color-accent)] font-[var(--font-display)] font-bold text-xl mb-2">
-                    {event.year}
-                  </span>
-                  <h2 className="font-[var(--font-display)] text-lg font-semibold uppercase tracking-wide mb-2 text-[var(--color-text-primary)]">
-                    {t(`history.${event.key}.title`)}
-                  </h2>
-                  <p className="text-[var(--color-text-muted)] text-[0.95rem] leading-relaxed mb-4">
-                    {t(`history.${event.key}.desc`)}
-                  </p>
-                  {hasImage && (
-                    <PublicRecipeImage
-                      src={classicRecipe.recipe.image}
-                      alt={classicRecipe.recipe.name}
-                      className="mb-4 aspect-[4/3] rounded-[var(--radius-md)] border border-[var(--color-border)]"
+                  <div className="relative rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-sm)] overflow-hidden transition-all hover:-translate-y-0.5 hover:border-[var(--color-campari)]/45 hover:shadow-[var(--shadow-md)]">
+                    <div
+                      className={`absolute inset-0 opacity-0 transition-opacity pointer-events-none ${
+                        hasImage ? 'group-hover:opacity-100' : ''
+                      }`}
+                      aria-hidden
                     />
-                  )}
-                  {hasLink && (
-                    <Link
-                      href={event.link!}
-                      className="inline-flex items-center gap-1 text-[var(--color-campari-light)] hover:text-[var(--color-accent)] transition-colors font-medium text-sm"
-                    >
-                      {t(`history.${event.key}.link`)}
-                    </Link>
-                  )}
+                    {/* Accent strip */}
+                    <div
+                      className={`absolute top-0 h-full w-[3px] bg-[linear-gradient(to_bottom,rgba(187,10,48,0.0),rgba(187,10,48,0.9),rgba(248,207,44,0.75),rgba(187,10,48,0.0))] ${
+                        isLeft ? 'right-0' : 'left-0'
+                      }`}
+                      aria-hidden
+                    />
+                    {/* Soft corner glow */}
+                    <div
+                      className={`absolute -top-20 ${
+                        isLeft ? '-left-16' : '-right-16'
+                      } w-72 h-72 bg-[radial-gradient(circle,rgba(187,10,48,0.22)_0%,transparent_60%)] blur-2xl pointer-events-none`}
+                      aria-hidden
+                    />
+
+                    <div className="p-6 md:p-7">
+                      <div
+                        className={`flex items-baseline gap-3 ${
+                          isLeft ? 'md:flex-row-reverse' : ''
+                        }`}
+                      >
+                        <span className="inline-flex items-center justify-center h-7 px-3 rounded-full bg-[var(--color-bg)]/30 border border-[var(--color-border)] text-[var(--color-accent)] font-[var(--font-display)] font-bold text-sm tracking-wide">
+                          {event.year}
+                        </span>
+                        <h2 className="font-[var(--font-display)] text-lg font-semibold uppercase tracking-wide text-[var(--color-text-primary)]">
+                          {t(`history.${event.key}.title`)}
+                        </h2>
+                      </div>
+
+                      <p className="mt-3 text-[var(--color-text-muted)] text-[0.95rem] leading-relaxed">
+                        {t(`history.${event.key}.desc`)}
+                      </p>
+
+                      {hasImage && (
+                        <PublicRecipeImage
+                          src={classicRecipe.recipe.image}
+                          alt={classicRecipe.recipe.name}
+                          className="mt-5 aspect-[4/3] rounded-[var(--radius-md)] border border-[var(--color-border)]"
+                          overlay={
+                            <div
+                              className={`absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-45`}
+                            />
+                          }
+                        />
+                      )}
+
+                      {hasLink && (
+                        <div className={`mt-5 ${isLeft ? 'md:text-right' : ''}`}>
+                          <Link
+                            href={event.link!}
+                            className="inline-flex items-center gap-1 text-[var(--color-campari-light)] hover:text-[var(--color-accent)] transition-colors font-medium text-sm"
+                          >
+                            {t(`history.${event.key}.link`)}
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <div className="absolute left-1/2 top-6 -translate-x-1/2 w-3 h-3 rounded-full bg-[var(--color-campari)] border-2 border-[var(--color-bg)] hidden md:block" />
+
+                {/* Timeline marker */}
+                <div
+                  className="absolute left-1/2 top-8 -translate-x-1/2 hidden md:block"
+                  aria-hidden
+                >
+                  <div className="w-4 h-4 rounded-full bg-[var(--color-bg)] border border-[var(--color-border)]" />
+                  <div className="absolute inset-0 rounded-full bg-[var(--color-campari)] opacity-80 animate-pulse-glow" />
+                  <div className="absolute inset-0 rounded-full border border-[var(--color-accent)]/40 scale-[1.85]" />
+                </div>
               </Reveal>
             );
           })}
