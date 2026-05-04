@@ -47,8 +47,8 @@ export default function Header() {
   }, [pathname]);
 
   const navLinks = [
+    { href: '/russian-negroni-week', label: t('nav.rnw') || 'Russian Negroni Week', tone: 'primary' as const },
     { href: '/#about', label: t('nav.about') },
-    { href: '/russian-negroni-week', label: t('nav.rnw') || 'Russian Negroni Week' },
     { href: '/collection', label: t('nav.collection') },
     { href: '/curations', label: t('nav.curations') || 'Подборки' },
     { href: '/history', label: t('nav.history') },
@@ -102,20 +102,32 @@ export default function Header() {
         </div>
 
         <div className="hidden md:flex items-center gap-3 lg:gap-4">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`relative text-sm tracking-widest uppercase transition-colors duration-500 group ${
-                pathname === link.href
-                  ? 'text-[var(--color-text-primary)]'
-                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'
-              }`}
-            >
-              {link.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-[var(--color-campari)] group-hover:w-full transition-all duration-500" />
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            const isPrimary = link.tone === 'primary';
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={
+                  isPrimary
+                    ? `relative text-sm tracking-widest uppercase transition-all duration-500 rounded-full px-4 py-2 border border-white/70 text-white hover:border-white hover:shadow-[0_0_22px_rgba(255,255,255,0.22)] hover:bg-white/5 ${
+                        isActive ? 'shadow-[0_0_26px_rgba(255,255,255,0.25)]' : ''
+                      }`
+                    : `relative text-sm tracking-widest uppercase transition-colors duration-500 group ${
+                        isActive
+                          ? 'text-[var(--color-text-primary)]'
+                          : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'
+                      }`
+                }
+              >
+                {link.label}
+                {!isPrimary && (
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[var(--color-campari)] group-hover:w-full transition-all duration-500" />
+                )}
+              </Link>
+            );
+          })}
 
           <Link
             href="/favorites"

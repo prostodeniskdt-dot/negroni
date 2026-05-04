@@ -9,7 +9,7 @@ const en: Record<string, string> = {
   'logo': 'Negroni Museum',
   'hero.label': 'Online collection',
   'hero.title': 'Negroni',
-  'hero.subtitle': 'The Negroni Museum',
+  'hero.subtitle': 'The Museum',
   'hero.desc': 'Classic Negroni recipes and modern twists from Russia and the CIS',
   'hero.cta': 'Open recipes map',
   'hero.secondary': 'Browse full collection',

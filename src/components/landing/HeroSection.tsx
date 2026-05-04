@@ -157,8 +157,8 @@ export function HeroSection() {
           </span>
         </div>
 
-        <h1 className="mt-8 font-[var(--font-display)] text-5xl md:text-7xl lg:text-9xl font-bold leading-[1.02] tracking-tight text-balance">
-          <span className="block text-[var(--color-text-primary)] overflow-hidden">
+        <h1 className="mt-8 font-[var(--font-display)] text-5xl md:text-7xl lg:text-9xl font-bold leading-[1.06] tracking-tight text-balance">
+          <span className="block text-[var(--color-text-primary)] overflow-visible pb-4">
             <span
               className={`inline-block transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
                 loaded ? 'translate-y-0 opacity-100' : 'translate-y-[120%] opacity-0'
