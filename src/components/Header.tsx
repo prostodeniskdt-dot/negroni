@@ -69,14 +69,6 @@ export default function Header() {
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <a
-        href="https://barbossonline.ru/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute right-6 top-1 hidden md:inline-flex text-[9px] tracking-[0.24em] uppercase text-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-colors no-underline"
-      >
-        Бар Босс Онлайн
-      </a>
       <nav className="flex items-center justify-between px-6 py-4 md:px-8 lg:px-12">
         <div className="flex items-center gap-3 shrink-0">
           <Link

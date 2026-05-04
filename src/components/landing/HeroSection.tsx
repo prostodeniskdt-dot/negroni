@@ -43,7 +43,7 @@ export function HeroSection() {
 
   const recipesCount = useAnimatedCounter(100, 2000, loaded);
   const citiesCount = useAnimatedCounter(27, 1800, loaded);
-  const yearCount = useAnimatedCounter(1919, 2200, loaded);
+  const yearCount = useAnimatedCounter(2025, 2200, loaded);
 
   useEffect(() => {
     setLoaded(true);
@@ -152,7 +152,7 @@ export function HeroSection() {
         >
           <span className="inline-flex items-center gap-3 text-xs tracking-[0.35em] uppercase text-[var(--color-campari)]">
             <span className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-campari)]/60 to-transparent shimmer-line" />
-            EST. 1919
+            EST. 2025
             <span className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-campari)]/60 to-transparent shimmer-line" />
           </span>
         </div>
