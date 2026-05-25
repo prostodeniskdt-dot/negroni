@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
@@ -35,17 +35,17 @@ export function TeaserAbout() {
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
         }`}
       >
-        <h2 className="font-[var(--font-display)] text-2xl font-bold tracking-wide mb-4 text-[var(--color-text-primary)]">
+        <h2 className="font-display text-2xl font-bold tracking-wide mb-4 text-[var(--color-text-primary)]">
           {t('about.title')}
         </h2>
-        <p className="text-[var(--color-text-muted)] font-[var(--font-serif)] text-[0.95rem] leading-[1.75] mb-3">
+        <p className="type-prose text-[var(--color-text-muted)] text-[0.95rem] mb-3">
           {t('about.p1')}
         </p>
-        <p className="text-[var(--color-text-muted)] font-[var(--font-serif)] text-[0.95rem] leading-[1.75] mb-3">
+        <p className="type-prose text-[var(--color-text-muted)] text-[0.95rem] mb-3">
           {t('about.p2')}
         </p>
         <p
-          className="text-[var(--color-text-muted)] font-[var(--font-serif)] text-[0.95rem] leading-[1.75] mb-4"
+          className="type-prose text-[var(--color-text-muted)] text-[0.95rem] mb-4"
           dangerouslySetInnerHTML={{ __html: t('about.p3') }}
         />
         <p>

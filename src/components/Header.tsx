@@ -70,18 +70,14 @@ export default function Header() {
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <nav className="flex items-center justify-between px-6 py-4 md:px-8 lg:px-12">
-        <div className="flex items-center gap-3 shrink-0">
+      <nav className="flex items-center justify-between gap-3 px-6 py-3 md:px-8 lg:px-12 min-h-[var(--header-height)]">
+        <div className="flex items-center gap-3 min-w-0 shrink">
           <Link
             href="/"
             className="flex items-center gap-3 group no-underline"
           >
-            <div className="relative w-8 h-8">
-              <div className="absolute inset-0 rounded-full bg-[var(--color-campari)]/20 animate-liquid-wave" />
-              <div className="absolute inset-1 rounded-full bg-[var(--color-campari)]/40 animate-liquid-wave [animation-delay:0.5s]" />
-              <div className="absolute inset-2 rounded-full bg-[var(--color-campari)]/70" />
-            </div>
-            <span className="font-[var(--font-display)] text-xl tracking-wide text-[var(--color-text-primary)] group-hover:text-[var(--color-campari)] transition-colors duration-500">
+            <div className="w-px h-7 bg-gradient-to-b from-transparent via-[var(--color-accent)] to-transparent opacity-80" aria-hidden />
+            <span className="font-display text-xl md:text-2xl font-light tracking-[var(--letter-spacing-hero)] text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors duration-500 leading-tight">
               {t('logo')}
             </span>
           </Link>
@@ -89,19 +85,19 @@ export default function Header() {
             href="https://barbossonline.ru/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex flex-col leading-none no-underline"
+            className="hidden sm:inline-flex flex-col gap-0.5 leading-snug no-underline shrink-0"
             aria-label="Бар Босс Онлайн"
           >
-            <span className="text-[9px] tracking-[0.24em] uppercase text-[var(--color-text-secondary)]">
+            <span className="type-label text-[0.65rem] tracking-[0.16em] text-[var(--color-text-secondary)]">
               от
             </span>
-            <span className="mt-1 text-[10px] tracking-[0.24em] uppercase text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors">
+            <span className="type-label text-[0.65rem] tracking-[0.12em] text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
               Бар Босс Онлайн
             </span>
           </a>
         </div>
 
-        <div className="hidden md:flex items-center gap-3 lg:gap-4">
+        <div className="hidden xl:flex flex-wrap items-center justify-end gap-1.5 2xl:gap-2 min-w-0 flex-1 max-w-[62%]">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             const isPrimary = link.tone === 'primary';
@@ -111,10 +107,10 @@ export default function Header() {
                 href={link.href}
                 className={
                   isPrimary
-                    ? `relative text-sm tracking-widest uppercase transition-all duration-500 rounded-full px-4 py-2 border border-white/70 text-white hover:border-white hover:shadow-[0_0_22px_rgba(255,255,255,0.22)] hover:bg-white/5 ${
-                        isActive ? 'shadow-[0_0_26px_rgba(255,255,255,0.25)]' : ''
+                    ? `type-nav relative rounded-full px-3 py-1.5 border border-[var(--color-accent)]/40 text-[var(--color-accent)] hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 transition-all duration-500 ${
+                        isActive ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/8' : ''
                       }`
-                    : `relative text-sm tracking-widest uppercase transition-colors duration-500 group ${
+                    : `type-nav relative transition-colors duration-500 group ${
                         isActive
                           ? 'text-[var(--color-text-primary)]'
                           : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'
@@ -123,7 +119,7 @@ export default function Header() {
               >
                 {link.label}
                 {!isPrimary && (
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[var(--color-campari)] group-hover:w-full transition-all duration-500" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[var(--color-accent)] group-hover:w-full transition-all duration-500" />
                 )}
               </Link>
             );
@@ -138,7 +134,7 @@ export default function Header() {
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
             {favCount > 0 && (
-              <span className="absolute -top-0.5 -right-1 bg-[var(--color-campari)] text-[var(--color-on-campari)] text-[0.6rem] font-bold min-w-[14px] h-[14px] rounded-full flex items-center justify-center leading-none">
+              <span className="absolute -top-0.5 -right-1 bg-[var(--color-campari)] text-[var(--color-on-campari)] text-[0.6rem] font-bold min-w-[14px] h-[14px] rounded-full flex items-center justify-center leading-none font-body">
                 {favCount}
               </span>
             )}
@@ -199,14 +195,14 @@ export default function Header() {
 
           <Link
             href="/recipes"
-            className="ml-2 px-5 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-campari)]/40 text-[var(--color-campari)] bg-transparent hover:bg-[var(--color-campari)] hover:text-[var(--color-on-campari)] transition-all duration-500 no-underline"
+            className="type-nav ml-2 px-4 py-2 tracking-[var(--letter-spacing-label)] border border-[var(--color-accent)]/50 text-[var(--color-accent)] bg-transparent hover:bg-[var(--color-accent)] hover:text-[var(--color-accent-contrast)] transition-all duration-500 no-underline shrink-0"
             aria-label={t('nav.map')}
           >
             {t('nav.map')}
           </Link>
         </div>
 
-        <div className="flex md:hidden items-center gap-2">
+        <div className="flex xl:hidden items-center gap-2 shrink-0">
           <Link href="/favorites" className="relative p-2 text-[var(--color-text-muted)]" aria-label={t('nav.favorites')}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
             {favCount > 0 && (
@@ -271,17 +267,17 @@ export default function Header() {
       </nav>
 
       <div
-        className={`md:hidden overflow-hidden transition-all duration-500 ${
-          menuOpen ? 'max-h-[320px] opacity-100' : 'max-h-0 opacity-0'
+        className={`xl:hidden overflow-hidden transition-all duration-500 ${
+          menuOpen ? 'max-h-[min(80vh,32rem)] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="px-6 pb-6 bg-[var(--color-bg)]/95 backdrop-blur-xl flex flex-col gap-2 border-t border-[var(--color-border)]">
+        <div className="px-6 pb-6 bg-[var(--color-bg)]/95 backdrop-blur-xl flex flex-col gap-2 border-t border-[var(--color-border)] overflow-y-auto max-h-[min(80vh,32rem)]">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="py-3 text-base tracking-widest uppercase text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] border-b border-[var(--color-border)]/30"
+              className="py-3 type-nav text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] border-b border-[var(--color-border)]/30"
             >
               {link.label}
             </Link>
@@ -291,7 +287,7 @@ export default function Header() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMenuOpen(false)}
-            className="py-3 text-base tracking-widest uppercase text-[var(--color-campari)] hover:text-[var(--color-text-primary)] border-b border-[var(--color-border)]/30"
+            className="py-3 type-nav text-[var(--color-campari)] hover:text-[var(--color-text-primary)] border-b border-[var(--color-border)]/30"
           >
             Бар Босс Онлайн
           </a>

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 
 export default function RussianNegroniWeekPage() {
@@ -16,10 +16,10 @@ export default function RussianNegroniWeekPage() {
           <span className="inline-flex items-center gap-3 text-xs tracking-[0.35em] uppercase text-[var(--color-campari)]">
             Project
           </span>
-          <h1 className="mt-4 font-[var(--font-display)] text-[clamp(2.2rem,6vw,4.5rem)] font-bold uppercase tracking-wide text-[var(--color-text-primary)]">
+          <h1 className="type-page-title mt-4 text-[clamp(2.2rem,6vw,4.5rem)] text-[var(--color-text-primary)]">
             Russian Negroni Week
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)] font-[var(--font-serif)]">
+          <p className="type-prose mt-6 max-w-2xl text-lg text-[var(--color-text-muted)]">
             Скоро здесь будет страница проекта: описание, участники, города, партнёры и карта событий.
           </p>
         </div>

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { getSession } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
@@ -17,7 +17,7 @@ export default async function CabinetPage() {
           <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-campari)]">
             Личный кабинет
           </div>
-          <h1 className="mt-2 font-[var(--font-display)] text-3xl font-bold uppercase tracking-wide md:text-4xl">
+          <h1 className="mt-2 type-page-title text-3xl md:text-4xl">
             Добро пожаловать
           </h1>
           <p className="text-sm text-[var(--color-text-muted)] mt-1">

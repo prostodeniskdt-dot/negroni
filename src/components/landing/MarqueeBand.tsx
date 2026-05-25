@@ -26,10 +26,10 @@ export function MarqueeBand() {
         {[...items, ...items].map((item, i) => (
           <span
             key={`marquee-${i}`}
-            className="flex items-center gap-6 mx-6 text-sm md:text-base tracking-[0.3em] uppercase text-[var(--color-text-muted)]/60 font-light hover:text-[var(--color-campari)]/80 transition-colors duration-500 cursor-default"
+            className="flex items-center gap-6 mx-6 font-body text-sm md:text-base tracking-[var(--letter-spacing-wide)] uppercase text-[var(--color-text-muted)]/50 font-light leading-normal hover:text-[var(--color-accent)]/80 transition-colors duration-500 cursor-default"
           >
             {item}
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-campari)]/40" />
+            <span className="w-1 h-1 rounded-full bg-[var(--color-accent)]/35" />
           </span>
         ))}
       </div>

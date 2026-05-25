@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -112,7 +112,7 @@ function HistoryHoverPopover({
               {lang === 'ru' ? 'Наведи' : 'Hover'}
             </span>
           </div>
-          <div className="mt-1 text-sm text-[var(--color-text-primary)] font-[var(--font-display)] uppercase tracking-wide line-clamp-2">
+          <div className="mt-1 text-sm text-[var(--color-text-primary)] font-display uppercase tracking-wide line-clamp-2">
             {title}
           </div>
         </div>
@@ -132,10 +132,10 @@ export default function HistoryPage() {
       <section className="mt-[60px] min-h-[35vh] flex flex-col justify-center px-8 py-10 relative overflow-hidden noise-overlay">
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-[40%] bg-[radial-gradient(ellipse_at_center,rgba(187,10,48,0.15)_0%,transparent_70%)] pointer-events-none" />
         <div className="relative z-10 max-w-[900px]">
-          <h1 className="font-[var(--font-display)] text-[clamp(2rem,5vw,3.5rem)] font-bold uppercase tracking-wide leading-[0.95] mb-3 text-shadow-[0_0_40px_rgba(187,10,48,0.2)]">
+          <h1 className="type-page-title text-[clamp(2rem,5vw,3.5rem)] mb-3 text-shadow-[0_0_40px_rgba(187,10,48,0.2)]">
             {t('history.title')}
           </h1>
-          <p className="font-[var(--font-serif)] text-[clamp(0.9rem,1.2vw,1.05rem)] text-[var(--color-text-muted)] max-w-[55ch] leading-relaxed">
+          <p className="type-prose text-[clamp(0.9rem,1.2vw,1.05rem)] text-[var(--color-text-muted)] max-w-[55ch]">
             {t('history.desc')}
           </p>
         </div>
@@ -201,10 +201,10 @@ export default function HistoryPage() {
                           isLeft ? 'md:flex-row-reverse' : ''
                         }`}
                       >
-                        <span className="inline-flex items-center justify-center h-7 px-3 rounded-full bg-[var(--color-bg)]/30 border border-[var(--color-border)] text-[var(--color-accent)] font-[var(--font-display)] font-bold text-sm tracking-wide">
+                        <span className="inline-flex items-center justify-center h-7 px-3 rounded-full bg-[var(--color-bg)]/30 border border-[var(--color-border)] text-[var(--color-accent)] font-display font-bold text-sm tracking-wide">
                           {event.year}
                         </span>
-                        <h2 className="font-[var(--font-display)] text-lg font-semibold uppercase tracking-wide text-[var(--color-text-primary)]">
+                        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-[var(--color-text-primary)]">
                           {t(`history.${event.key}.title`)}
                         </h2>
                       </div>
@@ -269,7 +269,7 @@ export default function HistoryPage() {
       {/* Quote */}
       <Reveal as="section" className="px-6 py-16 max-w-[700px] mx-auto">
         <blockquote className="relative py-8 px-8 md:px-12 border-y border-[var(--color-campari)]/50 border-l-4 border-r-4 border-l-[var(--color-campari)] border-r-[var(--color-campari)] bg-[var(--color-surface)] rounded-[var(--radius-md)]">
-          <p className="font-[var(--font-serif)] text-lg md:text-xl italic text-[var(--color-text-primary)] leading-relaxed mb-4">
+          <p className="font-prose text-lg md:text-xl italic text-[var(--color-text-primary)] leading-relaxed mb-4">
             {t('history.quote')}
           </p>
           <cite className="block text-[var(--color-text-muted)] text-sm not-italic">
@@ -280,7 +280,7 @@ export default function HistoryPage() {
 
       {/* Read also */}
       <Reveal as="section" className="px-6 py-12 max-w-[700px] mx-auto">
-        <h3 className="font-[var(--font-display)] text-lg font-bold uppercase tracking-wide mb-4 text-center">
+        <h3 className="font-display text-lg font-bold uppercase tracking-wide mb-4 text-center">
           {lang === 'ru' ? 'Читайте также' : 'Read also'}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -288,7 +288,7 @@ export default function HistoryPage() {
             href="/collection"
             className="block p-5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] hover:border-[var(--color-campari)] transition-all group"
           >
-            <h4 className="font-[var(--font-display)] font-bold uppercase text-sm group-hover:text-[var(--color-campari-light)] transition-colors">
+            <h4 className="font-display font-bold uppercase text-sm group-hover:text-[var(--color-campari-light)] transition-colors">
               {t('collection.title')}
             </h4>
             <p className="text-xs text-[var(--color-text-muted)] mt-1">
@@ -299,7 +299,7 @@ export default function HistoryPage() {
             href="/recipes"
             className="block p-5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] hover:border-[var(--color-campari)] transition-all group"
           >
-            <h4 className="font-[var(--font-display)] font-bold uppercase text-sm group-hover:text-[var(--color-campari-light)] transition-colors">
+            <h4 className="font-display font-bold uppercase text-sm group-hover:text-[var(--color-campari-light)] transition-colors">
               {t('map.title')}
             </h4>
             <p className="text-xs text-[var(--color-text-muted)] mt-1">

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
@@ -92,15 +92,15 @@ export default function RecipesPage() {
       {/* Sidebar */}
       <aside className={`w-full md:w-[320px] shrink-0 bg-[var(--color-surface-solid)] border-l border-[var(--color-border)] flex flex-col ${mobileView === 'map' ? 'hidden md:flex' : 'flex'}`}>
         <div className="px-5 py-4 border-b border-[var(--color-border)]">
-          <h1 className="font-[var(--font-display)] text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-muted)] mb-1">
+          <h1 className="font-display text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-muted)] mb-1">
             {t('map.title')}
           </h1>
-          <p className="text-xs text-[var(--color-text-secondary)] font-[var(--font-serif)]">
+          <p className="text-xs text-[var(--color-text-secondary)] font-prose">
             {t('map.desc')}
           </p>
         </div>
         <div className="px-5 pt-3 pb-2">
-          <h2 className="font-[var(--font-display)] text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
+          <h2 className="font-display text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
             {t('map.cities')} ({recipes.length})
           </h2>
         </div>

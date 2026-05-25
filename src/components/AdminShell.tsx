@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 type AdminShellProps = {
   title: string;
@@ -75,7 +75,7 @@ export function AdminShell({
                 <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-campari)]">
                   {eyebrow}
                 </div>
-                <h1 className="mt-2 font-[var(--font-display)] text-3xl font-bold uppercase tracking-wide text-[var(--color-text-primary)] md:text-4xl">
+                <h1 className="mt-2 type-page-title text-3xl text-[var(--color-text-primary)] md:text-4xl">
                   {title}
                 </h1>
                 {description && (

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { prisma } from '@/lib/db';
 import { getSession } from '@/lib/auth';
 
@@ -25,7 +25,7 @@ export default async function AdminDrinksPage() {
           >
             ← К панели редакции
           </Link>
-          <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide">
+          <h1 className="type-page-title text-2xl">
             Напитки
           </h1>
           <p className="text-sm text-[var(--color-text-muted)] mt-1">

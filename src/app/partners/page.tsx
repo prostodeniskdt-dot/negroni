@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useI18n } from '@/hooks/useI18n';
 import Reveal from '@/components/Reveal';
@@ -18,17 +18,17 @@ export default function PartnersPage() {
         <span className="inline-block text-[var(--color-campari)] text-sm uppercase tracking-widest mb-4">
           {t('partners.heroLabel')}
         </span>
-        <h1 className="font-[var(--font-display)] text-[clamp(2rem,5vw,3.5rem)] font-bold uppercase tracking-wide mb-6">
+        <h1 className="type-page-title text-[clamp(2rem,5vw,3.5rem)] mb-6">
           {t('partners.heroTitle')}
         </h1>
-        <p className="max-w-2xl mx-auto text-[var(--color-text-muted)] font-[var(--font-serif)]">
+        <p className="type-prose max-w-2xl mx-auto text-[var(--color-text-muted)]">
           {t('partners.heroDesc')}
         </p>
       </Reveal>
 
       {/* Catalog */}
       <Reveal as="section" className="px-6 py-16 max-w-[1200px] mx-auto">
-        <h2 className="font-[var(--font-display)] text-2xl font-bold uppercase mb-2 text-center">
+        <h2 className="font-display text-2xl font-bold uppercase mb-2 text-center">
           {t('partners.catalogTitle')}
         </h2>
         <p className="text-[var(--color-text-muted)] text-center mb-12 max-w-xl mx-auto">

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
@@ -27,7 +27,7 @@ export default function CategoryCard({ category, drinkCount, onClick, href }: Ca
       <span className="text-4xl block mb-3 group-hover:scale-110 transition-transform">
         {icon}
       </span>
-      <h3 className="font-[var(--font-display)] font-semibold uppercase text-[var(--color-text-primary)] mb-1">
+      <h3 className="font-display font-semibold uppercase text-[var(--color-text-primary)] mb-1">
         {name}
       </h3>
       <p className="text-sm text-[var(--color-text-muted)]">

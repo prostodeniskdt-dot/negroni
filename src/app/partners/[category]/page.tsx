@@ -37,10 +37,10 @@ export default async function PartnerCategoryPage({
           <span className="text-sm uppercase tracking-[0.24em] text-[var(--color-campari)]">
             Каталог партнёров
           </span>
-          <h1 className="mt-3 font-[var(--font-display)] text-[clamp(2.2rem,6vw,4.5rem)] font-bold uppercase leading-none text-[var(--color-text-primary)]">
+          <h1 className="type-page-title mt-3 text-[clamp(2.2rem,6vw,4.5rem)] text-[var(--color-text-primary)]">
             {category.name}
           </h1>
-          <p className="mt-5 text-lg text-[var(--color-text-muted)] font-[var(--font-serif)] leading-relaxed">
+          <p className="type-prose mt-5 text-lg text-[var(--color-text-muted)]">
             {category.description}
           </p>
         </div>

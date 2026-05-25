@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
@@ -15,62 +15,59 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="relative w-6 h-6">
-                <div className="absolute inset-0 rounded-full bg-[var(--color-campari)]/30 animate-liquid-wave" />
-                <div className="absolute inset-1 rounded-full bg-[var(--color-campari)]/60" />
-              </div>
+              <div className="w-px h-5 bg-gradient-to-b from-transparent via-[var(--color-accent)] to-transparent opacity-70" aria-hidden />
               <Link
                 href="/"
-                className="font-[var(--font-display)] text-lg tracking-wide text-[var(--color-text-primary)] no-underline hover:text-[var(--color-campari)] transition-colors"
+                className="font-display text-lg font-light tracking-[var(--letter-spacing-hero)] leading-tight text-[var(--color-text-primary)] no-underline hover:text-[var(--color-accent)] transition-colors"
               >
                 {t('logo')}
               </Link>
             </div>
-            <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xs">
+            <p className="text-base text-[var(--color-text-muted)] leading-relaxed max-w-xs">
               {t('hero.desc')}
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-8">
             <div>
-              <h4 className="text-xs tracking-[0.2em] uppercase text-[var(--color-text-primary)] mb-4">
+              <h4 className="text-sm tracking-[0.2em] uppercase text-[var(--color-text-primary)] mb-4">
                 {t('nav.collection')}
               </h4>
               <ul className="flex flex-col gap-3">
                 <li>
-                  <Link href="/collection" className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors">
+                  <Link href="/collection" className="text-base text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
                     {t('collection.title')}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/curations" className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors">
+                  <Link href="/curations" className="text-base text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
                     {t('nav.curations')}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/recipes" className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors">
+                  <Link href="/recipes" className="text-base text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
                     {t('nav.map')}
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="text-xs tracking-[0.2em] uppercase text-[var(--color-text-primary)] mb-4">
+              <h4 className="text-sm tracking-[0.2em] uppercase text-[var(--color-text-primary)] mb-4">
                 {t('about.title')}
               </h4>
               <ul className="flex flex-col gap-3">
                 <li>
-                  <Link href="/history" className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors">
+                  <Link href="/history" className="text-base text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
                     {t('nav.history')}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/partners" className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors">
+                  <Link href="/partners" className="text-base text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
                     {t('nav.partners')}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/submit" className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors">
+                  <Link href="/submit" className="text-base text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
                     {t('submit.title')}
                   </Link>
                 </li>
@@ -110,7 +107,7 @@ export default function Footer() {
         </div>
 
         <div className="py-6 border-t border-[var(--color-border)] mt-10">
-          <h4 className="font-[var(--font-display)] text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">
+          <h4 className="font-display text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">
             {t('roadmap.title')}
           </h4>
           <p className="text-xs text-[var(--color-text-secondary)] mb-3">

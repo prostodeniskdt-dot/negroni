@@ -58,7 +58,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
     <main className="min-h-screen px-6 py-10 max-w-[1200px] mx-auto">
       <div className="flex items-start justify-between gap-6 mb-8">
         <div>
-          <h1 className="font-[var(--font-display)] text-3xl font-bold uppercase tracking-wide">
+          <h1 className="type-page-title text-3xl">
             {title}
           </h1>
           <p className="text-sm text-[var(--color-text-muted)] mt-1">
@@ -90,7 +90,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
                 <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">
                   {r.region}
                 </span>
-                <h3 className="font-[var(--font-display)] text-lg font-bold uppercase tracking-wide mb-1.5 group-hover:text-[var(--color-campari-light)] transition-colors">
+                <h3 className="font-display text-lg font-bold uppercase tracking-wide mb-1.5 group-hover:text-[var(--color-campari-light)] transition-colors">
                   {r.name}
                 </h3>
                 <p className="text-[0.9rem] text-[var(--color-text-muted)] leading-snug line-clamp-2">

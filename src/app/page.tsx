@@ -15,7 +15,7 @@ import { CTABlock } from '@/components/landing/CTABlock';
 
 export default function HomePage() {
   return (
-    <>
+    <div className="landing-page">
       <SmoothScrollProvider />
       <CursorGlow />
       <FloatingParticles />
@@ -32,6 +32,6 @@ export default function HomePage() {
       <LiquidDivider />
       <TeaserAbout />
       <CTABlock />
-    </>
+    </div>
   );
 }

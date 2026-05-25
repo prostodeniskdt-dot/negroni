@@ -58,7 +58,7 @@ export default async function PartnerDrinkPage({
             <span className="text-sm uppercase tracking-[0.24em] text-[var(--color-campari)]">
               {partner?.name ?? 'Партнёрский продукт'}
             </span>
-            <h1 className="mt-3 font-[var(--font-display)] text-[clamp(2.5rem,7vw,5.5rem)] font-bold uppercase leading-none text-[var(--color-text-primary)]">
+            <h1 className="type-page-title mt-3 text-[clamp(2.5rem,7vw,5.5rem)] text-[var(--color-text-primary)]">
               {drink.name}
             </h1>
             {drink.tagline && (
@@ -66,7 +66,7 @@ export default async function PartnerDrinkPage({
                 {drink.tagline}
               </p>
             )}
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)] font-[var(--font-serif)]">
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)] font-prose">
               {drink.description}
             </p>
 
@@ -133,7 +133,7 @@ export default async function PartnerDrinkPage({
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
           <section className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
-            <h2 className="font-[var(--font-display)] text-xl font-bold uppercase text-[var(--color-text-primary)]">
+            <h2 className="font-display text-xl font-bold uppercase text-[var(--color-text-primary)]">
               Вкус и подача
             </h2>
             {tastingNotes && tastingNotes.length > 0 && (
@@ -156,7 +156,7 @@ export default async function PartnerDrinkPage({
           </section>
 
           <section className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
-            <h2 className="font-[var(--font-display)] text-xl font-bold uppercase text-[var(--color-text-primary)]">
+            <h2 className="font-display text-xl font-bold uppercase text-[var(--color-text-primary)]">
               В каких рецептах встречается
             </h2>
             {recipeList.length > 0 ? (

@@ -142,7 +142,7 @@ export default function EditRecipeClient({ recipe }: { recipe: Recipe }) {
     <main className="min-h-screen px-6 pb-10 pt-24 max-w-[1100px] mx-auto">
       <div className="flex items-start justify-between gap-6 mb-6">
         <div>
-          <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide">
+          <h1 className="type-page-title text-2xl">
             {recipe.name}
           </h1>
           <div className="text-sm text-[var(--color-text-muted)] mt-1">

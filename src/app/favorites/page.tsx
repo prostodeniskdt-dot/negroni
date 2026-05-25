@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useCallback } from 'react';
 import Link from 'next/link';
@@ -71,10 +71,10 @@ export default function FavoritesPage() {
       <section className="mt-[60px] px-8 py-10">
         <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-[var(--font-display)] text-[clamp(2rem,5vw,3rem)] font-bold uppercase tracking-wide mb-2">
+            <h1 className="type-page-title text-[clamp(2rem,5vw,3rem)] mb-2">
               {t('favorites.title')}
             </h1>
-            <p className="text-[var(--color-text-muted)] font-[var(--font-serif)]">
+            <p className="text-[var(--color-text-muted)] font-prose">
               {t('favorites.subtitle')}
             </p>
           </div>
@@ -120,7 +120,7 @@ export default function FavoritesPage() {
         {favoriteEntries.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <span className="text-6xl mb-6 opacity-70">❤️</span>
-            <p className="text-[var(--color-text-muted)] font-[var(--font-serif)] mb-6 max-w-md">
+            <p className="text-[var(--color-text-muted)] font-prose mb-6 max-w-md">
               {t('favorites.empty')}
             </p>
             <Link
@@ -148,7 +148,7 @@ export default function FavoritesPage() {
                     <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">
                       {entry.recipe.region}
                     </span>
-                    <h3 className="font-[var(--font-display)] text-lg font-bold uppercase tracking-wide mb-1.5 group-hover:text-[var(--color-campari-light)] transition-colors">
+                    <h3 className="font-display text-lg font-bold uppercase tracking-wide mb-1.5 group-hover:text-[var(--color-campari-light)] transition-colors">
                       {entry.recipe.name}
                     </h3>
                     <p className="text-[0.9rem] text-[var(--color-text-muted)] leading-snug line-clamp-2">

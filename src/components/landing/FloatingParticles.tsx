@@ -41,7 +41,7 @@ export function FloatingParticles() {
           speedY: -(Math.random() * 0.3 + 0.1),
           speedX: (Math.random() - 0.5) * 0.2,
           opacity: Math.random() * 0.3 + 0.05,
-          hue: Math.random() > 0.5 ? 350 : 0,
+          hue: Math.random() > 0.5 ? 38 : 0,
         });
       }
     };
@@ -62,7 +62,7 @@ export function FloatingParticles() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 85%, 45%, ${p.opacity})`;
+        ctx.fillStyle = `hsla(${p.hue}, 25%, 72%, ${p.opacity})`;
         ctx.fill();
       }
 
@@ -86,7 +86,7 @@ export function FloatingParticles() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[1] opacity-60"
+      className="fixed inset-0 pointer-events-none z-0 opacity-40"
       aria-hidden
     />
   );

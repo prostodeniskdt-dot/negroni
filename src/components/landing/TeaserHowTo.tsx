@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
@@ -36,7 +36,7 @@ export function TeaserHowTo() {
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
         }`}
       >
-        <h2 className="font-[var(--font-display)] text-xl font-bold text-[var(--color-text-muted)] uppercase tracking-[0.08em]">
+        <h2 className="font-display text-xl font-bold text-[var(--color-text-muted)] uppercase tracking-[0.08em]">
           {t('howto.title')}
         </h2>
       </div>
@@ -50,10 +50,10 @@ export function TeaserHowTo() {
             style={{ transitionDelay: `${150 + i * 100}ms` }}
           >
             <span className="text-3xl mb-3 block">{item.icon}</span>
-            <span className="text-[var(--color-campari)] font-[var(--font-display)] font-bold text-sm block mb-2">
+            <span className="text-[var(--color-campari)] font-display font-bold text-sm block mb-2">
               {item.step}
             </span>
-            <p className="text-sm text-[var(--color-text-muted)] font-[var(--font-serif)] leading-relaxed">
+            <p className="text-sm text-[var(--color-text-muted)] font-prose leading-relaxed">
               {t(item.key)}
             </p>
           </div>

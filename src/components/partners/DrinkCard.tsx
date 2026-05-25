@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -34,7 +34,7 @@ export default function DrinkCard({ drink, onClick, href }: DrinkCardProps) {
         )}
       </div>
       <div className="p-4">
-        <h4 className="font-[var(--font-display)] font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-campari)] transition-colors">
+        <h4 className="font-display font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-campari)] transition-colors">
           {name}
         </h4>
         {tagline && (

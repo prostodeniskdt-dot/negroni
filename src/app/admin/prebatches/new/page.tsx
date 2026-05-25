@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -57,7 +57,7 @@ export default function NewPrebatchPage() {
 
   return (
     <main className="min-h-screen px-6 pb-10 pt-24 max-w-[900px] mx-auto">
-      <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide mb-6">
+      <h1 className="type-page-title text-2xl mb-6">
         Новая заготовка
       </h1>
       <form onSubmit={onSubmit} className="space-y-4">

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useCallback } from 'react';
 import Link from 'next/link';
@@ -118,7 +118,7 @@ export default function DrinkModal({ drink, category, onClose }: DrinkModalProps
               <span className="text-xs uppercase tracking-wider text-[var(--color-campari)]">
                 {categoryName}
               </span>
-              <h2 id="drink-modal-title" className="font-[var(--font-display)] text-2xl font-bold text-[var(--color-text-primary)] mt-1">
+              <h2 id="drink-modal-title" className="font-display text-2xl font-bold text-[var(--color-text-primary)] mt-1">
                 {drinkName}
               </h2>
               {partnerName && (
@@ -136,7 +136,7 @@ export default function DrinkModal({ drink, category, onClose }: DrinkModalProps
 
             {/* Recipes section */}
             <div className="mt-8">
-              <h3 className="font-[var(--font-display)] font-semibold uppercase text-[var(--color-text-primary)] mb-4">
+              <h3 className="font-display font-semibold uppercase text-[var(--color-text-primary)] mb-4">
                 {t('partners.recipesUsing')}
               </h3>
               {recipeList.length > 0 ? (

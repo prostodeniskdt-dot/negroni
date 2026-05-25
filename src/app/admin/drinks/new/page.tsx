@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -116,7 +116,7 @@ export default function NewDrinkPage() {
 
   return (
     <main className="min-h-screen px-6 pb-10 pt-24 max-w-[900px] mx-auto">
-      <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide mb-6">
+      <h1 className="type-page-title text-2xl mb-6">
         Новый напиток
       </h1>
 

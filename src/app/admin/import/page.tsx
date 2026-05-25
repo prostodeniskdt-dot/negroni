@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -31,7 +31,7 @@ export default function AdminImportPage() {
       >
         ← К панели редакции
       </Link>
-      <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide mb-2">
+      <h1 className="type-page-title text-2xl mb-2">
         Импорт данных
       </h1>
       <p className="text-sm text-[var(--color-text-muted)] mb-6">

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useMemo, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -38,7 +38,7 @@ export default function LoginForm() {
   return (
     <main className="min-h-screen flex items-center justify-center px-6 py-16">
       <div className="w-full max-w-md bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] shadow-[var(--shadow-lg)] p-6">
-        <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide mb-4">
+        <h1 className="type-page-title text-2xl mb-4">
           Admin
         </h1>
         <p className="text-sm text-[var(--color-text-muted)] mb-6">

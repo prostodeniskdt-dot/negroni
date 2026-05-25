@@ -61,7 +61,7 @@ export default function RecipePage() {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-6 py-16">
         <div className="max-w-[1200px] w-full mx-auto p-8 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] text-center">
-          <h1 className="font-[var(--font-display)] text-2xl font-bold text-[var(--color-text-primary)] mb-4">
+          <h1 className="font-display text-2xl font-bold text-[var(--color-text-primary)] mb-4">
             {t('recipe.notFound')}
           </h1>
           <Link
@@ -111,7 +111,7 @@ export default function RecipePage() {
           {/* Left column */}
           <div className="space-y-6">
             <Reveal>
-              <h1 className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] uppercase tracking-wide">
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] uppercase tracking-wide">
                 {recipe.name}
               </h1>
               <p className="text-[var(--color-text-muted)] text-lg mt-1">
@@ -179,7 +179,7 @@ export default function RecipePage() {
             </Reveal>
 
             <Reveal>
-              <p className="font-[var(--font-serif)] text-[var(--color-text-muted)] leading-relaxed">
+              <p className="font-prose text-[var(--color-text-muted)] leading-relaxed">
                 {recipe.intro}
               </p>
             </Reveal>
@@ -214,10 +214,10 @@ export default function RecipePage() {
             </Reveal>
 
             <Reveal>
-              <h3 className="font-[var(--font-display)] text-lg font-bold text-[var(--color-text-primary)] mb-2 uppercase tracking-wide">
+              <h3 className="font-display text-lg font-bold text-[var(--color-text-primary)] mb-2 uppercase tracking-wide">
                 {t('recipe.ingredients')}
               </h3>
-              <ul className="list-disc list-inside space-y-1 text-[var(--color-text-muted)] font-[var(--font-serif)]">
+              <ul className="list-disc list-inside space-y-1 text-[var(--color-text-muted)] font-prose">
                 {recipe.ingredients.map((ing, i) => (
                   <li key={i}>{ing}</li>
                 ))}
@@ -225,10 +225,10 @@ export default function RecipePage() {
             </Reveal>
 
             <Reveal>
-              <h3 className="font-[var(--font-display)] text-lg font-bold text-[var(--color-text-primary)] mb-2 uppercase tracking-wide">
+              <h3 className="font-display text-lg font-bold text-[var(--color-text-primary)] mb-2 uppercase tracking-wide">
                 {t('recipe.steps')}
               </h3>
-              <ol className="list-decimal list-inside space-y-2 text-[var(--color-text-muted)] font-[var(--font-serif)]">
+              <ol className="list-decimal list-inside space-y-2 text-[var(--color-text-muted)] font-prose">
                 {recipe.steps.map((step, i) => (
                   <li key={i}>{step}</li>
                 ))}
@@ -236,11 +236,11 @@ export default function RecipePage() {
             </Reveal>
 
             <Reveal>
-              <h3 className="font-[var(--font-display)] text-lg font-bold text-[var(--color-text-primary)] mb-2 uppercase tracking-wide">
+              <h3 className="font-display text-lg font-bold text-[var(--color-text-primary)] mb-2 uppercase tracking-wide">
                 {t('recipe.prebatch')}
               </h3>
               {typeof recipe.prebatch === 'string' ? (
-                <p className="font-[var(--font-serif)] text-[var(--color-text-muted)] leading-relaxed">
+                <p className="font-prose text-[var(--color-text-muted)] leading-relaxed">
                   {recipe.prebatch}
                 </p>
               ) : (
@@ -252,7 +252,7 @@ export default function RecipePage() {
                     <span className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">
                       {t('recipe.prebatchIngredients')}
                     </span>
-                    <ul className="list-disc list-inside mt-1 space-y-1 text-[var(--color-text-muted)] font-[var(--font-serif)]">
+                    <ul className="list-disc list-inside mt-1 space-y-1 text-[var(--color-text-muted)] font-prose">
                       {(recipe.prebatch as Prebatch).ingredients.map((ing, i) => (
                         <li key={i}>{ing}</li>
                       ))}
@@ -262,7 +262,7 @@ export default function RecipePage() {
                     <span className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">
                       {t('recipe.prebatchSteps')}
                     </span>
-                    <ol className="list-decimal list-inside mt-1 space-y-1 text-[var(--color-text-muted)] font-[var(--font-serif)]">
+                    <ol className="list-decimal list-inside mt-1 space-y-1 text-[var(--color-text-muted)] font-prose">
                       {(recipe.prebatch as Prebatch).steps.map((step, i) => (
                         <li key={i}>{step}</li>
                       ))}
@@ -285,7 +285,7 @@ export default function RecipePage() {
 
             <Reveal>
               <div className="p-4 bg-[var(--color-bg)]/50 rounded-[var(--radius-md)] border border-[var(--color-border)]">
-                <h3 className="font-[var(--font-display)] text-base font-bold text-[var(--color-text-primary)] mb-3 uppercase tracking-wide">
+                <h3 className="font-display text-base font-bold text-[var(--color-text-primary)] mb-3 uppercase tracking-wide">
                   {t('recipe.flavor')}
                 </h3>
                 <p className="text-xs text-[var(--color-text-secondary)] mb-4">
@@ -320,7 +320,7 @@ export default function RecipePage() {
             {(recipe.bar !== '—' || recipe.author !== '—') && (
               <Reveal>
                 <div className="p-4 bg-[var(--color-bg)]/50 rounded-[var(--radius-md)] border border-[var(--color-border)]">
-                  <h3 className="font-[var(--font-display)] text-base font-bold text-[var(--color-text-primary)] mb-3 uppercase tracking-wide">
+                  <h3 className="font-display text-base font-bold text-[var(--color-text-primary)] mb-3 uppercase tracking-wide">
                     {t('recipe.barProfile') || 'Бар и автор'}
                   </h3>
                   {recipe.bar !== '—' && (
@@ -340,7 +340,7 @@ export default function RecipePage() {
                     </div>
                   )}
                   {recipe.barDescription && (
-                    <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-3 font-[var(--font-serif)]">
+                    <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mb-3 font-prose">
                       {recipe.barDescription}
                     </p>
                   )}
@@ -421,7 +421,7 @@ export default function RecipePage() {
 
         {/* Related recipes */}
         <Reveal as="section" className="px-6 md:px-8 pb-8 pt-6 border-t border-[var(--color-border)]">
-          <h3 className="font-[var(--font-display)] text-xl font-bold text-[var(--color-text-primary)] mb-1 uppercase tracking-wide">
+          <h3 className="font-display text-xl font-bold text-[var(--color-text-primary)] mb-1 uppercase tracking-wide">
             {t('recipe.related')}
           </h3>
           <p className="text-sm text-[var(--color-text-muted)] mb-4">
@@ -439,7 +439,7 @@ export default function RecipePage() {
                   alt={r.recipe.name}
                   className="aspect-[4/3] rounded mb-3"
                 />
-                <h4 className="font-[var(--font-display)] font-bold text-[var(--color-text-primary)]">
+                <h4 className="font-display font-bold text-[var(--color-text-primary)]">
                   {r.recipe.name}
                 </h4>
                 <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
@@ -452,7 +452,7 @@ export default function RecipePage() {
 
         {/* Share section */}
         <Reveal as="section" className="px-6 md:px-8 pb-8">
-          <h3 className="font-[var(--font-display)] text-lg font-bold text-[var(--color-text-primary)] mb-2 uppercase tracking-wide">
+          <h3 className="font-display text-lg font-bold text-[var(--color-text-primary)] mb-2 uppercase tracking-wide">
             {t('recipe.share')}
           </h3>
           <button

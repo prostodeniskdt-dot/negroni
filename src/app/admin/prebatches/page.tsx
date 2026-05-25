@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { prisma } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
@@ -19,7 +19,7 @@ export default async function AdminPrebatchesPage() {
           >
             ← К панели редакции
           </Link>
-          <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide">
+          <h1 className="type-page-title text-2xl">
             Заготовки
           </h1>
           <p className="text-sm text-[var(--color-text-muted)] mt-1">

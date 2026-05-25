@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useI18n } from '@/hooks/useI18n';
@@ -72,10 +72,10 @@ export default function SubmitRecipePage() {
       <section className="mt-[60px] min-h-[60vh] flex flex-col items-center justify-center px-8 py-16 text-center">
         <div className="max-w-md">
           <span className="text-6xl mb-6 block">✅</span>
-          <h1 className="font-[var(--font-display)] text-2xl font-bold uppercase tracking-wide mb-4">
+          <h1 className="type-page-title text-2xl mb-4">
             {t('submit.title')}
           </h1>
-          <p className="text-[var(--color-text-muted)] font-[var(--font-serif)] mb-6">
+          <p className="text-[var(--color-text-muted)] font-prose mb-6">
             {t('submit.success')}
           </p>
           <Link
@@ -95,10 +95,10 @@ export default function SubmitRecipePage() {
       <section className="mt-[60px] min-h-[25vh] flex flex-col justify-center px-8 py-10 relative overflow-hidden noise-overlay">
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-[40%] bg-[radial-gradient(ellipse_at_center,rgba(187,10,48,0.15)_0%,transparent_70%)] pointer-events-none" />
         <div className="relative z-10 max-w-[700px]">
-          <h1 className="font-[var(--font-display)] text-[clamp(2rem,5vw,3rem)] font-bold uppercase tracking-wide leading-[0.95] mb-3">
+          <h1 className="type-page-title text-[clamp(2rem,5vw,3rem)] mb-3">
             {t('submit.heroTitle')}
           </h1>
-          <p className="font-[var(--font-serif)] text-[var(--color-text-muted)] max-w-[55ch] leading-relaxed">
+          <p className="type-prose text-[var(--color-text-muted)] max-w-[55ch]">
             {t('submit.heroDesc')}
           </p>
         </div>
