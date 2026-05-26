@@ -28,8 +28,8 @@ export default function DrinkCard({ drink, onClick, href }: DrinkCardProps) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <div className="flex min-h-[220px] items-center justify-center text-4xl text-[var(--color-text-muted)]">
-            🍸
+          <div className="flex min-h-[220px] items-center justify-center text-sm uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+            {name}
           </div>
         )}
       </div>

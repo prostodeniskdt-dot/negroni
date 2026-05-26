@@ -2,6 +2,7 @@
 
 import { useCallback } from 'react';
 import Link from 'next/link';
+import { Heart } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
@@ -119,7 +120,7 @@ export default function FavoritesPage() {
       <section className="px-6 py-8 max-w-[1200px] mx-auto">
         {favoriteEntries.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <span className="text-6xl mb-6 opacity-70">❤️</span>
+            <Heart size={48} strokeWidth={1.25} className="mb-6 text-[var(--color-text-secondary)] opacity-70" />
             <p className="text-[var(--color-text-muted)] font-prose mb-6 max-w-md">
               {t('favorites.empty')}
             </p>

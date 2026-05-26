@@ -11,22 +11,12 @@ interface CategoryCardProps {
   href?: string;
 }
 
-const CATEGORY_ICONS: Record<string, string> = {
-  gin: '🍸',
-  vermouth: '🍷',
-  bitter: '🧉',
-  liqueur: '🍶',
-};
-
 export default function CategoryCard({ category, drinkCount, onClick, href }: CategoryCardProps) {
   const { lang } = useI18n();
   const name = lang === 'en' ? category.nameEn : category.name;
-  const icon = CATEGORY_ICONS[category.id] || '🍾';
   const content = (
     <>
-      <span className="text-4xl block mb-3 group-hover:scale-110 transition-transform">
-        {icon}
-      </span>
+      <span className="block w-8 h-px bg-[var(--color-accent)] mb-4 group-hover:w-12 transition-all duration-300" />
       <h3 className="font-display font-semibold uppercase text-[var(--color-text-primary)] mb-1">
         {name}
       </h3>

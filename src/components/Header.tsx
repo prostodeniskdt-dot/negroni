@@ -134,7 +134,7 @@ export default function Header() {
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
             {favCount > 0 && (
-              <span className="absolute -top-0.5 -right-1 bg-[var(--color-campari)] text-[var(--color-on-campari)] text-[0.6rem] font-bold min-w-[14px] h-[14px] rounded-full flex items-center justify-center leading-none font-body">
+              <span className="absolute -top-0.5 -right-1 bg-[var(--color-campari)] text-[var(--color-on-campari)] text-[0.6rem] font-bold min-w-[14px] h-[14px] rounded-full flex items-center justify-center leading-none font-display">
                 {favCount}
               </span>
             )}

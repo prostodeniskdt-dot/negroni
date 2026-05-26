@@ -5,7 +5,7 @@ export function MarqueeBand() {
     'GIN',
     'CAMPARI',
     'VERMOUTH',
-    'NEGRONI',
+    'RUSSIA',
     'SBAGLIATO',
     'BOULEVARDIER',
     'AMERICANO',
@@ -26,7 +26,7 @@ export function MarqueeBand() {
         {[...items, ...items].map((item, i) => (
           <span
             key={`marquee-${i}`}
-            className="flex items-center gap-6 mx-6 font-body text-sm md:text-base tracking-[var(--letter-spacing-wide)] uppercase text-[var(--color-text-muted)]/50 font-light leading-normal hover:text-[var(--color-accent)]/80 transition-colors duration-500 cursor-default"
+            className="flex items-center gap-6 mx-6 font-display text-sm md:text-base tracking-[var(--letter-spacing-wide)] uppercase text-[var(--color-text-muted)]/50 font-light leading-normal hover:text-[var(--color-accent)]/80 transition-colors duration-500 cursor-default"
           >
             {item}
             <span className="w-1 h-1 rounded-full bg-[var(--color-accent)]/35" />

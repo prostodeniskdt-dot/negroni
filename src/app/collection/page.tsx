@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { Heart } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
@@ -428,14 +429,17 @@ export default function CollectionPage() {
                       e.preventDefault();
                       toggle(entry.id);
                     }}
-                    className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[var(--color-surface-solid)]/90 border border-[var(--color-border)] flex items-center justify-center text-lg transition-colors hover:border-[var(--color-campari)] hover:bg-[var(--color-campari)]"
+                    className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[var(--color-surface-solid)]/90 border border-[var(--color-border)] flex items-center justify-center transition-colors hover:border-[var(--color-campari)] hover:bg-[var(--color-campari)]"
                     aria-label={
                       isFavorite(entry.id)
                         ? t('recipe.removeFavorite')
                         : t('recipe.addFavorite')
                     }
                   >
-                    {isFavorite(entry.id) ? '❤️' : '🤍'}
+                    <Heart
+                      size={18}
+                      className={isFavorite(entry.id) ? 'fill-[var(--color-campari)] text-[var(--color-campari)]' : 'text-[var(--color-text-muted)]'}
+                    />
                   </button>
 
                   <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">

@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
 
 const STEPS = [
-  { step: '01', icon: '🗺️', key: 'howto.step1' },
-  { step: '02', icon: '📋', key: 'howto.step2' },
-  { step: '03', icon: '❤️', key: 'howto.step3' },
+  { step: '01', key: 'howto.step1' },
+  { step: '02', key: 'howto.step2' },
+  { step: '03', key: 'howto.step3' },
 ] as const;
 
 export function TeaserHowTo() {
@@ -49,11 +49,10 @@ export function TeaserHowTo() {
             }`}
             style={{ transitionDelay: `${150 + i * 100}ms` }}
           >
-            <span className="text-3xl mb-3 block">{item.icon}</span>
-            <span className="text-[var(--color-campari)] font-display font-bold text-sm block mb-2">
+            <span className="text-[var(--color-campari)] font-display font-bold text-sm block mb-3">
               {item.step}
             </span>
-            <p className="text-sm text-[var(--color-text-muted)] font-prose leading-relaxed">
+            <p className="text-sm text-[var(--color-text-muted)] font-display leading-relaxed">
               {t(item.key)}
             </p>
           </div>

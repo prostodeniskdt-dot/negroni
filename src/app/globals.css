@@ -24,7 +24,7 @@
   --color-warning: #d4a574;
 
   --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-body: 'Cormorant Garamond', 'Times New Roman', serif;
   --font-prose: 'Cormorant Garamond', Georgia, serif;
 
   --letter-spacing-label: 0.14em;
@@ -82,7 +82,7 @@ html {
 
 body {
   margin: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-weight: 300;
   background:
     radial-gradient(ellipse 80% 50% at 50% -5%, rgba(255, 255, 255, 0.04) 0%, transparent 55%),
@@ -138,7 +138,7 @@ main {
 }
 
 .type-label {
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: 0.75rem;
   line-height: 1.45;
@@ -147,7 +147,7 @@ main {
 }
 
 .type-prose {
-  font-family: var(--font-prose);
+  font-family: var(--font-display);
   font-weight: 300;
   line-height: var(--leading-prose);
   letter-spacing: 0.01em;
@@ -161,7 +161,7 @@ main {
 }
 
 .type-nav {
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.35;
@@ -238,7 +238,7 @@ a {
 }
 .leaflet-popup-content {
   margin: 10px 14px;
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-size: 0.875rem;
   line-height: 1.45;
 }
@@ -252,7 +252,7 @@ a {
 .popup-btn {
   margin-top: 6px;
   padding: 4px 8px;
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-size: 0.875rem;
   line-height: 1.35;
   border: none;
@@ -278,7 +278,7 @@ a {
   padding: 0.75rem 1.5rem;
   background: var(--color-accent);
   color: var(--color-accent-contrast);
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: 0.9rem;
   border-radius: var(--radius-md);

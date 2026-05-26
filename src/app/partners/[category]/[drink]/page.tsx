@@ -66,7 +66,7 @@ export default async function PartnerDrinkPage({
                 {drink.tagline}
               </p>
             )}
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)] font-prose">
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)] font-display">
               {drink.description}
             </p>
 
@@ -107,11 +107,32 @@ export default async function PartnerDrinkPage({
                   priority
                 />
               ) : (
-                <div className="text-5xl">🍸</div>
+                <div className="text-sm uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+                  {drink.name}
+                </div>
               )}
             </div>
 
             <div className="mt-5 space-y-4">
+              {partner?.phone && (
+                <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/40 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+                    Связаться с партнёром
+                  </p>
+                  <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+                    {partner.phoneLabel ?? partner.name}
+                  </p>
+                  <a
+                    href={`tel:${partner.phone.replace(/[^\d+]/g, '')}`}
+                    className="mt-3 inline-flex items-center gap-2 font-display text-lg text-[var(--color-accent)] hover:text-[var(--color-accent-light)] transition-colors"
+                  >
+                    {partner.phone}
+                  </a>
+                  <p className="mt-2 text-xs leading-relaxed text-[var(--color-text-muted)]">
+                    Позвоните, чтобы уточнить наличие и заказать алкоголь от партнёра.
+                  </p>
+                </div>
+              )}
               {drink.buyUrl && (
                 <a
                   href={drink.buyUrl}

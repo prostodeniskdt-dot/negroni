@@ -60,7 +60,7 @@ export function TeaserHistory() {
             {t('index.historyTitle')}
           </h2>
           <p
-            className={`text-[var(--color-text-muted)] text-xl leading-relaxed mb-6 transition-all duration-700 delay-150 ${
+            className={`text-[var(--color-text-muted)] font-display text-xl leading-relaxed mb-6 transition-all duration-700 delay-150 ${
               visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >

@@ -108,7 +108,7 @@ export function HeroSection() {
         </h1>
 
         <p
-          className={`mt-6 font-body text-lg md:text-xl font-light text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed transition-all duration-1000 ${
+          className={`mt-6 font-display text-lg md:text-xl font-light text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed transition-all duration-1000 ${
             loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ transitionDelay: '1.3s' }}

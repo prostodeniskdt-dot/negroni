@@ -12,6 +12,9 @@ export interface Partner {
   description: string;
   descriptionEn: string;
   link?: string;
+  phone?: string;
+  phoneLabel?: string;
+  phoneLabelEn?: string;
 }
 
 export interface DrinkCategory {
@@ -60,8 +63,11 @@ export const partners: Partner[] = [
     name: 'Генеральный партнёр',
     nameEn: 'General Partner',
     isGeneralPartner: true,
-    description: 'Общие рецепты без указания конкретного бара и бренда. Классические вариации Негрони от генерального партнёра.',
-    descriptionEn: 'General recipes without a specific bar or brand. Classic Negroni variations from the general partner.',
+    description: 'Общие рецепты без указания конкретного бара и бренда. Классические вариации от генерального партнёра.',
+    descriptionEn: 'General recipes without a specific bar or brand. Classic variations from the general partner.',
+    phone: '+7 (495) 123-45-67',
+    phoneLabel: 'BAR BOSS ONLINE',
+    phoneLabelEn: 'BAR BOSS ONLINE',
   },
   {
     id: 'partner-gin',
@@ -69,9 +75,12 @@ export const partners: Partner[] = [
     nameEn: 'Gin House',
     isGeneralPartner: false,
     logo: '/placeholder-logo.svg',
-    description: 'Крафтовые джины для экспериментов с Негрони.',
-    descriptionEn: 'Craft gins for Negroni experiments.',
+    description: 'Крафтовые джины для экспериментов с коктейлями.',
+    descriptionEn: 'Craft gins for cocktail experiments.',
     link: '#',
+    phone: '+7 (495) 234-56-78',
+    phoneLabel: 'Отдел продаж Gin House',
+    phoneLabelEn: 'Gin House sales',
   },
   {
     id: 'partner-vermouth',
@@ -80,8 +89,11 @@ export const partners: Partner[] = [
     isGeneralPartner: false,
     logo: '/placeholder-logo.svg',
     description: 'Красные и белые вермуты для классики и твистов.',
-    descriptionEn: 'Red and white vermouths for classic and twisted Negronis.',
+    descriptionEn: 'Red and white vermouths for classic and twisted cocktails.',
     link: '#',
+    phone: '+7 (495) 345-67-89',
+    phoneLabel: 'Vermouth & Co',
+    phoneLabelEn: 'Vermouth & Co',
   },
   {
     id: 'partner-bitter',
@@ -92,6 +104,9 @@ export const partners: Partner[] = [
     description: 'Биттеры и аперитивы для горьких акцентов.',
     descriptionEn: 'Bitters and aperitivi for bitter accents.',
     link: '#',
+    phone: '+7 (495) 456-78-90',
+    phoneLabel: 'Bitter Lab',
+    phoneLabelEn: 'Bitter Lab',
   },
 ];
 

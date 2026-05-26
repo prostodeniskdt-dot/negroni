@@ -47,7 +47,7 @@ export function TeaserCollection() {
         <h2 className="type-section-title text-3xl md:text-5xl lg:text-6xl font-normal text-[var(--color-text-primary)] mt-4 leading-tight">
           {t('collection.title')}
         </h2>
-        <p className="mt-4 text-[var(--color-text-muted)] text-lg max-w-2xl mx-auto">
+        <p className="mt-4 font-display text-[var(--color-text-muted)] text-lg max-w-2xl mx-auto">
           {t('collection.desc')}
         </p>
       </div>

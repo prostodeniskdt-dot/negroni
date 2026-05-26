@@ -38,7 +38,7 @@ export function TeaserCurations() {
         </h2>
         <Link
           href="/curations"
-          className={`text-sm text-[var(--color-text-muted)] hover:text-[var(--color-campari-light)] transition-colors ${
+          className={`font-display text-sm text-[var(--color-text-muted)] hover:text-[var(--color-campari-light)] transition-colors ${
             visible ? 'opacity-100' : 'opacity-0'
           }`}
           style={{ transitionDelay: '150ms' }}
@@ -57,11 +57,10 @@ export function TeaserCurations() {
             style={{ transitionDelay: `${200 + i * 80}ms` }}
           >
             <div className="absolute top-0 left-0 right-0 h-1 bg-[var(--color-campari)] opacity-0 transition-opacity group-hover:opacity-100" />
-            <span className="text-3xl mb-3 block">{curation.icon}</span>
-            <h3 className="font-display text-lg font-bold mt-1 mb-1.5 text-[var(--color-text-primary)]">
+            <h3 className="font-display text-lg font-bold mb-1.5 text-[var(--color-text-primary)]">
               {curation.title}
             </h3>
-            <p className="text-sm text-[var(--color-text-muted)] leading-normal line-clamp-2">
+            <p className="text-sm text-[var(--color-text-muted)] font-display leading-normal line-clamp-2">
               {curation.description}
             </p>
             <span className="text-xs text-[var(--color-campari)] mt-2 inline-block">

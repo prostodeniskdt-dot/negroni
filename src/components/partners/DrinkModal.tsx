@@ -130,9 +130,29 @@ export default function DrinkModal({ drink, category, onClose }: DrinkModalProps
           </div>
 
           <div className="p-6">
-            <p className="text-[var(--color-text-muted)] text-sm leading-relaxed">
+            <p className="text-[var(--color-text-muted)] text-sm leading-relaxed font-display">
               {drinkDesc}
             </p>
+
+            {partner?.phone && (
+              <div className="mt-6 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+                <h3 className="font-display text-sm font-semibold uppercase text-[var(--color-text-primary)]">
+                  {t('partners.contactPartner')}
+                </h3>
+                <p className="mt-1 text-xs text-[var(--color-text-muted)]">
+                  {lang === 'en' ? partner.phoneLabelEn ?? partner.nameEn : partner.phoneLabel ?? partner.name}
+                </p>
+                <a
+                  href={`tel:${partner.phone.replace(/[^\d+]/g, '')}`}
+                  className="mt-2 inline-block font-display text-lg text-[var(--color-accent)] hover:text-[var(--color-accent-light)] transition-colors"
+                >
+                  {partner.phone}
+                </a>
+                <p className="mt-2 text-xs text-[var(--color-text-secondary)]">
+                  {t('partners.orderByPhone')}
+                </p>
+              </div>
+            )}
 
             {/* Recipes section */}
             <div className="mt-8">
