@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
-const HERO_IMAGE_SRC = '/images/Negronifon.png';
-const HERO_IMAGE_ALT = 'Negroni фон';
+const HERO_IMAGE_SRC = '/images/hero-negroni.png';
+const HERO_IMAGE_ALT = 'Негрони на мраморном столе';
 
 function useAnimatedCounter(target: number, duration: number, start: boolean) {
   const [count, setCount] = useState(0);
@@ -54,12 +54,12 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex flex-col overflow-hidden"
+      className="hero-stage relative min-h-screen flex flex-col overflow-hidden bg-[var(--hero-wall,#f3f0ea)]"
     >
       <div
-        className="absolute inset-0 z-0 transition-transform duration-100"
+        className="hero-photo-layer z-0 transition-transform duration-100"
         style={{
-          transform: `translateY(${scrollY * 0.3}px) scale(${1.1 + scrollY * 0.0002})`,
+          transform: `translateY(${scrollY * 0.15}px)`,
         }}
       >
         <Image
@@ -70,9 +70,18 @@ export function HeroSection() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-[var(--color-bg)]/70" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-bg)]/40 via-transparent to-[var(--color-bg)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-[#ebe7e1]/20" />
       </div>
+
+      <div className="hero-table-edge" aria-hidden />
+      <div
+        className="hero-marble-surface z-[1]"
+        style={{
+          transform: `translateY(${scrollY * 0.05}px)`,
+        }}
+        aria-hidden
+      />
+      <div className="hero-stage-fade" aria-hidden />
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center w-full max-w-5xl mx-auto px-6 pt-[calc(var(--header-height)+1.5rem)] pb-6 text-center">
         <div
@@ -81,16 +90,16 @@ export function HeroSection() {
           }`}
           style={{ transitionDelay: '0.5s' }}
         >
-          <span className="inline-flex items-center gap-3 text-base font-light tracking-[var(--letter-spacing-wide)] uppercase text-[var(--color-accent)]">
-            <span className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-border)] to-transparent" />
+          <span className="inline-flex items-center gap-3 text-base font-light tracking-[var(--letter-spacing-wide)] uppercase text-[var(--hero-accent,#8b3344)]">
+            <span className="w-12 h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
             Est. 2025
-            <span className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-border)] to-transparent" />
+            <span className="w-12 h-px bg-gradient-to-r from-transparent via-black/15 to-transparent" />
           </span>
         </div>
 
         <h1 className="type-hero-title mt-6 w-full text-balance flex flex-col items-center gap-3 md:gap-4">
           <span
-            className={`block text-[clamp(2.25rem,7vw,4rem)] leading-[1.2] text-[var(--color-text-primary)] transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            className={`block text-[clamp(2.25rem,7vw,4rem)] leading-[1.2] text-[var(--hero-text,#1a1816)] transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               loaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
             style={{ transitionDelay: '0.7s' }}
@@ -98,7 +107,7 @@ export function HeroSection() {
             {t('hero.subtitle')}
           </span>
           <span
-            className={`block text-[clamp(2.5rem,8vw,5rem)] leading-[1.22] text-[var(--color-accent)] italic transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            className={`block text-[clamp(2.5rem,8vw,5rem)] leading-[1.22] text-[var(--hero-accent,#8b3344)] italic transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               loaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
             style={{ transitionDelay: '0.95s' }}
@@ -108,7 +117,7 @@ export function HeroSection() {
         </h1>
 
         <p
-          className={`mt-6 font-display text-lg md:text-xl font-light text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed transition-all duration-1000 ${
+          className={`mt-6 font-display text-lg md:text-xl font-light text-[var(--hero-text-muted,rgba(26,24,22,0.62))] max-w-2xl mx-auto leading-relaxed transition-all duration-1000 ${
             loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ transitionDelay: '1.3s' }}
@@ -124,17 +133,17 @@ export function HeroSection() {
         >
           <Link
             href="/recipes"
-            className="group relative overflow-hidden px-8 py-4 bg-[var(--color-accent)] text-[var(--color-accent-contrast)] text-base tracking-[var(--letter-spacing-wide)] uppercase font-normal transition-all duration-500 hover:shadow-[0_0_40px_rgba(196,165,116,0.2)]"
+            className="group relative overflow-hidden px-8 py-4 bg-[var(--hero-accent,#8b3344)] text-[#f5f0e8] text-base tracking-[var(--letter-spacing-wide)] uppercase font-normal transition-all duration-500 hover:shadow-[0_0_40px_rgba(139,51,68,0.25)]"
           >
             <span className="relative z-10">{t('hero.cta')}</span>
-            <div className="absolute inset-0 bg-[var(--color-text-primary)] translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-[#1a1816] translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
           </Link>
           <Link
             href="/collection"
-            className="group relative px-8 py-4 border border-[var(--color-border)] text-[var(--color-text-primary)] text-base tracking-[var(--letter-spacing-wide)] uppercase font-normal hover:border-[var(--color-accent)]/40 hover:text-[var(--color-accent)] transition-all duration-500 overflow-hidden"
+            className="group relative px-8 py-4 border border-black/15 text-[var(--hero-text,#1a1816)] text-base tracking-[var(--letter-spacing-wide)] uppercase font-normal hover:border-[var(--hero-accent,#8b3344)]/40 hover:text-[var(--hero-accent,#8b3344)] transition-all duration-500 overflow-hidden bg-white/20 backdrop-blur-[2px]"
           >
             <span className="relative z-10">{t('hero.secondary')}</span>
-            <div className="absolute bottom-0 left-0 right-0 h-0 group-hover:h-full bg-[var(--color-accent)]/5 transition-all duration-700" />
+            <div className="absolute bottom-0 left-0 right-0 h-0 group-hover:h-full bg-[var(--hero-accent,#8b3344)]/5 transition-all duration-700" />
           </Link>
         </div>
 
@@ -150,10 +159,10 @@ export function HeroSection() {
             { value: String(yearCount), label: t('hero.statsYear') },
           ].map((stat) => (
             <div key={stat.label} className="text-center min-w-[5.5rem]">
-              <div className="type-stat text-4xl md:text-5xl text-[var(--color-accent)]">
+              <div className="type-stat text-4xl md:text-5xl text-[var(--hero-accent,#8b3344)]">
                 {stat.value}
               </div>
-              <div className="mt-2.5 type-label text-[var(--color-text-muted)] tracking-[var(--letter-spacing-wide)]">
+              <div className="mt-2.5 type-label text-[var(--hero-text-muted,rgba(26,24,22,0.62))] tracking-[var(--letter-spacing-wide)]">
                 {stat.label}
               </div>
             </div>
@@ -164,7 +173,7 @@ export function HeroSection() {
       <div className="relative z-10 shrink-0 flex justify-center pb-10 pt-2">
         <Link
           href="#collection-teaser"
-          className="flex flex-col items-center gap-2 text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+          className="flex flex-col items-center gap-2 text-[var(--hero-text-muted,rgba(26,24,22,0.62))] hover:text-[var(--hero-accent,#8b3344)] transition-colors"
         >
           <span className="type-label tracking-[var(--letter-spacing-wide)]">{t('hero.scrollHint')}</span>
           <ChevronDown size={26} className="animate-bounce" aria-hidden />
