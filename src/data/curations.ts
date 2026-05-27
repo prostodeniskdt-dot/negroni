@@ -11,7 +11,7 @@ export interface Curation {
 export const curations: Curation[] = [
   {
     id: 'summer',
-    title: 'Летние Негрони',
+    title: 'Летние твисты',
     titleEn: 'Summer Twists',
     description: 'Освежающие вариации для тёплого сезона — с фруктами, травами и цитрусами. Идеальны для террасы, барбекю или вечернего коктейля на закате.',
     descriptionEn: 'Refreshing variations for the warm season — with fruits, herbs and citrus. Perfect for a terrace, barbecue or sunset cocktail.',
@@ -22,7 +22,7 @@ export const curations: Curation[] = [
     id: 'siberian',
     title: 'Сибирские и северные твисты',
     titleEn: 'Siberian & Northern Twists',
-    description: 'Ягоды, хвоя, мёд — северные ингредиенты придают Негрони глубину и характер. Рецепты из самых холодных регионов России.',
+    description: 'Ягоды, хвоя, мёд — северные ингредиенты придают коктейлю глубину и характер. Рецепты из самых холодных регионов России.',
     descriptionEn: 'Berries, pine, honey — northern ingredients add depth and character. Recipes from the coldest regions of Russia.',
     recipeIds: ['novosibirsk', 'irkutsk', 'kazan'],
     icon: '',
@@ -49,7 +49,7 @@ export const curations: Curation[] = [
     id: 'exotic',
     title: 'Экзотические вариации',
     titleEn: 'Exotic Variations',
-    description: 'Необычные ингредиенты и неожиданные сочетания — умами, соевый соус, янтарный мёд, пшеничный ликёр. Негрони за пределами привычного.',
+    description: 'Необычные ингредиенты и неожиданные сочетания — умами, соевый соус, янтарный мёд, пшеничный ликёр. Коктейль за пределами привычного.',
     descriptionEn: 'Unusual ingredients and unexpected combinations — umami, soy sauce, amber honey. The cocktail beyond the ordinary.',
     recipeIds: ['vladivostok', 'kaliningrad', 'samara', 'yaroslavl'],
     icon: '',

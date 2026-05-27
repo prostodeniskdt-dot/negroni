@@ -61,18 +61,13 @@ export default function Header() {
     window.location.href = '/';
   };
 
-  const onLightHero = pathname === '/' && !scrolled;
-
   return (
     <header
       role="banner"
-      data-hero-light={onLightHero ? 'true' : undefined}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         scrolled
           ? 'bg-[var(--color-bg)]/90 backdrop-blur-xl border-b border-[var(--color-border)] theme-light:bg-white/90'
-          : onLightHero
-            ? 'bg-[#f3f0ea]/35 backdrop-blur-md border-b border-black/8'
-            : 'bg-transparent border-b border-transparent'
+          : 'bg-transparent border-b border-transparent'
       }`}
     >
       <nav className="flex items-center justify-between gap-3 px-6 py-3 md:px-8 lg:px-12 min-h-[var(--header-height)]">
