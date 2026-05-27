@@ -67,11 +67,12 @@ export function HeroSection() {
           alt={HERO_IMAGE_ALT}
           fill
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-[72%_center]"
           priority
         />
-        <div className="absolute inset-0 bg-[var(--color-bg)]/70" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-bg)]/40 via-transparent to-[var(--color-bg)]" />
+        <div className="absolute inset-0 bg-[var(--color-bg)]/45" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-bg)]/85 via-[var(--color-bg)]/35 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-bg)]/35 via-transparent to-[var(--color-bg)]/90" />
       </div>
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center w-full max-w-5xl mx-auto px-6 pt-[calc(var(--header-height)+1.5rem)] pb-6 text-center">
