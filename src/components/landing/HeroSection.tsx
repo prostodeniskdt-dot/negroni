@@ -89,22 +89,14 @@ export function HeroSection() {
           </span>
         </div>
 
-        <h1 className="type-hero-title mt-6 w-full text-balance flex flex-col items-center gap-3 md:gap-4">
+        <h1 className="type-hero-title mt-6 w-full text-balance flex items-center justify-center">
           <span
-            className={`block text-[clamp(2.25rem,7vw,4rem)] leading-[1.2] text-[var(--color-text-primary)] transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            className={`block text-[clamp(2.75rem,7.5vw,5rem)] leading-[1.12] text-[var(--color-text-primary)] transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               loaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
             style={{ transitionDelay: '0.7s' }}
           >
             {t('hero.subtitle')}
-          </span>
-          <span
-            className={`block text-[clamp(2.5rem,8vw,5rem)] leading-[1.22] text-[var(--color-accent)] italic transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              loaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`}
-            style={{ transitionDelay: '0.95s' }}
-          >
-            {t('hero.title')}
           </span>
         </h1>
 
@@ -118,7 +110,7 @@ export function HeroSection() {
         </p>
 
         <div
-          className={`mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full max-w-lg sm:max-w-none transition-all duration-1000 ${
+          className={`mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-6 md:gap-8 w-full max-w-lg sm:max-w-none transition-all duration-1000 ${
             loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ transitionDelay: '1.6s' }}
