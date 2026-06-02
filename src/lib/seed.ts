@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
 import { recipes as staticRecipes, type RecipeEntry, type Prebatch as StaticPrebatch } from '@/data/recipes';
 import {
@@ -7,14 +6,7 @@ import {
   drinks as staticDrinks,
 } from '@/data/partners';
 
-type SeedOptions = {
-  adminEmail?: string;
-  adminPassword?: string;
-};
-
-function normalizeEmail(email: string) {
-  return email.trim().toLowerCase();
-}
+type SeedOptions = {};
 
 async function findOrCreatePrebatch(p: StaticPrebatch) {
   const existing = await prisma.prebatch.findFirst({ where: { name: p.name } });
@@ -176,15 +168,6 @@ export async function seedDatabase(opts: SeedOptions = {}) {
     });
   }
 
-  // Admin user (optional)
-  if (opts.adminEmail && opts.adminPassword) {
-    const email = normalizeEmail(opts.adminEmail);
-    const passwordHash = await bcrypt.hash(opts.adminPassword, 12);
-    await prisma.user.upsert({
-      where: { email },
-      update: { passwordHash, role: 'admin' },
-      create: { email, passwordHash, role: 'admin' },
-    });
-  }
+  void opts;
 }
 

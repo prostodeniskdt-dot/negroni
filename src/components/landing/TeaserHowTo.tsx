@@ -52,7 +52,7 @@ export function TeaserHowTo() {
             <span className="text-[var(--color-campari)] font-display font-bold text-sm block mb-3">
               {item.step}
             </span>
-            <p className="text-sm text-[var(--color-text-muted)] font-display leading-relaxed">
+            <p className="text-sm font-medium text-[var(--color-text-muted)] font-display leading-relaxed">
               {t(item.key)}
             </p>
           </div>

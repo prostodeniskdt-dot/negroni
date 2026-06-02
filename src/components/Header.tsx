@@ -3,20 +3,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { useTheme } from '@/hooks/useTheme';
 import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Menu, X } from 'lucide-react';
 
-type MeSession = { sub: string; email: string; role: string };
-
 export default function Header() {
   const pathname = usePathname();
-  const { theme, toggleTheme } = useTheme();
   const { t, toggleLang, lang } = useI18n();
   const { count: favCount } = useFavorites();
-  const [me, setMe] = useState<MeSession | null>(null);
-  const [authChecked, setAuthChecked] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -25,26 +19,6 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    setAuthChecked(false);
-    fetch('/api/me')
-      .then((r) => r.json())
-      .then((j) => {
-        if (!cancelled) setMe(j?.session ?? null);
-      })
-      .catch(() => {
-        if (!cancelled) setMe(null);
-      })
-      .finally(() => {
-        if (!cancelled) setAuthChecked(true);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [pathname]);
 
   const navLinks = [
     { href: '/russian-negroni-week', label: t('nav.rnw') || 'Russian Negroni Week', tone: 'primary' as const },
@@ -55,18 +29,12 @@ export default function Header() {
     { href: '/partners', label: t('nav.partners') },
   ];
 
-  const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
-    setMe(null);
-    window.location.href = '/';
-  };
-
   return (
     <header
       role="banner"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         scrolled
-          ? 'bg-[var(--color-bg)]/90 backdrop-blur-xl border-b border-[var(--color-border)] theme-light:bg-white/90'
+          ? 'bg-[var(--color-bg)]/90 backdrop-blur-xl border-b border-[var(--color-border)]'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
@@ -77,7 +45,7 @@ export default function Header() {
             className="flex items-center gap-3 group no-underline"
           >
             <div className="w-px h-7 bg-gradient-to-b from-transparent via-[var(--color-accent)] to-transparent opacity-80" aria-hidden />
-            <span className="font-display text-xl md:text-2xl font-light tracking-[var(--letter-spacing-hero)] text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors duration-500 leading-tight">
+            <span className="font-display text-xl md:text-2xl font-semibold tracking-[var(--letter-spacing-hero)] text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors duration-500 leading-tight">
               {t('logo')}
             </span>
           </Link>
@@ -142,56 +110,12 @@ export default function Header() {
 
           <button
             type="button"
-            onClick={toggleTheme}
-            className="border border-[var(--color-border)] text-[var(--color-text-muted)] px-2 py-1.5 rounded-[var(--radius-sm)] cursor-pointer text-xs font-semibold flex items-center justify-center min-w-[32px] min-h-[32px] transition-all hover:text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:bg-[rgba(187,10,48,0.1)]"
-            aria-label={theme === 'light' ? 'Включить тёмную тему' : 'Включить светлую тему'}
-          >
-            {theme === 'light' ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
-            )}
-          </button>
-
-          <button
-            type="button"
             onClick={toggleLang}
             className="border border-[var(--color-border)] text-[var(--color-text-muted)] px-2 py-1.5 rounded-[var(--radius-sm)] cursor-pointer text-xs font-semibold min-w-[32px] min-h-[32px] transition-all hover:text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:bg-[rgba(187,10,48,0.1)]"
             aria-label="Сменить язык"
           >
             {lang === 'ru' ? 'EN' : 'RU'}
           </button>
-
-          {!authChecked ? (
-            <span className="ml-2 px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-secondary)] opacity-70">
-              ...
-            </span>
-          ) : me ? (
-            <>
-              <Link
-                href="/cabinet"
-                className="ml-2 px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500 no-underline"
-              >
-                Кабинет
-              </Link>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500"
-                aria-label="Выйти"
-              >
-                Выйти
-              </button>
-            </>
-          ) : (
-            <Link
-              href="/login"
-              className="ml-2 px-4 py-2.5 text-sm tracking-widest uppercase border border-[var(--color-border)] text-[var(--color-text-muted)] bg-transparent hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-all duration-500 no-underline"
-              aria-label="Войти"
-            >
-              Войти
-            </Link>
-          )}
 
           <Link
             href="/recipes"
@@ -211,14 +135,6 @@ export default function Header() {
           </Link>
           <button
             type="button"
-            onClick={toggleTheme}
-            className="p-2 border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-muted)]"
-            aria-label={theme === 'light' ? 'Тёмная тема' : 'Светлая тема'}
-          >
-            {theme === 'light' ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>}
-          </button>
-          <button
-            type="button"
             onClick={toggleLang}
             className="p-2 border border-[var(--color-border)] rounded-[var(--radius-sm)] text-xs font-semibold text-[var(--color-text-muted)]"
           >
@@ -227,34 +143,6 @@ export default function Header() {
           <Link href="/recipes" className="px-3 py-2 text-xs font-semibold bg-[var(--color-campari)] text-[var(--color-on-campari)] rounded-[var(--radius-sm)] no-underline">
             {t('nav.map')}
           </Link>
-          {!authChecked ? (
-            <span className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-secondary)] rounded-[var(--radius-sm)]">
-              ...
-            </span>
-          ) : me ? (
-            <>
-              <Link
-                href="/cabinet"
-                className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)] no-underline"
-              >
-                Кабинет
-              </Link>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)]"
-              >
-                Выйти
-              </button>
-            </>
-          ) : (
-            <Link
-              href="/login"
-              className="px-3 py-2 text-xs font-semibold border border-[var(--color-border)] text-[var(--color-text-muted)] rounded-[var(--radius-sm)] no-underline"
-            >
-              Войти
-            </Link>
-          )}
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}

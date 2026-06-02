@@ -60,7 +60,7 @@ export function TeaserHistory() {
             {t('index.historyTitle')}
           </h2>
           <p
-            className={`text-[var(--color-text-muted)] font-display text-xl leading-relaxed mb-6 transition-all duration-700 delay-150 ${
+            className={`text-[var(--color-text-muted)] font-display font-medium text-xl leading-relaxed mb-6 transition-all duration-700 delay-150 ${
               visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >
@@ -68,7 +68,7 @@ export function TeaserHistory() {
           </p>
           <Link
             href="/history"
-            className={`inline-flex items-center gap-2 text-base tracking-[0.2em] uppercase text-[var(--color-accent)] hover:underline transition-all duration-300 ${
+            className={`inline-flex items-center gap-2 text-base font-semibold tracking-[0.2em] uppercase text-[var(--color-accent)] hover:underline transition-all duration-300 ${
               visible ? 'opacity-100' : 'opacity-0'
             }`}
             style={{ transitionDelay: '250ms' }}

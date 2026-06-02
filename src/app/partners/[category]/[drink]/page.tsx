@@ -94,7 +94,7 @@ export default async function PartnerDrinkPage({
             </div>
           </div>
 
-          <aside className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <aside className={`rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 ${drink.notebookStyle ? 'shadow-[var(--shadow-lg)]' : ''}`}>
             <div className="flex min-h-[360px] items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-bg)] p-4">
               {drink.image ? (
                 <Image
@@ -114,6 +114,28 @@ export default async function PartnerDrinkPage({
             </div>
 
             <div className="mt-5 space-y-4">
+              {drink.notebookStyle && (
+                <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/50 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+                    {drink.storyTitle ?? 'Описание / легенда'}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-muted)]">
+                    {drink.description}
+                  </p>
+                </div>
+              )}
+
+              {drink.notebookStyle && drink.tastingNotes && (
+                <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/50 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+                    {drink.tastingTitle ?? 'Дегустация'}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-muted)]">
+                    {drink.tastingNotes}
+                  </p>
+                </div>
+              )}
+
               {partner?.phone && (
                 <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/40 p-4">
                   <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
@@ -131,6 +153,21 @@ export default async function PartnerDrinkPage({
                   <p className="mt-2 text-xs leading-relaxed text-[var(--color-text-muted)]">
                     Позвоните, чтобы уточнить наличие и заказать алкоголь от партнёра.
                   </p>
+                </div>
+              )}
+              {drink.notebookStyle && (
+                <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/50 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+                    {drink.companyBlockTitle ?? 'Компания'}
+                  </p>
+                  <p className="mt-1 text-sm text-[var(--color-text-primary)]">
+                    {drink.companyName ?? partner?.name}
+                  </p>
+                  {drink.companyContacts?.map((line) => (
+                    <p key={line} className="mt-2 text-xs leading-relaxed text-[var(--color-text-muted)]">
+                      {line}
+                    </p>
+                  ))}
                 </div>
               )}
               {drink.buyUrl && (

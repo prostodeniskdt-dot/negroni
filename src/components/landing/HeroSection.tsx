@@ -82,7 +82,7 @@ export function HeroSection() {
           }`}
           style={{ transitionDelay: '0.5s' }}
         >
-          <span className="inline-flex items-center gap-3 text-base font-light tracking-[var(--letter-spacing-wide)] uppercase text-[var(--color-accent)]">
+          <span className="inline-flex items-center gap-3 text-base font-semibold tracking-[var(--letter-spacing-wide)] uppercase text-[var(--color-accent)]">
             <span className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-border)] to-transparent" />
             Est. 2025
             <span className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-border)] to-transparent" />
@@ -101,7 +101,7 @@ export function HeroSection() {
         </h1>
 
         <p
-          className={`mt-6 font-display text-lg md:text-xl font-light text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed transition-all duration-1000 ${
+          className={`mt-6 font-display text-lg md:text-xl font-normal text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed transition-all duration-1000 ${
             loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ transitionDelay: '1.3s' }}
@@ -117,14 +117,14 @@ export function HeroSection() {
         >
           <Link
             href="/recipes"
-            className="group relative overflow-hidden px-8 py-4 bg-[var(--color-accent)] text-[var(--color-accent-contrast)] text-base tracking-[var(--letter-spacing-wide)] uppercase font-normal transition-all duration-500 hover:shadow-[0_0_40px_rgba(196,165,116,0.2)]"
+            className="group relative overflow-hidden px-8 py-4 bg-[var(--color-accent)] text-[var(--color-accent-contrast)] text-base tracking-[var(--letter-spacing-wide)] uppercase font-semibold transition-all duration-500 hover:shadow-[0_0_40px_rgba(196,165,116,0.2)]"
           >
             <span className="relative z-10">{t('hero.cta')}</span>
             <div className="absolute inset-0 bg-[var(--color-text-primary)] translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
           </Link>
           <Link
             href="/collection"
-            className="group relative px-8 py-4 border border-[var(--color-border)] text-[var(--color-text-primary)] text-base tracking-[var(--letter-spacing-wide)] uppercase font-normal hover:border-[var(--color-accent)]/40 hover:text-[var(--color-accent)] transition-all duration-500 overflow-hidden"
+            className="group relative px-8 py-4 border border-[var(--color-accent)]/45 text-[var(--color-text-primary)] text-base tracking-[var(--letter-spacing-wide)] uppercase font-semibold hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-all duration-500 overflow-hidden"
           >
             <span className="relative z-10">{t('hero.secondary')}</span>
             <div className="absolute bottom-0 left-0 right-0 h-0 group-hover:h-full bg-[var(--color-accent)]/5 transition-all duration-700" />

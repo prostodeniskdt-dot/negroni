@@ -15,6 +15,7 @@ export default function DrinkCard({ drink, onClick, href }: DrinkCardProps) {
   const { lang } = useI18n();
   const name = lang === 'en' ? drink.nameEn : drink.name;
   const tagline = lang === 'en' ? drink.taglineEn : drink.tagline;
+  const isActive = drink.isActive !== false;
   const content = (
     <>
       <div className="relative flex min-h-[240px] items-center justify-center bg-[var(--color-surface-solid)] p-4">
@@ -34,6 +35,11 @@ export default function DrinkCard({ drink, onClick, href }: DrinkCardProps) {
         )}
       </div>
       <div className="p-4">
+        {drink.isNew && (
+          <span className="inline-flex rounded-full border border-[var(--color-campari)] bg-[var(--color-campari)]/15 px-2 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--color-campari)]">
+            {lang === 'en' ? 'New' : 'Новинка'}
+          </span>
+        )}
         <h4 className="font-display font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-campari)] transition-colors">
           {name}
         </h4>
@@ -47,11 +53,16 @@ export default function DrinkCard({ drink, onClick, href }: DrinkCardProps) {
           {drink.volume && <span>{drink.volume}</span>}
           {drink.origin && <span>{lang === 'en' ? drink.originEn ?? drink.origin : drink.origin}</span>}
         </div>
+        {!isActive && (
+          <p className="mt-4 inline-flex rounded-full border border-[var(--color-border)] px-2 py-1 text-[0.65rem] uppercase tracking-[0.16em] text-[var(--color-text-secondary)]">
+            {lang === 'en' ? 'Soon' : 'Скоро'}
+          </p>
+        )}
       </div>
     </>
   );
 
-  if (href) {
+  if (href && isActive) {
     return (
       <Link
         href={href}
@@ -59,6 +70,14 @@ export default function DrinkCard({ drink, onClick, href }: DrinkCardProps) {
       >
         {content}
       </Link>
+    );
+  }
+
+  if (!isActive) {
+    return (
+      <div className="w-full text-left bg-[var(--color-surface)]/70 border border-[var(--color-border)] rounded-[var(--radius-lg)] overflow-hidden group opacity-80">
+        {content}
+      </div>
     );
   }
 

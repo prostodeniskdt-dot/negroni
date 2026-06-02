@@ -43,21 +43,16 @@ export default function FavoritesPage() {
   }, [favoriteEntries, t]);
 
   const handleShare = useCallback(async () => {
-    const res = await fetch('/api/me/share-links', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ kind: 'favorites' }),
-    });
-    if (!res.ok) return;
-    const j = await res.json().catch(() => ({}));
-    const url = j?.url ? `${window.location.origin}${j.url}` : '';
-    if (!url) return;
-    await navigator.clipboard.writeText(url).catch(() => {});
-    alert('Ссылка скопирована в буфер обмена.');
-  }, []);
+    const recipeLinks = favoriteEntries
+      .map((entry) => `${window.location.origin}/recipe/${entry.id}`)
+      .join('\n');
+    if (!recipeLinks) return;
+    await navigator.clipboard.writeText(recipeLinks).catch(() => {});
+    alert('Ссылки на избранные рецепты скопированы в буфер обмена.');
+  }, [favoriteEntries]);
 
   const handlePdf = useCallback(() => {
-    window.location.href = '/api/export/pdf?kind=favorites';
+    window.print();
   }, []);
 
   const handleClear = useCallback(() => {

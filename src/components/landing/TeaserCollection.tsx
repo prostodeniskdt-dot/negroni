@@ -47,7 +47,7 @@ export function TeaserCollection() {
         <h2 className="type-section-title text-3xl md:text-5xl lg:text-6xl font-normal text-[var(--color-text-primary)] mt-4 leading-tight">
           {t('collection.title')}
         </h2>
-        <p className="mt-4 font-display text-[var(--color-text-muted)] text-lg max-w-2xl mx-auto">
+        <p className="mt-4 font-display font-medium text-[var(--color-text-muted)] text-lg max-w-2xl mx-auto">
           {t('collection.desc')}
         </p>
       </div>
@@ -75,7 +75,7 @@ export function TeaserCollection() {
               <h3 className="font-display text-xl font-bold mt-2 mb-2 text-[var(--color-text-primary)] group-hover:text-[var(--color-campari)] transition-colors">
                 {recipe.name}
               </h3>
-              <p className="text-sm text-[var(--color-text-muted)] leading-relaxed line-clamp-2">
+              <p className="text-sm font-medium text-[var(--color-text-muted)] leading-relaxed line-clamp-2">
                 {recipe.intro || recipe.barDescription}
               </p>
               <span className="mt-4 inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-[var(--color-campari)]">
@@ -89,7 +89,7 @@ export function TeaserCollection() {
       <div className="mt-12 text-center">
         <Link
           href="/collection"
-          className="inline-flex items-center gap-3 text-sm tracking-[0.2em] uppercase text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors duration-300"
+          className="inline-flex items-center gap-3 text-sm font-semibold tracking-[0.2em] uppercase text-[var(--color-text-muted)] hover:text-[var(--color-campari)] transition-colors duration-300"
         >
           {t('hero.secondary')}
         </Link>

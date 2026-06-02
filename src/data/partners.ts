@@ -54,6 +54,19 @@ export interface Drink {
   purchaseNoteEn?: string;
   recipeHints?: string;
   sortOrder?: number;
+  isActive?: boolean;
+  notebookStyle?: boolean;
+  isNew?: boolean;
+  companyBlockTitle?: string;
+  companyBlockTitleEn?: string;
+  companyName?: string;
+  companyNameEn?: string;
+  companyContacts?: string[];
+  companyContactsEn?: string[];
+  storyTitle?: string;
+  storyTitleEn?: string;
+  tastingTitle?: string;
+  tastingTitleEn?: string;
 }
 
 // Партнёры (заглушки)
@@ -70,43 +83,16 @@ export const partners: Partner[] = [
     phoneLabelEn: 'BAR BOSS ONLINE',
   },
   {
-    id: 'partner-gin',
-    name: 'Gin House',
-    nameEn: 'Gin House',
+    id: 'partner-bartenders-united',
+    name: 'Bartenders United / JOIA',
+    nameEn: 'Bartenders United / JOIA',
     isGeneralPartner: false,
-    logo: '/placeholder-logo.svg',
-    description: 'Крафтовые джины для экспериментов с коктейлями.',
-    descriptionEn: 'Craft gins for cocktail experiments.',
-    link: '#',
-    phone: '+7 (495) 234-56-78',
-    phoneLabel: 'Отдел продаж Gin House',
-    phoneLabelEn: 'Gin House sales',
-  },
-  {
-    id: 'partner-vermouth',
-    name: 'Vermouth & Co',
-    nameEn: 'Vermouth & Co',
-    isGeneralPartner: false,
-    logo: '/placeholder-logo.svg',
-    description: 'Красные и белые вермуты для классики и твистов.',
-    descriptionEn: 'Red and white vermouths for classic and twisted cocktails.',
-    link: '#',
-    phone: '+7 (495) 345-67-89',
-    phoneLabel: 'Vermouth & Co',
-    phoneLabelEn: 'Vermouth & Co',
-  },
-  {
-    id: 'partner-bitter',
-    name: 'Bitter Lab',
-    nameEn: 'Bitter Lab',
-    isGeneralPartner: false,
-    logo: '/placeholder-logo.svg',
-    description: 'Биттеры и аперитивы для горьких акцентов.',
-    descriptionEn: 'Bitters and aperitivi for bitter accents.',
-    link: '#',
-    phone: '+7 (495) 456-78-90',
-    phoneLabel: 'Bitter Lab',
-    phoneLabelEn: 'Bitter Lab',
+    description: 'Премиальный сухой джин новой линейки Bartenders United от JOIA.',
+    descriptionEn: 'Premium dry gin from the new Bartenders United line by JOIA.',
+    link: 'https://joiastore.ru/product/dzhin_bartenders_yunayted_london_dray_0_7l/',
+    phone: '+7 (495) 495-95-95',
+    phoneLabel: 'JOIA / партнёрский отдел',
+    phoneLabelEn: 'JOIA / partner desk',
   },
 ];
 
@@ -149,6 +135,62 @@ export const drinkCategories: DrinkCategory[] = [
 // Напитки (заглушки по 2–3 на категорию)
 export const drinks: Drink[] = [
   {
+    id: 'bartenders-united-london-dry',
+    categoryId: 'gin',
+    name: 'BARTENDERS UNITED LONDON DRY GIN',
+    nameEn: 'BARTENDERS UNITED LONDON DRY GIN',
+    partnerId: 'partner-bartenders-united',
+    image: 'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=900',
+    tagline: 'Новинка. Премиальный сухой джин 43% алк.',
+    taglineEn: 'New arrival. Premium dry gin at 43% ABV.',
+    description:
+      'Первая новинка новой линейки Bartenders United на сайте JOIA. Джин создан основателем JOIA совместно с ведущими барменами и креативной командой из Дублина.',
+    descriptionEn:
+      'The first release from the new Bartenders United line on JOIA. Created by the JOIA founder together with leading bartenders and a Dublin-based creative team.',
+    producer: 'NIVA DISTILLERY по заказу JOIA',
+    producerEn: 'NIVA DISTILLERY for JOIA',
+    origin: 'Санкт-Петербург, Россия',
+    originEn: 'Saint Petersburg, Russia',
+    abv: '43%',
+    volume: '0.7 л',
+    tastingNotes:
+      'Аромат: цедра лимона и мандарина, травянистые ноты и свежий можжевельник. Вкус: можжевельник, цитрус, саган-дайля, сычуанский перец, чистый сухой финиш.',
+    serve:
+      'Отлично работает в классическом Негрони, сухих твистах и highball-подаче с тоником и цитрусом.',
+    serveEn:
+      'Performs well in classic Negroni, dry twists, and highball serves with tonic and citrus.',
+    buyUrl: 'https://joiastore.ru/product/dzhin_bartenders_yunayted_london_dray_0_7l/',
+    buyLabel: 'Смотреть на JOIA',
+    buyLabelEn: 'View on JOIA',
+    purchaseNote:
+      'Креативная команда бренда работала с международным опытом проектов Shed Distillery, Gunpowder Gin, The Dead Rabbit, Johnnie Walker Experience и Guinness Open Gate.',
+    purchaseNoteEn:
+      'The creative team brings international experience from Shed Distillery, Gunpowder Gin, The Dead Rabbit, Johnnie Walker Experience, and Guinness Open Gate.',
+    recipeHints: 'classic-negroni,dry-negroni,signature-negroni',
+    sortOrder: 1,
+    isActive: true,
+    notebookStyle: true,
+    isNew: true,
+    storyTitle: 'Описание / легенда',
+    storyTitleEn: 'Story / legend',
+    tastingTitle: 'Дегустация',
+    tastingTitleEn: 'Tasting',
+    companyBlockTitle: 'Компания',
+    companyBlockTitleEn: 'Company',
+    companyName: 'JOIA',
+    companyNameEn: 'JOIA',
+    companyContacts: [
+      'Создан основателем JOIA совместно с ведущими барменами.',
+      'Технология: London dry, дистилляция малыми партиями в медном аламбике.',
+      'В ближайшее время: земляника-личи, далее вкусы табака и умами.',
+    ],
+    companyContactsEn: [
+      'Created by the JOIA founder with leading bartenders.',
+      'London dry technology, small-batch copper alembic distillation.',
+      'Upcoming line extension: strawberry-lychee, then tobacco and umami profiles.',
+    ],
+  },
+  {
     id: 'gin-classic',
     categoryId: 'gin',
     name: 'Джин классический',
@@ -175,13 +217,14 @@ export const drinks: Drink[] = [
     purchaseNoteEn: 'Demo card: this place will contain a store, distributor or brand link.',
     recipeHints: 'classic-negroni,moscow-negroni',
     sortOrder: 10,
+    isActive: false,
   },
   {
     id: 'gin-floral',
     categoryId: 'gin',
     name: 'Джин цветочный',
     nameEn: 'Floral Gin',
-    partnerId: 'partner-gin',
+    partnerId: 'partner-bartenders-united',
     image: 'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400',
     tagline: 'Для мягких авторских твистов',
     taglineEn: 'For soft signature twists',
@@ -203,16 +246,18 @@ export const drinks: Drink[] = [
     purchaseNoteEn: 'Add supplier contacts, order terms and delivery geography.',
     recipeHints: 'floral-negroni,white-negroni',
     sortOrder: 20,
+    isActive: false,
   },
   {
     id: 'gin-citrus',
     categoryId: 'gin',
     name: 'Джин цитрусовый',
     nameEn: 'Citrus Gin',
-    partnerId: 'partner-gin',
+    partnerId: 'partner-bartenders-united',
     image: 'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400',
     description: 'Яркие цитрусовые акценты для освежающих вариаций.',
     descriptionEn: 'Bright citrus accents for refreshing variations.',
+    isActive: false,
   },
   {
     id: 'vermouth-red',
@@ -241,26 +286,29 @@ export const drinks: Drink[] = [
     purchaseNoteEn: 'Place current price, city and purchase method here.',
     recipeHints: 'classic-negroni,barrel-negroni',
     sortOrder: 10,
+    isActive: false,
   },
   {
     id: 'vermouth-white',
     categoryId: 'vermouth',
     name: 'Вермут белый',
     nameEn: 'White Vermouth',
-    partnerId: 'partner-vermouth',
+    partnerId: 'general',
     image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400',
     description: 'Более сухой и лёгкий профиль для элегантных твистов.',
     descriptionEn: 'Drier, lighter profile for elegant twists.',
+    isActive: false,
   },
   {
     id: 'vermouth-dry',
     categoryId: 'vermouth',
     name: 'Вермут сухой',
     nameEn: 'Dry Vermouth',
-    partnerId: 'partner-vermouth',
+    partnerId: 'general',
     image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400',
     description: 'Минимальная сладость, травяные ноты.',
     descriptionEn: 'Minimal sweetness, herbal notes.',
+    isActive: false,
   },
   {
     id: 'bitter-campari',
@@ -289,16 +337,18 @@ export const drinks: Drink[] = [
     purchaseNoteEn: 'A real card will link to the partner catalog or request form.',
     recipeHints: 'classic-negroni,boulevardier',
     sortOrder: 10,
+    isActive: false,
   },
   {
     id: 'bitter-local',
     categoryId: 'bitter',
     name: 'Локальные биттеры',
     nameEn: 'Local Bitters',
-    partnerId: 'partner-bitter',
+    partnerId: 'general',
     image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400',
     description: 'Региональные биттеры и настойки для уникальных вариаций.',
     descriptionEn: 'Regional bitters and tinctures for unique variations.',
+    isActive: false,
   },
   {
     id: 'liqueur-honey',
@@ -309,6 +359,7 @@ export const drinks: Drink[] = [
     image: 'https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=400',
     description: 'Мягкая сладость и медовые ноты для тёплых твистов.',
     descriptionEn: 'Soft sweetness and honey notes for warm twists.',
+    isActive: false,
   },
   {
     id: 'liqueur-herbal',
@@ -319,6 +370,7 @@ export const drinks: Drink[] = [
     image: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=400',
     description: 'Травяные и цветочные акценты для сложных профилей.',
     descriptionEn: 'Herbal and floral accents for complex profiles.',
+    isActive: false,
   },
 ];
 

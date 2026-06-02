@@ -13,8 +13,18 @@ const HISTORY_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp'] as const;
 
 const timelineEvents = [
   {
+    year: '1806',
+    key: '1806',
+    link: null,
+  },
+  {
     year: '1860',
     key: '1860',
+    link: null,
+  },
+  {
+    year: '1868',
+    key: '1868',
     link: null,
   },
   {
@@ -28,13 +38,18 @@ const timelineEvents = [
     link: null,
   },
   {
-    year: '1947',
-    key: '1947',
+    year: '1943',
+    key: '1943',
     link: null,
   },
   {
-    year: '2000',
-    key: '2000',
+    year: '1960',
+    key: '1960',
+    link: null,
+  },
+  {
+    year: '2003',
+    key: '2003',
     link: null,
   },
   {
@@ -48,8 +63,8 @@ const timelineEvents = [
     link: null,
   },
   {
-    year: '2025',
-    key: '2025',
+    year: '2024',
+    key: '2024',
     link: '/collection',
   },
 ] as const;
@@ -263,6 +278,56 @@ export default function HistoryPage() {
               </Reveal>
             );
           })}
+        </div>
+      </Reveal>
+
+      {/* Family Tree */}
+      <Reveal as="section" className="px-6 py-10 max-w-[1050px] mx-auto">
+        <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:p-8">
+          <div className="text-center mb-6 md:mb-8">
+            <span className="inline-flex items-center gap-2 text-[0.72rem] tracking-[0.26em] uppercase text-[var(--color-accent)]">
+              Negroni Family Tree
+            </span>
+            <h2 className="mt-2 font-display text-2xl md:text-3xl uppercase tracking-wide text-[var(--color-text-primary)]">
+              Вариации Негрони
+            </h2>
+            <p className="mt-3 text-[var(--color-text-muted)] max-w-2xl mx-auto">
+              От Americano и Milano Torino до Coffee Negroni и Rosita — ветви одного семейства, где каждая версия развивает базовую формулу по-своему.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              'Americano',
+              'Milano Torino',
+              'Negroni',
+              'Sbagliato',
+              'Boulevardier',
+              'Coffee Negroni',
+              'Kingston Negroni',
+              'Rosita',
+              'Cardinale',
+              'Old Pal',
+            ].map((name, index) => (
+              <Reveal
+                as="div"
+                key={name}
+                className="group relative overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/45 p-4 transition-all duration-500 hover:-translate-y-0.5 hover:border-[var(--color-campari)]/55 hover:shadow-[0_0_22px_rgba(158,61,79,0.2)]"
+              >
+                <div
+                  className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--color-campari)] to-transparent opacity-30 group-hover:opacity-100 transition-opacity"
+                  style={{ transitionDelay: `${index * 40}ms` }}
+                  aria-hidden
+                />
+                <span className="block text-[0.72rem] tracking-[0.2em] uppercase text-[var(--color-text-secondary)]">
+                  Ветвь {String(index + 1).padStart(2, '0')}
+                </span>
+                <h3 className="mt-2 font-display text-lg uppercase tracking-wide text-[var(--color-text-primary)] group-hover:text-[var(--color-campari-light)] transition-colors">
+                  {name}
+                </h3>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </Reveal>
 

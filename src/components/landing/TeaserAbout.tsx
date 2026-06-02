@@ -41,14 +41,14 @@ export function TeaserAbout() {
         <p className="type-label text-[var(--color-accent)] mb-4 tracking-[0.12em]">
           {t('about.subtitle')}
         </p>
-        <p className="type-prose text-[var(--color-text-muted)] text-[0.95rem] mb-3">
+        <p className="type-prose text-[var(--color-text-muted)] text-[0.95rem] mb-3 font-medium">
           {t('about.p1')}
         </p>
-        <p className="type-prose text-[var(--color-text-muted)] text-[0.95rem] mb-3">
+        <p className="type-prose text-[var(--color-text-muted)] text-[0.95rem] mb-3 font-medium">
           {t('about.p2')}
         </p>
         <p
-          className="type-prose text-[var(--color-text-muted)] text-[0.95rem] mb-4"
+          className="type-prose text-[var(--color-text-muted)] text-[0.95rem] mb-4 font-medium"
           dangerouslySetInnerHTML={{ __html: t('about.p3') }}
         />
         <p>

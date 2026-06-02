@@ -5,15 +5,12 @@ import React from 'react';
 import { readFile } from 'fs/promises';
 import path from 'path';
 import { prisma } from '@/lib/db';
-import { getSession, requireRole } from '@/lib/auth';
 import { RecipesPdf, type PdfRecipe } from '@/lib/pdf/RecipesPdf';
 
 export const runtime = 'nodejs';
 
 const QuerySchema = z.object({
-  kind: z.enum(['favorites', 'collection', 'recipe']).optional(),
   id: z.string().optional(),
-  share: z.string().optional(),
   lang: z.string().optional(),
 });
 
@@ -64,69 +61,13 @@ export async function GET(req: Request) {
   const parsed = QuerySchema.safeParse(q);
   if (!parsed.success) return NextResponse.json({ error: 'INVALID_QUERY' }, { status: 400 });
 
-  const { kind, id, share } = parsed.data;
+  const { id } = parsed.data;
 
-  let title = 'Recipes';
-  let recipes: any[] = [];
-
-  if (share) {
-    const link = await prisma.shareLink.findUnique({
-      where: { token: share },
-      select: {
-        kind: true,
-        userId: true,
-        collectionId: true,
-        recipeId: true,
-        collection: { select: { name: true, items: { orderBy: { position: 'asc' }, select: { recipeId: true } } } },
-      },
-    });
-    if (!link) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
-
-    if (link.kind === 'favorites') {
-      title = 'Избранное';
-      const fav = await prisma.favorite.findMany({ where: { userId: link.userId }, select: { recipeId: true }, orderBy: { createdAt: 'desc' } });
-      recipes = fav.length ? await prisma.recipe.findMany({ where: { id: { in: fav.map((x) => x.recipeId) } } }) : [];
-    } else if (link.kind === 'collection' && link.collection) {
-      title = link.collection.name;
-      const ids = link.collection.items.map((x) => x.recipeId);
-      recipes = ids.length ? await prisma.recipe.findMany({ where: { id: { in: ids } } }) : [];
-    } else if (link.kind === 'recipe' && link.recipeId) {
-      const r = await prisma.recipe.findUnique({ where: { id: link.recipeId } });
-      if (r) recipes = [r];
-      title = r?.name ?? 'Рецепт';
-    }
-  } else {
-    const session = await getSession();
-    try {
-      requireRole(session, ['user', 'admin']);
-    } catch (e) {
-      return NextResponse.json({ error: String(e) }, { status: 401 });
-    }
-
-    if (kind === 'favorites') {
-      title = 'Избранное';
-      const fav = await prisma.favorite.findMany({ where: { userId: session.sub }, select: { recipeId: true }, orderBy: { createdAt: 'desc' } });
-      recipes = fav.length ? await prisma.recipe.findMany({ where: { id: { in: fav.map((x) => x.recipeId) } } }) : [];
-    } else if (kind === 'collection') {
-      if (!id) return NextResponse.json({ error: 'ID_REQUIRED' }, { status: 400 });
-      const col = await prisma.collection.findFirst({
-        where: { id, userId: session.sub },
-        select: { name: true, items: { orderBy: { position: 'asc' }, select: { recipeId: true } } },
-      });
-      if (!col) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
-      title = col.name;
-      const ids = col.items.map((x) => x.recipeId);
-      recipes = ids.length ? await prisma.recipe.findMany({ where: { id: { in: ids } } }) : [];
-    } else if (kind === 'recipe') {
-      if (!id) return NextResponse.json({ error: 'ID_REQUIRED' }, { status: 400 });
-      const r = await prisma.recipe.findUnique({ where: { slug: id } });
-      if (!r) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
-      title = r.name;
-      recipes = [r];
-    } else {
-      return NextResponse.json({ error: 'KIND_REQUIRED' }, { status: 400 });
-    }
-  }
+  if (!id) return NextResponse.json({ error: 'ID_REQUIRED' }, { status: 400 });
+  const r = await prisma.recipe.findUnique({ where: { slug: id } });
+  if (!r) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
+  const title = r.name;
+  const recipes = [r];
 
   const doc = React.createElement(RecipesPdf, { title, recipes: await normalizeRecipes(recipes) });
   // @react-pdf/renderer provides Node helpers; `toBuffer()` is the most compatible for Response.

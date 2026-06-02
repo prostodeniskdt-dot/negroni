@@ -50,7 +50,7 @@ export default async function PartnerCategoryPage({
             <DrinkCard
               key={drink.id}
               drink={drink}
-              href={`/partners/${category.slug}/${drink.id}`}
+              href={drink.isActive === false ? undefined : `/partners/${category.slug}/${drink.id}`}
             />
           ))}
         </div>

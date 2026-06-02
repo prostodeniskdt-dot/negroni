@@ -170,7 +170,7 @@ export default function RecipePage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => window.print()}
+                  onClick={() => window.location.assign(`/api/export/pdf?id=${id}`)}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-transparent text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:bg-[var(--color-campari)]/10 transition-all"
                 >
                   {t('recipe.export')}

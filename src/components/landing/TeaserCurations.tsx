@@ -30,7 +30,7 @@ export function TeaserCurations() {
     <section ref={ref} className="relative py-16 md:py-24 px-6 md:px-12 lg:px-20 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <h2
-          className={`font-display text-xl font-bold text-[var(--color-text-muted)] uppercase tracking-[0.08em] transition-all duration-700 ${
+          className={`font-display text-xl font-semibold text-[var(--color-text-muted)] uppercase tracking-[0.08em] transition-all duration-700 ${
             visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
           }`}
         >
@@ -38,7 +38,7 @@ export function TeaserCurations() {
         </h2>
         <Link
           href="/curations"
-          className={`font-display text-sm text-[var(--color-text-muted)] hover:text-[var(--color-campari-light)] transition-colors ${
+          className={`font-display text-sm font-semibold text-[var(--color-text-muted)] hover:text-[var(--color-campari-light)] transition-colors ${
             visible ? 'opacity-100' : 'opacity-0'
           }`}
           style={{ transitionDelay: '150ms' }}
@@ -60,7 +60,7 @@ export function TeaserCurations() {
             <h3 className="font-display text-lg font-bold mb-1.5 text-[var(--color-text-primary)]">
               {curation.title}
             </h3>
-            <p className="text-sm text-[var(--color-text-muted)] font-display leading-normal line-clamp-2">
+            <p className="text-sm font-medium text-[var(--color-text-muted)] font-display leading-normal line-clamp-2">
               {curation.description}
             </p>
             <span className="text-xs text-[var(--color-campari)] mt-2 inline-block">

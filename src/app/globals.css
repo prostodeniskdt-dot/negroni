@@ -11,9 +11,9 @@
   --color-bg: #121212;
   --color-surface: rgba(28, 28, 28, 0.72);
   --color-surface-solid: #1c1c1c;
-  --color-text-primary: #f0ebe3;
-  --color-text-muted: rgba(240, 235, 227, 0.62);
-  --color-text-secondary: rgba(240, 235, 227, 0.4);
+  --color-text-primary: #f6f1ea;
+  --color-text-muted: rgba(246, 241, 234, 0.82);
+  --color-text-secondary: rgba(246, 241, 234, 0.62);
   --color-border: rgba(255, 255, 255, 0.09);
 
   --color-accent: #c4a574;
@@ -48,26 +48,6 @@
   --transition-slow: 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ====== LIGHT THEME — warm paper ====== */
-.theme-light {
-  --color-bg: #f7f5f1;
-  --color-surface: rgba(255, 255, 253, 0.88);
-  --color-surface-solid: #ffffff;
-  --color-text-primary: #1c1c1c;
-  --color-text-muted: rgba(28, 28, 28, 0.62);
-  --color-text-secondary: rgba(28, 28, 28, 0.42);
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-campari: #8b3344;
-  --color-campari-light: #a64d5c;
-  --color-campari-darker: #3d2a2e;
-  --color-accent: #9a7b4a;
-  --color-accent-light: #b8956a;
-  --color-accent-contrast: #f7f5f1;
-  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.1);
-}
-
 /* ====== BASE RESET ====== */
 *,
 *::before,
@@ -83,7 +63,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 400;
   background:
     radial-gradient(ellipse 80% 50% at 50% -5%, rgba(255, 255, 255, 0.04) 0%, transparent 55%),
     radial-gradient(ellipse 60% 40% at 100% 100%, rgba(196, 165, 116, 0.03) 0%, transparent 50%),
@@ -97,15 +77,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.theme-light body {
-  background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(196, 165, 116, 0.12) 0%, transparent 60%),
-    linear-gradient(180deg, #faf8f4 0%, #f7f5f1 50%, #f3f1ec 100%);
-}
-
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: 0.02em;
   line-height: var(--leading-display);
 }
@@ -117,7 +91,7 @@ main {
 /* ====== TYPOGRAPHY PRESETS ====== */
 .type-hero-title {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 500;
   line-height: var(--leading-display);
   letter-spacing: var(--letter-spacing-hero);
 }
@@ -139,7 +113,7 @@ main {
 
 .type-label {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.75rem;
   line-height: 1.45;
   letter-spacing: var(--letter-spacing-label);
@@ -148,21 +122,21 @@ main {
 
 .type-prose {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 400;
   line-height: var(--leading-prose);
   letter-spacing: 0.01em;
 }
 
 .type-stat {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 500;
   line-height: var(--leading-display);
   font-variant-numeric: tabular-nums;
 }
 
 .type-nav {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.35;
   letter-spacing: var(--letter-spacing-wide);
@@ -219,9 +193,6 @@ a {
 .dark-tiles .leaflet-tile-pane {
   filter: brightness(0.7) contrast(1.1) saturate(0.8);
 }
-.theme-light .dark-tiles .leaflet-tile-pane {
-  filter: brightness(1) contrast(1) saturate(1);
-}
 
 .leaflet-popup-content-wrapper {
   background: var(--color-surface-solid, #1a0a0f);
@@ -241,12 +212,6 @@ a {
   font-family: var(--font-display);
   font-size: 0.875rem;
   line-height: 1.45;
-}
-.theme-light .leaflet-popup-content-wrapper {
-  background: #ffffff;
-}
-.theme-light .leaflet-popup-tip {
-  background: #ffffff;
 }
 
 .popup-btn {
@@ -608,17 +573,6 @@ textarea:focus-visible,
   background: rgba(196, 165, 116, 0.55);
 }
 
-.theme-light ::-webkit-scrollbar-track {
-  background: var(--color-bg);
-}
-
-.theme-light ::-webkit-scrollbar-thumb {
-  background: rgba(154, 123, 74, 0.35);
-}
-
-.theme-light ::-webkit-scrollbar-thumb:hover {
-  background: rgba(154, 123, 74, 0.55);
-}
 
 /* ====== SELECTION ====== */
 ::selection {
@@ -626,10 +580,6 @@ textarea:focus-visible,
   color: var(--color-text-primary);
 }
 
-.theme-light ::selection {
-  background: rgba(154, 123, 74, 0.22);
-  color: var(--color-text-primary);
-}
 
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
