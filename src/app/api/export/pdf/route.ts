@@ -4,7 +4,8 @@ import { pdf } from '@react-pdf/renderer';
 import React from 'react';
 import { readFile } from 'fs/promises';
 import path from 'path';
-import { prisma } from '@/lib/db';
+import { getRecipeById } from '@/data/recipes';
+import { normalizeRecipeEntry } from '@/lib/public-recipes';
 import { RecipesPdf, type PdfRecipe } from '@/lib/pdf/RecipesPdf';
 
 export const runtime = 'nodejs';
@@ -64,10 +65,23 @@ export async function GET(req: Request) {
   const { id } = parsed.data;
 
   if (!id) return NextResponse.json({ error: 'ID_REQUIRED' }, { status: 400 });
-  const r = await prisma.recipe.findUnique({ where: { slug: id } });
-  if (!r) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
-  const title = r.name;
-  const recipes = [r];
+  const entry = getRecipeById(id);
+  if (!entry) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
+  const normalized = normalizeRecipeEntry(entry);
+  const title = normalized.recipe.name;
+  const recipes = [{
+    slug: normalized.id,
+    name: normalized.recipe.name,
+    region: normalized.recipe.region,
+    intro: normalized.recipe.intro,
+    image: normalized.recipe.image,
+    method: normalized.recipe.method,
+    glass: normalized.recipe.glass,
+    garnish: normalized.recipe.garnish,
+    ice: normalized.recipe.ice,
+    ingredients: normalized.recipe.ingredients,
+    steps: normalized.recipe.steps,
+  }];
 
   const doc = React.createElement(RecipesPdf, { title, recipes: await normalizeRecipes(recipes) });
   // @react-pdf/renderer provides Node helpers; `toBuffer()` is the most compatible for Response.

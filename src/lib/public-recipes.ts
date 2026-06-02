@@ -1,58 +1,9 @@
-import type { Recipe as DbRecipe } from '@prisma/client';
 import {
   recipes as staticRecipes,
   type RecipeEntry,
-  type Recipe,
-  type Prebatch,
 } from '@/data/recipes';
 
 export type PublicRecipeEntry = RecipeEntry;
-
-export function dbRecipeToEntry(recipe: DbRecipe): PublicRecipeEntry {
-  const prebatch: string | Prebatch =
-    recipe.prebatchMode === 'none'
-      ? ''
-      : recipe.prebatchText
-        ? recipe.prebatchText
-        : '';
-
-  return {
-    id: recipe.slug,
-    city: recipe.city,
-    lat: recipe.lat,
-    lng: recipe.lng,
-    recipe: {
-      name: recipe.name,
-      region: recipe.region,
-      author: recipe.author,
-      bar: recipe.bar,
-      difficulty: normalizeDifficulty(recipe.difficulty),
-      category: recipe.category,
-      barDescription: recipe.barDescription,
-      barCity: recipe.barCity,
-      tags: recipe.tags,
-      intro: recipe.intro,
-      image: recipe.image,
-      method: recipe.method,
-      glass: recipe.glass,
-      garnish: recipe.garnish,
-      ice: recipe.ice,
-      prebatch,
-      flavorProfile: {
-        bitter: recipe.flavorBitter,
-        sweet: recipe.flavorSweet,
-        sour: recipe.flavorSour,
-        spicy: recipe.flavorSpicy,
-        strong: recipe.flavorStrong,
-      },
-      ingredients: recipe.ingredients,
-      steps: recipe.steps,
-      authorInstagram: recipe.authorInstagram ?? undefined,
-      authorTg: recipe.authorTg ?? undefined,
-      barLink: recipe.barLink ?? undefined,
-    },
-  };
-}
 
 export function normalizeRecipeEntry(entry: PublicRecipeEntry): PublicRecipeEntry {
   return {
@@ -160,9 +111,4 @@ export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
 
 export function staticPublicRecipes(): PublicRecipeEntry[] {
   return staticRecipes.map(normalizeRecipeEntry);
-}
-
-function normalizeDifficulty(value: string): Recipe['difficulty'] {
-  if (value === 'medium' || value === 'hard') return value;
-  return 'easy';
 }

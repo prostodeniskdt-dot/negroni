@@ -2,20 +2,15 @@ FROM node:24-slim
 
 WORKDIR /app
 
-# Prisma requires OpenSSL in slim Debian images.
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates curl openssl \
+    && apt-get install -y --no-install-recommends ca-certificates curl \
     && rm -rf /var/lib/apt/lists/*
 
-ENV HOST=0.0.0.0
-ENV APP_HOST=0.0.0.0
 ENV PORT=3000
-ENV STARTUP_DB_INIT=0
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV PGSSLROOTCERT=/app/root.crt
 
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json ./
+RUN npm install
 
 COPY . .
 RUN npm run build
@@ -24,6 +19,6 @@ ENV NODE_ENV=production
 
 EXPOSE 3000
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=10 CMD curl --fail "http://127.0.0.1:${PORT:-3000}/api/health" || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=5 CMD curl --fail "http://127.0.0.1:3000/api/health" || exit 1
 
-CMD ["node", "scripts/start.mjs"]
+CMD ["npm", "run", "start"]
