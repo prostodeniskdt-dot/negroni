@@ -36,6 +36,20 @@ export function getRecipesByCategory(categoryId: string): RecipeEntry[] {
 export function getRecipesByDrink(drinkId: string): RecipeEntry[] {
   const drink = getDrinkById(drinkId);
   if (!drink) return [];
+
+  if (drink.recipeHints) {
+    const recipeIds = drink.recipeHints
+      .split(',')
+      .map((id) => id.trim())
+      .filter(Boolean);
+
+    if (recipeIds.length > 0) {
+      return recipeIds
+        .map((id) => recipes.find((entry) => entry.id === id))
+        .filter((entry): entry is RecipeEntry => Boolean(entry));
+    }
+  }
+
   return getRecipesByCategory(drink.categoryId);
 }
 

@@ -31,10 +31,10 @@ export default function PartnersPage() {
         </p>
         <p className="text-center text-sm font-medium text-[var(--color-text-secondary)] mb-12">
           {lang === 'ru'
-            ? 'Сейчас активна карточка нового джина Bartenders United. Остальные продукты временно в статусе "Скоро".'
-            : 'Currently only the new Bartenders United gin card is active. Other products are temporarily marked as "Soon".'}
+            ? 'Сейчас в каталоге представлен джин Bartenders United и две подачи Негрони: классическая и ярославская.'
+            : 'The catalog currently features Bartenders United gin and two Negroni serves: classic and Yaroslavl.'}
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {drinkCategories.map((category) => (
             <CategoryCard
               key={category.id}

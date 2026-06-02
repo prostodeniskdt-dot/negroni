@@ -14,6 +14,9 @@ interface CategoryCardProps {
 export default function CategoryCard({ category, drinkCount, onClick, href }: CategoryCardProps) {
   const { lang } = useI18n();
   const name = lang === 'en' ? category.nameEn : category.name;
+  const countLabel = lang === 'en'
+    ? `${drinkCount} ${drinkCount === 1 ? 'drink' : 'drinks'}`
+    : `${drinkCount} ${drinkCount === 1 ? 'напиток' : 'напитков'}`;
   const content = (
     <>
       <span className="block w-8 h-px bg-[var(--color-accent)] mb-4 group-hover:w-12 transition-all duration-300" />
@@ -21,7 +24,7 @@ export default function CategoryCard({ category, drinkCount, onClick, href }: Ca
         {name}
       </h3>
       <p className="text-sm text-[var(--color-text-muted)]">
-        {drinkCount} {lang === 'en' ? 'drinks' : 'напитков'}
+        {countLabel}
       </p>
     </>
   );

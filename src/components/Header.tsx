@@ -53,7 +53,7 @@ export default function Header() {
             href="https://barbossonline.ru/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex flex-col gap-0.5 leading-snug no-underline shrink-0"
+            className="hidden sm:inline-flex items-center gap-1.5 leading-none no-underline shrink-0 whitespace-nowrap"
             aria-label="Бар Босс Онлайн"
           >
             <span className="type-label text-[0.65rem] tracking-[0.16em] text-[var(--color-text-secondary)]">
