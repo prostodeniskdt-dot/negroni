@@ -34,6 +34,14 @@ export default async function PartnerDrinkPage({
     ?.split(',')
     .map((note) => note.trim())
     .filter(Boolean);
+  const specItems = [
+    ['Категория', category.name],
+    ['Крепость', drink.abv],
+    ['Объём', drink.volume],
+    ['Производитель', drink.producer],
+    ['Происхождение', drink.origin],
+    ['Партнёр', partner?.name],
+  ].filter(([, value]) => Boolean(value));
 
   return (
     <main className="min-h-screen pt-24">
@@ -69,29 +77,6 @@ export default async function PartnerDrinkPage({
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-text-muted)] font-display">
               {drink.description}
             </p>
-
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {[
-                ['Категория', category.name],
-                ['Крепость', drink.abv],
-                ['Объём', drink.volume],
-                ['Производитель', drink.producer],
-                ['Происхождение', drink.origin],
-                ['Партнёр', partner?.name],
-              ]
-                .filter(([, value]) => Boolean(value))
-                .map(([label, value]) => (
-                  <div
-                    key={label}
-                    className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4"
-                  >
-                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
-                      {label}
-                    </p>
-                    <p className="mt-2 text-[var(--color-text-primary)]">{value}</p>
-                  </div>
-                ))}
-            </div>
           </div>
 
           <aside className={`rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 ${drink.notebookStyle ? 'shadow-[var(--shadow-lg)]' : ''}`}>
@@ -113,63 +98,21 @@ export default async function PartnerDrinkPage({
               )}
             </div>
 
-            <div className="mt-5 space-y-4">
-              {drink.notebookStyle && (
-                <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/50 p-4">
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {specItems.map(([label, value]) => (
+                <div
+                  key={label}
+                  className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/50 p-4"
+                >
                   <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
-                    {drink.storyTitle ?? 'Описание / легенда'}
+                    {label}
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-muted)]">
-                    {drink.description}
-                  </p>
+                  <p className="mt-2 text-sm text-[var(--color-text-primary)]">{value}</p>
                 </div>
-              )}
+              ))}
+            </div>
 
-              {drink.notebookStyle && drink.tastingNotes && (
-                <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/50 p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
-                    {drink.tastingTitle ?? 'Дегустация'}
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-muted)]">
-                    {drink.tastingNotes}
-                  </p>
-                </div>
-              )}
-
-              {partner?.phone && (
-                <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/40 p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
-                    Связаться с партнёром
-                  </p>
-                  <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-                    {partner.phoneLabel ?? partner.name}
-                  </p>
-                  <a
-                    href={`tel:${partner.phone.replace(/[^\d+]/g, '')}`}
-                    className="mt-3 inline-flex items-center gap-2 font-display text-lg text-[var(--color-accent)] hover:text-[var(--color-accent-light)] transition-colors"
-                  >
-                    {partner.phone}
-                  </a>
-                  <p className="mt-2 text-xs leading-relaxed text-[var(--color-text-muted)]">
-                    Позвоните, чтобы уточнить наличие и заказать алкоголь от партнёра.
-                  </p>
-                </div>
-              )}
-              {drink.notebookStyle && (
-                <div className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/50 p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
-                    {drink.companyBlockTitle ?? 'Компания'}
-                  </p>
-                  <p className="mt-1 text-sm text-[var(--color-text-primary)]">
-                    {drink.companyName ?? partner?.name}
-                  </p>
-                  {drink.companyContacts?.map((line) => (
-                    <p key={line} className="mt-2 text-xs leading-relaxed text-[var(--color-text-muted)]">
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              )}
+            <div className="mt-5 space-y-3">
               {drink.buyUrl && (
                 <a
                   href={drink.buyUrl}
@@ -187,6 +130,66 @@ export default async function PartnerDrinkPage({
               )}
             </div>
           </aside>
+        </div>
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          {drink.notebookStyle && (
+            <section className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
+                {drink.storyTitle ?? 'Описание / легенда'}
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-[var(--color-text-muted)] font-display">
+                {drink.description}
+              </p>
+            </section>
+          )}
+
+          {drink.notebookStyle && drink.tastingNotes && (
+            <section className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
+                {drink.tastingTitle ?? 'Дегустация'}
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-[var(--color-text-muted)] font-display">
+                {drink.tastingNotes}
+              </p>
+            </section>
+          )}
+
+          {partner?.phone && (
+            <section className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
+                Связаться с партнёром
+              </p>
+              <p className="mt-3 text-sm text-[var(--color-text-muted)]">
+                {partner.phoneLabel ?? partner.name}
+              </p>
+              <a
+                href={`tel:${partner.phone.replace(/[^\d+]/g, '')}`}
+                className="mt-4 inline-flex items-center gap-2 font-display text-2xl text-[var(--color-accent)] hover:text-[var(--color-accent-light)] transition-colors"
+              >
+                {partner.phone}
+              </a>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-muted)]">
+                Позвоните, чтобы уточнить наличие и заказать алкоголь от партнёра.
+              </p>
+            </section>
+          )}
+
+          {drink.notebookStyle && (
+            <section className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
+                {drink.companyBlockTitle ?? 'Компания'}
+              </p>
+              <p className="mt-3 text-base text-[var(--color-text-primary)]">
+                {drink.companyName ?? partner?.name}
+              </p>
+              {drink.companyContacts?.map((line) => (
+                <p key={line} className="mt-3 text-sm leading-relaxed text-[var(--color-text-muted)]">
+                  {line}
+                </p>
+              ))}
+            </section>
+          )}
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
