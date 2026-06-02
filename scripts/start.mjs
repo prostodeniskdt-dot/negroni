@@ -62,12 +62,8 @@ function encodeDatabaseCredentials(url) {
   return `${url.slice(0, protocolEnd)}${encodedCredentials}@${host}${url.slice(pathStart)}`;
 }
 
-const rawPort = process.env.PORT;
-const port = Number.parseInt(rawPort ?? '', 10);
-const resolvedPort = Number.isFinite(port) && port >= 0 ? port : 3000;
-
-const rawHost = process.env.APP_HOST ?? process.env.HOST ?? '';
-const host = rawHost.trim() || '0.0.0.0';
+const resolvedPort = 3000;
+const host = '0.0.0.0';
 
 const nextBin = path.join(process.cwd(), 'node_modules', 'next', 'dist', 'bin', 'next');
 
@@ -102,16 +98,22 @@ function tryBootstrapAdmin() {
   run(process.execPath, [path.join(process.cwd(), 'scripts', 'bootstrap-admin.mjs')]);
 }
 
-try {
-  // Important: do not crash the container before Next starts.
-  // If DB init fails due to env/SSL, the app should still respond to /api/health.
-  tryPrismaMigrateDeploy();
-  tryBootstrapAdmin();
-} catch (e) {
+const shouldRunDbInit = process.env.STARTUP_DB_INIT === '1';
+if (shouldRunDbInit) {
+  try {
+    // Optional DB init for environments where startup migrations are desired.
+    // Keep disabled by default so healthcheck does not block on DB connectivity.
+    tryPrismaMigrateDeploy();
+    tryBootstrapAdmin();
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('[startup] prisma init failed (continuing to start Next)');
+    // eslint-disable-next-line no-console
+    console.error(e);
+  }
+} else {
   // eslint-disable-next-line no-console
-  console.error('[startup] prisma init failed (continuing to start Next)');
-  // eslint-disable-next-line no-console
-  console.error(e);
+  console.log('[startup] skipping DB init (set STARTUP_DB_INIT=1 to enable)');
 }
 
 const child = spawn(process.execPath, [nextBin, 'start', '-H', host, '-p', String(resolvedPort)], {
