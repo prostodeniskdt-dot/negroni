@@ -65,7 +65,7 @@ export default function Header() {
           </a>
         </div>
 
-        <div className="hidden xl:flex flex-wrap items-center justify-end gap-1.5 2xl:gap-2 min-w-0 flex-1 max-w-[62%]">
+        <div className="hidden 2xl:flex flex-wrap items-center justify-end gap-3 2xl:gap-5 min-w-0 flex-1 max-w-[72%]">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             const isPrimary = link.tone === 'primary';
@@ -75,10 +75,10 @@ export default function Header() {
                 href={link.href}
                 className={
                   isPrimary
-                    ? `type-nav relative rounded-full px-3 py-1.5 border border-[var(--color-accent)]/40 text-[var(--color-accent)] hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 transition-all duration-500 ${
+                    ? `type-nav relative whitespace-nowrap rounded-full px-3 py-1.5 border border-[var(--color-accent)]/40 text-[var(--color-accent)] hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 transition-all duration-500 ${
                         isActive ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/8' : ''
                       }`
-                    : `type-nav relative transition-colors duration-500 group ${
+                    : `type-nav relative whitespace-nowrap transition-colors duration-500 group ${
                         isActive
                           ? 'text-[var(--color-text-primary)]'
                           : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'
@@ -126,7 +126,7 @@ export default function Header() {
           </Link>
         </div>
 
-        <div className="flex xl:hidden items-center gap-2 shrink-0">
+        <div className="flex 2xl:hidden items-center gap-2 shrink-0">
           <Link href="/favorites" className="relative p-2 text-[var(--color-text-muted)]" aria-label={t('nav.favorites')}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
             {favCount > 0 && (
@@ -155,7 +155,7 @@ export default function Header() {
       </nav>
 
       <div
-        className={`xl:hidden overflow-hidden transition-all duration-500 ${
+        className={`2xl:hidden overflow-hidden transition-all duration-500 ${
           menuOpen ? 'max-h-[min(80vh,32rem)] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >

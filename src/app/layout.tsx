@@ -6,11 +6,11 @@ import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Музей Негрони — 100+ вариаций по всей России',
+    default: 'Музей Негрони — классика и авторские подачи',
     template: '%s | Музей Негрони',
   },
   description:
-    'Музей Негрони — онлайн-коллекция и карта более 100 вариаций коктейля Негрони по городам России и мира: рецепты, вдохновение для баров и домашнего бара.',
+    'Музей Негрони — онлайн-коллекция проверенных рецептов коктейля Негрони: классика, авторские подачи, вдохновение для баров и домашнего бара.',
   keywords: ['негрони', 'negroni', 'коктейль', 'рецепт', 'бар', 'коктейльная карта', 'музей негрони', 'campari', 'кампари'],
   authors: [{ name: 'BAR BOSS ONLINE' }],
   creator: 'Виталий Аршук',
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     alternateLocale: 'en_US',
     url: 'https://museynegroni.ru',
     siteName: 'Музей Негрони',
-    title: 'Музей Негрони — 100+ вариаций по всей России',
-    description: 'Онлайн-коллекция и интерактивная карта более 100 вариаций коктейля Негрони по городам России и мира.',
+    title: 'Музей Негрони — классика и авторские подачи',
+    description: 'Онлайн-коллекция и интерактивная карта проверенных рецептов коктейля Негрони.',
     images: [
       {
         url: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1200&h=630&fit=crop',
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Музей Негрони — 100+ вариаций по всей России',
-    description: 'Онлайн-коллекция и интерактивная карта более 100 вариаций коктейля Негрони.',
+    title: 'Музей Негрони — классика и авторские подачи',
+    description: 'Онлайн-коллекция и интерактивная карта проверенных рецептов коктейля Негрони.',
     images: ['https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1200&h=630&fit=crop'],
   },
   robots: {
@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               name: 'Музей Негрони',
               alternateName: 'The Negroni Museum',
               url: 'https://museynegroni.ru',
-              description: 'Онлайн-коллекция и интерактивная карта более 100 вариаций коктейля Негрони по городам России и мира.',
+              description: 'Онлайн-коллекция и интерактивная карта проверенных рецептов коктейля Негрони.',
               publisher: {
                 '@type': 'Organization',
                 name: 'BAR BOSS ONLINE',

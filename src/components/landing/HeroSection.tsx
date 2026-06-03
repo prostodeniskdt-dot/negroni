@@ -40,8 +40,8 @@ export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [scrollY, setScrollY] = useState(0);
 
-  const recipesCount = useAnimatedCounter(100, 2000, loaded);
-  const citiesCount = useAnimatedCounter(27, 1800, loaded);
+  const recipesCount = useAnimatedCounter(2, 1200, loaded);
+  const citiesCount = useAnimatedCounter(2, 1200, loaded);
   const yearCount = useAnimatedCounter(2025, 2200, loaded);
 
   useEffect(() => {
@@ -138,7 +138,7 @@ export function HeroSection() {
           style={{ transitionDelay: '1.9s' }}
         >
           {[
-            { value: `${recipesCount}+`, label: t('hero.statsRecipes') },
+            { value: String(recipesCount), label: t('hero.statsRecipes') },
             { value: String(citiesCount), label: t('hero.statsCities') },
             { value: String(yearCount), label: t('hero.statsYear') },
           ].map((stat) => (

@@ -6,7 +6,7 @@ import { useI18n } from '@/hooks/useI18n';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import { getRecipeByIdFrom } from '@/lib/public-recipes';
 
-const FEATURED_IDS = ['classic', 'moscow', 'spb', 'yaroslavl', 'kazan', 'sochi', 'ekb'] as const;
+const FEATURED_IDS = ['classic', 'yaroslavl'] as const;
 
 export function TeaserCollection() {
   const { t } = useI18n();
