@@ -35,13 +35,13 @@ export default async function PartnerDrinkPage({
     ?.split(/[,.]/)
     .map((note) => note.trim())
     .filter(Boolean);
-  const specItems: Array<[string, string]> = [
-    ['Категория', category.name],
-    ['Крепость', drink.abv ?? ''],
-    ['Объём', drink.volume ?? ''],
-    ['Производитель', drink.producer ?? ''],
-    ['Происхождение', drink.origin ?? ''],
-  ].filter(([, value]) => Boolean(value));
+  const specItems = [
+    { label: 'Категория', value: category.name },
+    { label: 'Крепость', value: drink.abv },
+    { label: 'Объём', value: drink.volume },
+    { label: 'Производитель', value: drink.producer },
+    { label: 'Происхождение', value: drink.origin },
+  ].filter((item): item is { label: string; value: string } => Boolean(item.value));
 
   return (
     <main className="min-h-screen pt-24 overflow-hidden">
@@ -124,13 +124,13 @@ export default async function PartnerDrinkPage({
             </p>
 
             <div className="mt-8 grid gap-x-5 gap-y-3 sm:grid-cols-2">
-              {specItems.map(([label, value]) => (
-                <div key={label} className="border-b border-[var(--color-border)] pb-3">
+              {specItems.map((item) => (
+                <div key={item.label} className="border-b border-[var(--color-border)] pb-3">
                   <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
-                    {label}
+                    {item.label}
                   </p>
                   <p className="mt-1 text-sm text-[var(--color-text-primary)]">
-                    {value}
+                    {item.value}
                   </p>
                 </div>
               ))}
