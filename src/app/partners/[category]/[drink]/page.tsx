@@ -42,6 +42,31 @@ export default async function PartnerDrinkPage({
     { label: 'Производитель', value: drink.producer },
     { label: 'Происхождение', value: drink.origin },
   ].filter((item): item is { label: string; value: string } => Boolean(item.value));
+  const negroniBenefits = [
+    {
+      title: 'Сухая структура',
+      text: 'London Dry профиль держит коктейль собранным и не даёт сладкому вермуту доминировать.',
+    },
+    {
+      title: 'Цитрусовая ароматика',
+      text: 'Лимон, мандарин и апельсиновая цедра поддерживают классическое украшение Негрони.',
+    },
+    {
+      title: 'Можжевельник и специи',
+      text: 'База джина не теряется рядом с Campari и добавляет сухой пряный финиш.',
+    },
+  ];
+  const classicServe = [
+    '30 мл Bartenders United London Dry Gin',
+    '30 мл Campari',
+    '30 мл сладкого красного вермута',
+    'Апельсиновая цедра',
+  ];
+  const brandFacts = [
+    'Создано совместно с барменами',
+    'London Dry технология',
+    'Малые партии в медном аламбике',
+  ];
 
   return (
     <main className="min-h-screen pt-24 overflow-hidden">
@@ -71,7 +96,7 @@ export default async function PartnerDrinkPage({
                   alt={drink.name}
                   width={840}
                   height={840}
-                  className="max-h-[500px] w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.5)]"
+                  className="relative z-10 max-h-[500px] w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.5)]"
                   sizes="(max-width: 1024px) 100vw, 520px"
                   priority
                 />
@@ -83,10 +108,19 @@ export default async function PartnerDrinkPage({
               <span className="absolute left-5 top-5 rounded-full border border-[var(--color-accent)]/35 bg-[var(--color-bg)]/70 px-3 py-1 text-xs uppercase tracking-[0.22em] text-[var(--color-accent)] backdrop-blur">
                 London Dry Gin
               </span>
+              <div className="absolute bottom-10 left-1/2 h-8 w-2/3 -translate-x-1/2 rounded-full bg-black/45 blur-2xl" />
+              <div className="absolute bottom-5 left-5 right-5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg)]/80 px-4 py-3 backdrop-blur">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+                  Bartenders United London Dry Gin, JOIA
+                </p>
+              </div>
             </div>
           </div>
 
           <div className="lg:pl-4">
+            <p className="mb-4 text-xs uppercase tracking-[0.28em] text-[var(--color-accent)]">
+              London Dry для классического Негрони
+            </p>
             <span className="text-sm uppercase tracking-[0.28em] text-[var(--color-campari)]">
               {partner?.name ?? 'Партнёрский продукт'}
             </span>
@@ -211,9 +245,50 @@ export default async function PartnerDrinkPage({
                 {drink.serve}
               </p>
             )}
-            <p className="mt-5 text-base leading-relaxed text-[var(--color-text-muted)]">
-              Сухой профиль, цитрусовая яркость и можжевеловая база помогают держать баланс между горечью Campari и сладостью красного вермута.
-            </p>
+            <div className="mt-6 grid gap-3">
+              {negroniBenefits.map((benefit) => (
+                <div key={benefit.title} className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/55 p-4">
+                  <p className="font-display text-lg text-[var(--color-text-primary)]">
+                    {benefit.title}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--color-text-muted)]">
+                    {benefit.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-8 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[linear-gradient(135deg,rgba(196,165,116,0.12),rgba(255,255,255,0.025))]">
+          <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_420px]">
+            <div className="p-6 md:p-8">
+              <span className="text-xs uppercase tracking-[0.28em] text-[var(--color-accent)]">
+                Classic Serve
+              </span>
+              <h2 className="mt-3 font-display text-3xl font-semibold uppercase text-[var(--color-text-primary)] md:text-4xl">
+                Негрони с Bartenders United
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-[var(--color-text-muted)]">
+                Быстрая барная формула для первого знакомства с джином: равные доли, плотный лёд и широкая апельсиновая цедра.
+              </p>
+            </div>
+            <div className="border-t border-[var(--color-border)] bg-[var(--color-bg)]/45 p-6 md:p-8 lg:border-l lg:border-t-0">
+              <ul className="space-y-3">
+                {classicServe.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-[var(--color-text-muted)]">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-campari)]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/recipe/classic"
+                className="mt-6 inline-flex text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-campari)] transition-colors hover:text-[var(--color-accent)]"
+              >
+                Открыть полный рецепт
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -232,7 +307,7 @@ export default async function PartnerDrinkPage({
 
           {recipeList.length > 0 ? (
             <div className="mt-6 grid gap-6 md:grid-cols-2">
-              {recipeList.slice(0, 2).map((entry) => (
+              {recipeList.slice(0, 2).map((entry, index) => (
                 <Link
                   key={entry.id}
                   href={`/recipe/${entry.id}`}
@@ -246,8 +321,11 @@ export default async function PartnerDrinkPage({
                   />
                   <div className="p-6">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full border border-[var(--color-border)] px-2 py-1 text-xs uppercase tracking-[0.16em] text-[var(--color-text-secondary)]">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
                       <span className="rounded-full bg-[var(--color-campari)]/15 px-2 py-1 text-xs uppercase tracking-[0.16em] text-[var(--color-campari)]">
-                        {entry.recipe.category}
+                        {entry.id === 'classic' ? 'Классика' : 'Авторская подача'}
                       </span>
                       <span className="text-sm text-[var(--color-text-muted)]">
                         {entry.city}
@@ -282,6 +360,15 @@ export default async function PartnerDrinkPage({
               <h2 className="mt-3 font-display text-3xl font-semibold uppercase text-[var(--color-text-primary)]">
                 {drink.companyName ?? partner?.name}
               </h2>
+              <div className="mt-6 grid gap-3 md:grid-cols-3">
+                {brandFacts.map((fact) => (
+                  <div key={fact} className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/45 p-4">
+                    <p className="text-sm font-semibold text-[var(--color-text-primary)]">
+                      {fact}
+                    </p>
+                  </div>
+                ))}
+              </div>
               {drink.companyContacts?.map((line) => (
                 <p key={line} className="mt-4 max-w-3xl text-base leading-relaxed text-[var(--color-text-muted)]">
                   {line}
