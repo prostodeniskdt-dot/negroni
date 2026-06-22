@@ -13,7 +13,7 @@ export const curations: Curation[] = [
     id: 'classic-serve',
     title: 'Классика Негрони',
     titleEn: 'Classic Negroni',
-    description: 'Каноническая формула 1:1:1: джин, Campari и сладкий красный вермут.',
+    description: 'Каноническая формула 1:1:1: джин, Кампари и сладкий красный вермут.',
     descriptionEn: 'The canonical 1:1:1 formula: gin, Campari and sweet red vermouth.',
     recipeIds: ['classic'],
     icon: '',

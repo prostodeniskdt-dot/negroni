@@ -66,11 +66,6 @@ export default function Footer() {
                     {t('nav.partners')}
                   </Link>
                 </li>
-              <li>
-                <Link href="/russian-negroni-week" className="text-base text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
-                  {t('nav.rnw')}
-                </Link>
-              </li>
               </ul>
             </div>
           </div>

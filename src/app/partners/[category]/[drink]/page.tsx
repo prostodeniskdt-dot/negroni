@@ -31,10 +31,6 @@ export default async function PartnerDrinkPage({
 
   const partner = getPartnerById(drink.partnerId);
   const { recipes: recipeList } = getRecipesForDrink(drink.id);
-  const tastingNotes = drink.tastingNotes
-    ?.split(/[,.]/)
-    .map((note) => note.trim())
-    .filter(Boolean);
   const specItems = [
     { label: 'Категория', value: category.name },
     { label: 'Крепость', value: drink.abv },
@@ -45,27 +41,28 @@ export default async function PartnerDrinkPage({
   const negroniBenefits = [
     {
       title: 'Сухая структура',
-      text: 'London Dry профиль держит коктейль собранным и не даёт сладкому вермуту доминировать.',
+      text: 'Профиль лондонского сухого джина держит коктейль собранным и не даёт сладкому вермуту доминировать.',
     },
     {
       title: 'Цитрусовая ароматика',
-      text: 'Лимон, мандарин и апельсиновая цедра поддерживают классическое украшение Негрони.',
+      text: 'Цедра лимона и мандарина поддерживает классическое украшение Негрони и усиливает горько-сладкий баланс.',
     },
     {
-      title: 'Можжевельник и специи',
-      text: 'База джина не теряется рядом с Campari и добавляет сухой пряный финиш.',
+      title: 'Сибирский терруар',
+      text: 'Саган-дайля, каффир-лайм и исландский мох добавляют пряный, минеральный финиш рядом с Кампари.',
     },
   ];
   const classicServe = [
     '30 мл Bartenders United London Dry Gin',
-    '30 мл Campari',
+    '30 мл Кампари',
     '30 мл сладкого красного вермута',
     'Апельсиновая цедра',
   ];
-  const brandFacts = [
-    'Создано совместно с барменами',
-    'London Dry технология',
-    'Малые партии в медном аламбике',
+  const botanicalHighlights = [
+    'Можжевельник и саган-дайля — хвойное ядро',
+    'Каффир-лайм — парфюмерная цитрусовая нота',
+    'Сычуанский перец — лимонно-древесный акцент',
+    'Исландский мох — минеральная глубина',
   ];
 
   return (
@@ -106,12 +103,12 @@ export default async function PartnerDrinkPage({
                 </div>
               )}
               <span className="absolute left-5 top-5 rounded-full border border-[var(--color-accent)]/35 bg-[var(--color-bg)]/70 px-3 py-1 text-xs uppercase tracking-[0.22em] text-[var(--color-accent)] backdrop-blur">
-                London Dry Gin
+                Лондонский сухой джин
               </span>
               <div className="absolute bottom-10 left-1/2 h-8 w-2/3 -translate-x-1/2 rounded-full bg-black/45 blur-2xl" />
               <div className="absolute bottom-5 left-5 right-5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg)]/80 px-4 py-3 backdrop-blur">
                 <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
-                  Bartenders United London Dry Gin, JOIA
+                  Bartenders United · JOIA · Санкт-Петербург
                 </p>
               </div>
             </div>
@@ -119,18 +116,13 @@ export default async function PartnerDrinkPage({
 
           <div className="lg:pl-4">
             <p className="mb-4 text-xs uppercase tracking-[0.28em] text-[var(--color-accent)]">
-              London Dry для классического Негрони
+              Лондонский сухой джин для классического Негрони
             </p>
             <span className="text-sm uppercase tracking-[0.28em] text-[var(--color-campari)]">
               {partner?.name ?? 'Партнёрский продукт'}
             </span>
 
             <div className="mt-5 flex flex-wrap gap-2">
-              {drink.isNew && (
-                <span className="rounded-full border border-[var(--color-campari)] bg-[var(--color-campari)]/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-campari)]">
-                  Новинка
-                </span>
-              )}
               {drink.abv && (
                 <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-xs uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
                   {drink.abv}
@@ -201,11 +193,8 @@ export default async function PartnerDrinkPage({
             </p>
           </div>
           <div className="max-w-3xl">
-            <p className="font-display text-2xl leading-relaxed text-[var(--color-text-primary)]">
-              {drink.description}
-            </p>
             {drink.purchaseNote && (
-              <p className="mt-5 text-base leading-relaxed text-[var(--color-text-muted)]">
+              <p className="font-display text-2xl leading-relaxed text-[var(--color-text-primary)]">
                 {drink.purchaseNote}
               </p>
             )}
@@ -215,25 +204,20 @@ export default async function PartnerDrinkPage({
         <section className="mt-8 grid gap-6 lg:grid-cols-2">
           <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:p-8">
             <span className="text-xs uppercase tracking-[0.24em] text-[var(--color-text-secondary)]">
-              {drink.tastingTitle ?? 'Дегустация'}
+              {drink.tastingTitle ?? 'Дегустационные ноты'}
             </span>
-            {tastingNotes && tastingNotes.length > 0 && (
-              <div className="mt-5 flex flex-wrap gap-2">
-                {tastingNotes.map((note) => (
-                  <span
-                    key={note}
-                    className="rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-1.5 text-sm text-[var(--color-text-muted)]"
-                  >
-                    {note}
-                  </span>
-                ))}
-              </div>
-            )}
             {drink.tastingNotes && (
               <p className="mt-5 font-display text-lg leading-relaxed text-[var(--color-text-primary)]">
                 {drink.tastingNotes}
               </p>
             )}
+            <div className="mt-6 grid gap-2 sm:grid-cols-2">
+              {botanicalHighlights.map((item) => (
+                <div key={item} className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/55 px-4 py-3 text-sm text-[var(--color-text-muted)]">
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:p-8">
@@ -264,7 +248,7 @@ export default async function PartnerDrinkPage({
           <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_420px]">
             <div className="p-6 md:p-8">
               <span className="text-xs uppercase tracking-[0.28em] text-[var(--color-accent)]">
-                Classic Serve
+                Классическая подача
               </span>
               <h2 className="mt-3 font-display text-3xl font-semibold uppercase text-[var(--color-text-primary)] md:text-4xl">
                 Негрони с Bartenders United
@@ -360,15 +344,6 @@ export default async function PartnerDrinkPage({
               <h2 className="mt-3 font-display text-3xl font-semibold uppercase text-[var(--color-text-primary)]">
                 {drink.companyName ?? partner?.name}
               </h2>
-              <div className="mt-6 grid gap-3 md:grid-cols-3">
-                {brandFacts.map((fact) => (
-                  <div key={fact} className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/45 p-4">
-                    <p className="text-sm font-semibold text-[var(--color-text-primary)]">
-                      {fact}
-                    </p>
-                  </div>
-                ))}
-              </div>
               {drink.companyContacts?.map((line) => (
                 <p key={line} className="mt-4 max-w-3xl text-base leading-relaxed text-[var(--color-text-muted)]">
                   {line}

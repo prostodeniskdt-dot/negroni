@@ -1,6 +1,5 @@
 const en: Record<string, string> = {
   'nav.about': 'About',
-  'nav.rnw': 'Russian Negroni Week',
   'nav.collection': 'Collection',
   'nav.map': 'Map',
   'nav.history': 'History',

@@ -21,7 +21,6 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { href: '/russian-negroni-week', label: t('nav.rnw') || 'Russian Negroni Week', tone: 'primary' as const },
     { href: '/#about', label: t('nav.about') },
     { href: '/collection', label: t('nav.collection') },
     { href: '/curations', label: t('nav.curations') || 'Подборки' },
@@ -39,13 +38,13 @@ export default function Header() {
       }`}
     >
       <nav className="flex items-center justify-between gap-3 px-6 py-3 md:px-8 lg:px-12 min-h-[var(--header-height)]">
-        <div className="flex items-center gap-3 min-w-0 shrink">
+        <div className="flex min-w-0 shrink items-center gap-3">
           <Link
             href="/"
-            className="flex items-center gap-3 group no-underline"
+            className="group flex shrink-0 items-center gap-3 no-underline"
           >
-            <div className="w-px h-7 bg-gradient-to-b from-transparent via-[var(--color-accent)] to-transparent opacity-80" aria-hidden />
-            <span className="font-display text-xl md:text-2xl font-semibold tracking-[var(--letter-spacing-hero)] text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors duration-500 leading-tight">
+            <div className="h-6 w-px shrink-0 self-center bg-gradient-to-b from-transparent via-[var(--color-accent)] to-transparent opacity-80 md:h-7" aria-hidden />
+            <span className="font-display text-xl font-semibold leading-none tracking-[var(--letter-spacing-hero)] text-[var(--color-text-primary)] transition-colors duration-500 group-hover:text-[var(--color-accent)] md:text-2xl">
               {t('logo')}
             </span>
           </Link>
@@ -53,14 +52,14 @@ export default function Header() {
             href="https://barbossonline.ru/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 leading-none no-underline shrink-0 whitespace-nowrap"
+            className="hidden shrink-0 items-center gap-1.5 self-center whitespace-nowrap no-underline sm:inline-flex"
             aria-label="Бар Босс Онлайн"
           >
-            <span className="type-label text-[0.65rem] tracking-[0.16em] text-[var(--color-text-secondary)]">
-              от
+            <span className="type-label text-[0.65rem] leading-none tracking-[0.16em] text-[var(--color-text-secondary)]">
+              ОТ
             </span>
-            <span className="type-label text-[0.65rem] tracking-[0.12em] text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
-              Бар Босс Онлайн
+            <span className="type-label text-[0.65rem] leading-none tracking-[0.12em] text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]">
+              БАР БОСС ОНЛАЙН
             </span>
           </a>
         </div>
@@ -68,27 +67,18 @@ export default function Header() {
         <div className="hidden 2xl:flex flex-wrap items-center justify-end gap-3 2xl:gap-5 min-w-0 flex-1 max-w-[72%]">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
-            const isPrimary = link.tone === 'primary';
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={
-                  isPrimary
-                    ? `type-nav relative whitespace-nowrap rounded-full px-3 py-1.5 border border-[var(--color-accent)]/40 text-[var(--color-accent)] hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 transition-all duration-500 ${
-                        isActive ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/8' : ''
-                      }`
-                    : `type-nav relative whitespace-nowrap transition-colors duration-500 group ${
-                        isActive
-                          ? 'text-[var(--color-text-primary)]'
-                          : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'
-                      }`
-                }
+                className={`type-nav group relative whitespace-nowrap transition-colors duration-500 ${
+                  isActive
+                    ? 'text-[var(--color-text-primary)]'
+                    : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'
+                }`}
               >
                 {link.label}
-                {!isPrimary && (
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-[var(--color-accent)] group-hover:w-full transition-all duration-500" />
-                )}
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-[var(--color-accent)] transition-all duration-500 group-hover:w-full" />
               </Link>
             );
           })}
