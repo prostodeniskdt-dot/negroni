@@ -280,6 +280,8 @@ export default function RecipePage() {
                 src={recipe.image}
                 alt={recipe.name}
                 className="aspect-[4/3] rounded-[var(--radius-md)] border border-[var(--color-border)]"
+                fit="cover"
+                preserveIntrinsicAspect={false}
               />
             </Reveal>
 
@@ -323,6 +325,16 @@ export default function RecipePage() {
                   <h3 className="font-display text-base font-bold text-[var(--color-text-primary)] mb-3 uppercase tracking-wide">
                     {t('recipe.barProfile') || 'Бар и автор'}
                   </h3>
+                  {recipe.authorImage && (
+                    <div className="mb-4 overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
+                      <img
+                        src={recipe.authorImage}
+                        alt={recipe.author !== '—' ? recipe.author : 'Автор коктейля'}
+                        className="block aspect-[4/5] w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                   {recipe.bar !== '—' && (
                     <div className="mb-2">
                       <span className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">
@@ -438,10 +450,23 @@ export default function RecipePage() {
                   src={r.recipe.image}
                   alt={r.recipe.name}
                   className="aspect-[4/3] rounded mb-3"
+                  fit="cover"
+                  preserveIntrinsicAspect={false}
                 />
                 <h4 className="font-display font-bold text-[var(--color-text-primary)]">
                   {r.recipe.name}
                 </h4>
+                {r.recipe.authorImage && (
+                  <div className="mt-2 flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
+                    <img
+                      src={r.recipe.authorImage}
+                      alt={r.recipe.author}
+                      className="h-7 w-7 rounded-full object-cover ring-1 ring-[var(--color-border)]"
+                      loading="lazy"
+                    />
+                    <span>{r.recipe.author}</span>
+                  </div>
+                )}
                 <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
                   {r.recipe.region}
                 </p>

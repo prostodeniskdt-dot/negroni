@@ -36,6 +36,8 @@ export interface Recipe {
   authorInstagram?: string;
   /** Ссылка на Telegram автора (URL или @handle). Для кнопки на карточке. */
   authorTg?: string;
+  /** Фото автора коктейля для карточки рецепта. */
+  authorImage?: string;
   /** Ссылка на бар (сайт, Instagram и т.д.). Для кнопки на карточке. */
   barLink?: string;
 }
@@ -118,7 +120,7 @@ export const recipes: RecipeEntry[] = [
       barCity: 'Ярославль',
       tags: ['ярославль', 'джинт', 'сливянка', 'ромашка', 'региональный'],
       intro: '«Ярославский Негрони» полностью отражает дух ярославского гостеприимства. По следам купца, открывшего первый бар американского типа при ресторане «Медведь» — Алексея Акимовича Судакова. В составе — джин Gintl с Ярославского ЯЛВЗ, ликёр из копчёного чернослива по рецепту 1904 г и ромашковый биттер.',
-      image: '/images/yaroslavl-negroni.png',
+      image: '/images/recipes/yaroslavl-negroni.jpeg',
       method: 'Перемешивание',
       glass: 'Рокс',
       garnish: 'Вишня или чернослив в шоколаде',
@@ -131,6 +133,7 @@ export const recipes: RecipeEntry[] = [
       flavorProfile: { bitter: 4, sweet: 5, sour: 3, spicy: 4, strong: 7 },
       ingredients: ['30 мл джина Gintl (Ярославский ЯЛВЗ)', '30 мл сливянки (ликёр из копчёного чернослива)', '20 мл ромашкового кордиала п/ф', '15 мл Кампари или Люксардо Биттер', 'Вишня или чернослив в шоколаде для украшения'],
       steps: ['Наполните стакан для смешивания льдом.', 'Добавьте джин Gintl, сливянку, ромашковый кордиал и биттер.', 'Перемешайте 20–30 секунд.', 'Перелейте в бокал рокс со льдом.', 'Украсьте вишней или черносливом в шоколаде.'],
+      authorImage: '/images/recipes/yaroslavl-negroni.jpeg',
       authorInstagram: 'https://www.instagram.com/alexandra_taran',
       authorTg: 'https://t.me/taranalexandra',
       barLink: 'https://www.instagram.com/goodkarma.bar',

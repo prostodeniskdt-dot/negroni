@@ -325,6 +325,8 @@ export default async function PartnerDrinkPage({
                     src={entry.recipe.image}
                     alt={entry.recipe.name}
                     className="aspect-[16/10]"
+                    fit="cover"
+                    preserveIntrinsicAspect={false}
                     overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)]/70 via-transparent to-transparent" />}
                   />
                   <div className="p-6">
@@ -342,6 +344,17 @@ export default async function PartnerDrinkPage({
                     <h3 className="font-display text-2xl font-semibold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-campari)]">
                       {entry.recipe.name}
                     </h3>
+                    {entry.recipe.authorImage && (
+                      <div className="mt-3 flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
+                        <img
+                          src={entry.recipe.authorImage}
+                          alt={entry.recipe.author}
+                          className="h-8 w-8 rounded-full object-cover ring-1 ring-[var(--color-border)]"
+                          loading="lazy"
+                        />
+                        <span>{entry.recipe.author}</span>
+                      </div>
+                    )}
                     <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-[var(--color-text-muted)]">
                       {entry.recipe.intro}
                     </p>

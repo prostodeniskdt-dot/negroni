@@ -64,6 +64,8 @@ export default function CurationsPage() {
                           src={entry.recipe.image}
                           alt={entry.recipe.name}
                           className="aspect-[4/3]"
+                          fit="cover"
+                          preserveIntrinsicAspect={false}
                           overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-50" />}
                         />
                         <div className="p-4">
@@ -73,6 +75,17 @@ export default function CurationsPage() {
                           <h3 className="font-display text-sm font-bold uppercase tracking-wide group-hover:text-[var(--color-campari-light)] transition-colors">
                             {entry.recipe.name}
                           </h3>
+                          {entry.recipe.authorImage && (
+                            <div className="mt-2 flex items-center gap-2 text-[0.7rem] text-[var(--color-text-secondary)]">
+                              <img
+                                src={entry.recipe.authorImage}
+                                alt={entry.recipe.author}
+                                className="h-7 w-7 rounded-full object-cover ring-1 ring-[var(--color-border)]"
+                                loading="lazy"
+                              />
+                              <span>{entry.recipe.author}</span>
+                            </div>
+                          )}
                           <p className="text-xs text-[var(--color-text-muted)] mt-1 line-clamp-2">
                             {entry.recipe.intro}
                           </p>
