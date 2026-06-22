@@ -280,7 +280,7 @@ export default function RecipePage() {
                 src={recipe.image}
                 alt={recipe.name}
                 className="aspect-[4/3] rounded-[var(--radius-md)] border border-[var(--color-border)]"
-                fit="cover"
+                fit="contain"
                 preserveIntrinsicAspect={false}
               />
             </Reveal>
