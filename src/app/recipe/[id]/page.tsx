@@ -280,8 +280,7 @@ export default function RecipePage() {
                 src={recipe.image}
                 alt={recipe.name}
                 className="aspect-[4/3] rounded-[var(--radius-md)] border border-[var(--color-border)]"
-                fit="contain"
-                preserveIntrinsicAspect={false}
+                variant="hero"
               />
             </Reveal>
 
@@ -450,8 +449,7 @@ export default function RecipePage() {
                   src={r.recipe.image}
                   alt={r.recipe.name}
                   className="aspect-[4/3] rounded mb-3"
-                  fit="cover"
-                  preserveIntrinsicAspect={false}
+                  variant="thumbnail"
                 />
                 <h4 className="font-display font-bold text-[var(--color-text-primary)]">
                   {r.recipe.name}

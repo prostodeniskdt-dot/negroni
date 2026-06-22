@@ -325,8 +325,7 @@ export default async function PartnerDrinkPage({
                     src={entry.recipe.image}
                     alt={entry.recipe.name}
                     className="aspect-[16/10]"
-                    fit="cover"
-                    preserveIntrinsicAspect={false}
+                    variant="card"
                     overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)]/70 via-transparent to-transparent" />}
                   />
                   <div className="p-6">

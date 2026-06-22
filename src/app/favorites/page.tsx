@@ -138,8 +138,7 @@ export default function FavoritesPage() {
                     src={entry.recipe.image}
                     alt={entry.recipe.name}
                     className="aspect-[4/3]"
-                    fit="cover"
-                    preserveIntrinsicAspect={false}
+                    variant="card"
                     overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-60" />}
                   />
                   <div className="relative p-5">
