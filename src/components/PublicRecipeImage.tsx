@@ -21,9 +21,15 @@ function getAutoFit(variant: ImageVariant, orientation?: ImageOrientation): Imag
 
 function getImageScale(variant: ImageVariant, orientation?: ImageOrientation): number {
   if (variant === 'hero') return 1;
-  if (orientation === 'portrait') return variant === 'thumbnail' ? 1.28 : 1.4;
-  if (orientation === 'square') return 1.08;
+  if (orientation === 'portrait') return variant === 'thumbnail' ? 1.15 : 1.22;
+  if (orientation === 'square') return 1.05;
   return 1;
+}
+
+function getImagePadding(variant: ImageVariant): string {
+  if (variant === 'hero') return '0.5rem 0.75rem 0.25rem';
+  if (variant === 'thumbnail') return '0.25rem 0.5rem 0';
+  return '0.15rem 0.5rem 0';
 }
 
 export function PublicRecipeImage({
@@ -49,8 +55,8 @@ export function PublicRecipeImage({
   const resolvedSrc = !failed && src ? src : fallbackRecipeImage;
   const shouldPreserveAspect = preserveIntrinsicAspect ?? false;
   const resolvedFit = fit ?? getAutoFit(variant, orientation);
-  const backgroundSrc = orientation && resolvedFit === 'contain' ? resolvedSrc : null;
   const imageScale = getImageScale(variant, orientation);
+  const imagePadding = getImagePadding(variant);
 
   useEffect(() => {
     setFailed(false);
@@ -69,21 +75,6 @@ export function PublicRecipeImage({
           <div className="absolute bottom-6 left-1/2 h-10 w-[62%] -translate-x-1/2 rounded-full bg-black/45 blur-2xl" />
         </>
       )}
-      {backgroundSrc && (
-        <img
-          src={backgroundSrc}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 scale-110 opacity-20 blur-2xl"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          objectPosition: 'center',
-          }}
-          loading="lazy"
-        />
-      )}
       <img
         src={resolvedSrc}
         alt={alt}
@@ -97,13 +88,13 @@ export function PublicRecipeImage({
           }
         }}
         onError={() => setFailed(true)}
-        className="absolute inset-0 z-10 block"
+        className={`absolute inset-0 z-10 block ${variant === 'hero' ? 'drop-shadow-[0_20px_40px_rgba(0,0,0,0.55)]' : ''}`}
         style={{
           width: '100%',
           height: '100%',
           objectFit: resolvedFit,
           objectPosition: 'center bottom',
-          padding: variant === 'hero' ? '0.75rem' : '0.35rem',
+          padding: imagePadding,
           transform: `scale(${imageScale})`,
           transformOrigin: 'center bottom',
         }}
