@@ -62,7 +62,12 @@ export function PublicRecipeImage({
           src={backgroundSrc}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-20 blur-2xl"
+          className="absolute inset-0 scale-110 opacity-20 blur-2xl"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
           loading="lazy"
         />
       )}
@@ -79,12 +84,23 @@ export function PublicRecipeImage({
           }
         }}
         onError={() => setFailed(true)}
-        className={`relative z-10 block h-full w-full ${resolvedFit === 'cover' ? 'object-cover' : 'object-contain p-3 sm:p-4'}`}
+        className="absolute inset-0 z-10 block"
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: resolvedFit,
+          objectPosition: 'center',
+          padding: resolvedFit === 'contain' ? '0.75rem' : undefined,
+        }}
         loading="lazy"
       />
-      {overlay}
+      {overlay && (
+        <div className="pointer-events-none absolute inset-0 z-20">
+          {overlay}
+        </div>
+      )}
       {failed && (
-        <div className="absolute inset-x-0 bottom-0 bg-black/65 px-3 py-2 text-xs text-white">
+        <div className="absolute inset-x-0 bottom-0 z-30 bg-black/65 px-3 py-2 text-xs text-white">
           Фото временно недоступно
         </div>
       )}
