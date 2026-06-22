@@ -16,9 +16,14 @@ function getOrientation(width: number, height: number): ImageOrientation {
 
 function getAutoFit(variant: ImageVariant, orientation?: ImageOrientation): ImageFit {
   if (variant === 'hero') return 'contain';
-  if (!orientation) return 'contain';
-  if (orientation === 'landscape') return 'cover';
   return 'contain';
+}
+
+function getImageScale(variant: ImageVariant, orientation?: ImageOrientation): number {
+  if (variant === 'hero') return 1;
+  if (orientation === 'portrait') return variant === 'thumbnail' ? 1.28 : 1.4;
+  if (orientation === 'square') return 1.08;
+  return 1;
 }
 
 export function PublicRecipeImage({
@@ -45,6 +50,7 @@ export function PublicRecipeImage({
   const shouldPreserveAspect = preserveIntrinsicAspect ?? false;
   const resolvedFit = fit ?? getAutoFit(variant, orientation);
   const backgroundSrc = orientation && resolvedFit === 'contain' ? resolvedSrc : null;
+  const imageScale = getImageScale(variant, orientation);
 
   useEffect(() => {
     setFailed(false);
@@ -57,6 +63,12 @@ export function PublicRecipeImage({
       className={`relative overflow-hidden bg-[radial-gradient(circle_at_center,rgba(196,165,116,0.16),transparent_58%),var(--color-bg)] ${className}`}
       style={shouldPreserveAspect && aspectRatio ? { aspectRatio } : undefined}
     >
+      {variant !== 'hero' && (
+        <>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(196,165,116,0.30),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.045),rgba(187,10,48,0.10))]" />
+          <div className="absolute bottom-6 left-1/2 h-10 w-[62%] -translate-x-1/2 rounded-full bg-black/45 blur-2xl" />
+        </>
+      )}
       {backgroundSrc && (
         <img
           src={backgroundSrc}
@@ -67,6 +79,7 @@ export function PublicRecipeImage({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+          objectPosition: 'center',
           }}
           loading="lazy"
         />
@@ -89,8 +102,10 @@ export function PublicRecipeImage({
           width: '100%',
           height: '100%',
           objectFit: resolvedFit,
-          objectPosition: 'center',
-          padding: resolvedFit === 'contain' ? '0.75rem' : undefined,
+          objectPosition: 'center bottom',
+          padding: variant === 'hero' ? '0.75rem' : '0.35rem',
+          transform: `scale(${imageScale})`,
+          transformOrigin: 'center bottom',
         }}
         loading="lazy"
       />

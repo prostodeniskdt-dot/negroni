@@ -58,14 +58,14 @@ export default function CurationsPage() {
                       <Link
                         key={entry.id}
                         href={`/recipe/${entry.id}`}
-                        className="block group relative overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/30 transition-all hover:-translate-y-1 hover:border-[var(--color-campari)] hover:shadow-[var(--shadow-md)]"
+                        className="block group relative overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(18,18,18,0.75))] transition-all hover:-translate-y-1 hover:border-[var(--color-campari)] hover:shadow-[var(--shadow-md)]"
                       >
                         <PublicRecipeImage
                           src={entry.recipe.image}
                           alt={entry.recipe.name}
-                          className="aspect-[4/3]"
+                          className="aspect-[5/4]"
                           variant="card"
-                          overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-50" />}
+                          overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-40" />}
                         />
                         <div className="p-4">
                           <span className="inline-block text-[0.65rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-1.5">

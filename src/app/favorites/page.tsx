@@ -131,15 +131,15 @@ export default function FavoritesPage() {
             {favoriteEntries.map((entry) => (
               <div
                 key={entry.id}
-                className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] transition-all duration-[var(--transition-base)] hover:border-[var(--color-campari)] group"
+                className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(28,28,28,0.82))] transition-all duration-[var(--transition-base)] hover:border-[var(--color-campari)] group"
               >
                 <Link href={`/recipe/${entry.id}`} className="block">
                   <PublicRecipeImage
                     src={entry.recipe.image}
                     alt={entry.recipe.name}
-                    className="aspect-[4/3]"
+                    className="aspect-[5/4]"
                     variant="card"
-                    overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-60" />}
+                    overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-45" />}
                   />
                   <div className="relative p-5">
                     <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">

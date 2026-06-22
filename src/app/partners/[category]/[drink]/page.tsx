@@ -324,9 +324,9 @@ export default async function PartnerDrinkPage({
                   <PublicRecipeImage
                     src={entry.recipe.image}
                     alt={entry.recipe.name}
-                    className="aspect-[16/10]"
+                    className="aspect-[5/4]"
                     variant="card"
-                    overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)]/70 via-transparent to-transparent" />}
+                    overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)]/60 via-transparent to-transparent" />}
                   />
                   <div className="p-6">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
