@@ -5,11 +5,12 @@ import { fallbackRecipeImage } from '@/lib/public-recipes';
 
 type ImageVariant = 'hero' | 'card' | 'thumbnail';
 
-function getImagePadding(variant: ImageVariant): string {
-  if (variant === 'hero') return '6%';
-  if (variant === 'thumbnail') return '8%';
-  return '7%';
-}
+const imageClassByVariant: Record<ImageVariant, string> = {
+  hero: 'h-[92%] w-auto max-w-[88%] object-contain object-bottom drop-shadow-[0_24px_48px_rgba(0,0,0,0.62)]',
+  card: 'h-[90%] w-auto max-w-[84%] object-contain object-bottom drop-shadow-[0_16px_36px_rgba(0,0,0,0.55)] transition-transform duration-500 ease-out group-hover:scale-[1.03]',
+  thumbnail:
+    'h-[86%] w-auto max-w-[80%] object-contain object-bottom drop-shadow-[0_12px_28px_rgba(0,0,0,0.5)]',
+};
 
 export function PublicRecipeImage({
   src,
@@ -28,7 +29,6 @@ export function PublicRecipeImage({
 }) {
   const [failed, setFailed] = useState(false);
   const resolvedSrc = !failed && src ? src : fallbackRecipeImage;
-  const imagePadding = getImagePadding(variant);
 
   useEffect(() => {
     setFailed(false);
@@ -36,27 +36,18 @@ export function PublicRecipeImage({
 
   return (
     <div
-      className={`relative overflow-hidden bg-[radial-gradient(circle_at_center,rgba(196,165,116,0.16),transparent_58%),var(--color-bg)] ${className}`}
+      className={`relative overflow-hidden bg-[radial-gradient(ellipse_90%_70%_at_50%_0%,rgba(196,165,116,0.14),transparent_62%),var(--color-surface-solid)] ${className}`}
     >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_50%_12%,rgba(255,255,255,0.07),transparent_72%)]" />
       {variant !== 'hero' && (
-        <>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(196,165,116,0.28),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(187,10,48,0.10))]" />
-          <div className="absolute bottom-[14%] left-1/2 h-8 w-[48%] -translate-x-1/2 rounded-full bg-black/40 blur-2xl" />
-        </>
+        <div className="pointer-events-none absolute bottom-[5%] left-1/2 h-7 w-[58%] -translate-x-1/2 rounded-full bg-black/55 blur-2xl" />
       )}
-      <div
-        className="absolute inset-0 z-10 flex items-center justify-center"
-        style={{ padding: imagePadding }}
-      >
+      <div className="absolute inset-0 z-10 flex items-end justify-center pb-[1.5%]">
         <img
           src={resolvedSrc}
           alt={alt}
           onError={() => setFailed(true)}
-          className={`block max-h-full max-w-full object-contain ${
-            variant === 'hero'
-              ? 'drop-shadow-[0_20px_40px_rgba(0,0,0,0.55)]'
-              : 'drop-shadow-[0_10px_24px_rgba(0,0,0,0.42)]'
-          }`}
+          className={`relative block bg-transparent ${imageClassByVariant[variant]}`}
           loading="lazy"
         />
       </div>

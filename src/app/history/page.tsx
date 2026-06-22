@@ -243,7 +243,7 @@ export default function HistoryPage() {
                         <PublicRecipeImage
                           src={classicRecipe.recipe.image}
                           alt={classicRecipe.recipe.name}
-                          className="mt-5 aspect-[4/3] rounded-[var(--radius-md)] border border-[var(--color-border)]"
+                          className="mt-5 aspect-[3/4] rounded-[var(--radius-md)] border border-[var(--color-border)]"
                           overlay={
                             <div
                               className={`absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-45`}

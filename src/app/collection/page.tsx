@@ -419,9 +419,11 @@ export default function CollectionPage() {
                 <PublicRecipeImage
                   src={entry.recipe.image}
                   alt={entry.recipe.name}
-                  className="card-media aspect-[5/4]"
+                  className="card-media aspect-[3/4]"
                   variant="card"
-                  overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-45" />}
+                  overlay={
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-25" />
+                  }
                 />
                 <div className="relative p-5">
                   <button

@@ -63,9 +63,9 @@ export default function CurationsPage() {
                         <PublicRecipeImage
                           src={entry.recipe.image}
                           alt={entry.recipe.name}
-                          className="aspect-[5/4]"
+                          className="aspect-[3/4]"
                           variant="card"
-                          overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-40" />}
+                          overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-25" />}
                         />
                         <div className="p-4">
                           <span className="inline-block text-[0.65rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-1.5">
