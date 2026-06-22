@@ -1,3 +1,3 @@
-Place the Bartenders United gin product photo here:
+Place the transparent Bartenders United gin product photo here:
 
-`bartenders-united-london-dry-gin.png`
+`bartenders-united-london-dry-gin-transparent.png`

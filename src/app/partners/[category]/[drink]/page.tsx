@@ -31,13 +31,16 @@ export default async function PartnerDrinkPage({
 
   const partner = getPartnerById(drink.partnerId);
   const { recipes: recipeList } = getRecipesForDrink(drink.id);
-  const specItems = [
-    { label: 'Категория', value: category.name },
-    { label: 'Крепость', value: drink.abv },
-    { label: 'Объём', value: drink.volume },
-    { label: 'Производитель', value: drink.producer },
-    { label: 'Происхождение', value: drink.origin },
-  ].filter((item): item is { label: string; value: string } => Boolean(item.value));
+  const heroSpecs = [
+    drink.abv,
+    drink.volume,
+    drink.origin,
+  ].filter(Boolean);
+  const productFacts = [
+    { label: 'Технология', value: 'London Dry' },
+    { label: 'Дистилляция', value: 'Медный куб и джин-корзина' },
+    { label: 'Стиль', value: 'Сухой, цитрусовый, хвойный' },
+  ];
   const negroniBenefits = [
     {
       title: 'Сухая структура',
@@ -64,10 +67,27 @@ export default async function PartnerDrinkPage({
     'Сычуанский перец — лимонно-древесный акцент',
     'Исландский мох — минеральная глубина',
   ];
+  const storyCards = [
+    {
+      label: 'Идея',
+      title: 'Джин как барный инструмент',
+      text: 'Проект Bartenders United говорит с барменами на их языке: сухая база, понятная работа в классике и характер, который заметен в коктейле.',
+    },
+    {
+      label: 'Команда',
+      title: 'JOIA x DKG',
+      text: 'В основе проекта — экспертиза JOIA и опыт креативной команды DKG, работавшей с международными барными и алкогольными проектами.',
+    },
+    {
+      label: 'Девиз',
+      title: 'Raise the bar',
+      text: 'Не лозунг ради лозунга, а идея поднять стандарт российского премиального джина и поддержать профессиональное сообщество.',
+    },
+  ];
 
   return (
-    <main className="min-h-screen pt-24 overflow-hidden">
-      <Reveal as="section" className="px-6 py-10 max-w-[1240px] mx-auto">
+    <main className="min-h-screen overflow-hidden pt-24">
+      <Reveal as="section" className="mx-auto max-w-[1280px] px-6 py-8">
         <div className="flex flex-wrap gap-3">
           <Link
             href="/partners"
@@ -83,121 +103,125 @@ export default async function PartnerDrinkPage({
           </Link>
         </div>
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,520px)_1fr] lg:items-center">
-          <div className="relative rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[linear-gradient(145deg,rgba(255,255,255,0.055),rgba(255,255,255,0.015))] p-5 shadow-[var(--shadow-lg)]">
-            <div className="pointer-events-none absolute inset-0 rounded-[var(--radius-lg)] bg-[radial-gradient(circle_at_50%_35%,rgba(196,165,116,0.22),transparent_42%),radial-gradient(circle_at_50%_80%,rgba(187,10,48,0.12),transparent_48%)]" />
-            <div className="relative flex min-h-[520px] items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-bg)]/75 p-8">
+        <div className="relative mt-8 overflow-hidden rounded-[calc(var(--radius-lg)+10px)] border border-[var(--color-border)] bg-[radial-gradient(circle_at_22%_22%,rgba(196,165,116,0.18),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.055),rgba(255,255,255,0.012))]">
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.16),transparent_48%,rgba(0,0,0,0.22))]" />
+          <div className="relative grid gap-6 p-5 md:p-8 lg:grid-cols-[minmax(300px,0.88fr)_1.12fr] lg:items-center lg:p-10">
+            <div className="relative flex min-h-[440px] items-end justify-center overflow-hidden rounded-[var(--radius-lg)] bg-[radial-gradient(circle_at_50%_42%,rgba(196,165,116,0.20),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.012))]">
+              <div className="absolute bottom-8 left-1/2 h-10 w-2/3 -translate-x-1/2 rounded-full bg-black/50 blur-2xl" />
               {drink.image ? (
                 <Image
                   src={drink.image}
                   alt={drink.name}
-                  width={840}
-                  height={840}
-                  className="relative z-10 max-h-[500px] w-full object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.5)]"
-                  sizes="(max-width: 1024px) 100vw, 520px"
+                  width={640}
+                  height={1024}
+                  className="relative z-10 h-[410px] w-auto object-contain drop-shadow-[0_28px_60px_rgba(0,0,0,0.62)] md:h-[500px]"
+                  sizes="(max-width: 1024px) 80vw, 420px"
                   priority
+                  unoptimized
                 />
               ) : (
                 <div className="text-center text-sm uppercase tracking-[0.24em] text-[var(--color-text-secondary)]">
                   {drink.name}
                 </div>
               )}
-              <span className="absolute left-5 top-5 rounded-full border border-[var(--color-accent)]/35 bg-[var(--color-bg)]/70 px-3 py-1 text-xs uppercase tracking-[0.22em] text-[var(--color-accent)] backdrop-blur">
-                Лондонский сухой джин
-              </span>
-              <div className="absolute bottom-10 left-1/2 h-8 w-2/3 -translate-x-1/2 rounded-full bg-black/45 blur-2xl" />
-              <div className="absolute bottom-5 left-5 right-5 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg)]/80 px-4 py-3 backdrop-blur">
-                <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
-                  Bartenders United · JOIA · Санкт-Петербург
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:pl-4">
-            <p className="mb-4 text-xs uppercase tracking-[0.28em] text-[var(--color-accent)]">
-              Лондонский сухой джин для классического Негрони
-            </p>
-            <span className="text-sm uppercase tracking-[0.28em] text-[var(--color-campari)]">
-              {partner?.name ?? 'Партнёрский продукт'}
-            </span>
-
-            <div className="mt-5 flex flex-wrap gap-2">
-              {drink.abv && (
-                <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-xs uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
-                  {drink.abv}
-                </span>
-              )}
-              {drink.volume && (
-                <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-xs uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
-                  {drink.volume}
-                </span>
-              )}
             </div>
 
-            <h1 className="type-page-title mt-5 max-w-3xl text-[clamp(2.5rem,7vw,5.5rem)] text-[var(--color-text-primary)]">
-              {drink.name}
-            </h1>
-
-            {drink.tagline && (
-              <p className="mt-5 max-w-2xl text-xl text-[var(--color-text-primary)]">
-                {drink.tagline}
+            <div className="py-2 lg:pl-4">
+              <p className="text-xs uppercase tracking-[0.34em] text-[var(--color-accent)]">
+                Лондонский сухой джин для Негрони
               </p>
-            )}
+              <p className="mt-3 text-xs uppercase tracking-[0.24em] text-[var(--color-campari)]">
+                {partner?.name ?? 'Партнёрский продукт'}
+              </p>
 
-            <p className="mt-6 max-w-2xl font-display text-lg leading-relaxed text-[var(--color-text-muted)]">
-              {drink.description}
-            </p>
+              <h1 className="type-page-title mt-5 max-w-3xl text-[clamp(2.7rem,7vw,6rem)] leading-[0.92] text-[var(--color-text-primary)]">
+                {drink.name}
+              </h1>
 
-            <div className="mt-8 grid gap-x-5 gap-y-3 sm:grid-cols-2">
-              {specItems.map((item) => (
-                <div key={item.label} className="border-b border-[var(--color-border)] pb-3">
-                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
-                    {item.label}
-                  </p>
-                  <p className="mt-1 text-sm text-[var(--color-text-primary)]">
-                    {item.value}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              {drink.buyUrl && (
-                <a
-                  href={drink.buyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-campari)] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[var(--color-on-campari)] transition-colors hover:bg-[var(--color-campari-light)]"
-                >
-                  {drink.buyLabel ?? 'Где купить'}
-                </a>
+              {drink.tagline && (
+                <p className="mt-6 max-w-2xl font-display text-2xl leading-snug text-[var(--color-text-primary)]">
+                  {drink.tagline}
+                </p>
               )}
-              {partner?.phone && (
-                <a
-                  href={`tel:${partner.phone.replace(/[^\d+]/g, '')}`}
-                  className="inline-flex items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] px-6 py-3 text-sm uppercase tracking-wider text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-text-primary)]"
-                >
-                  {partner.phone}
-                </a>
-              )}
+
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-[var(--color-text-muted)] md:text-lg">
+                {drink.description}
+              </p>
+
+              <div className="mt-7 flex flex-wrap gap-2">
+                {heroSpecs.map((item) => (
+                  <span key={item} className="rounded-full border border-[var(--color-border)] bg-[var(--color-bg)]/55 px-3 py-1 text-xs uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
+                    {item}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                {productFacts.map((item) => (
+                  <div key={item.label} className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/45 p-4">
+                    <p className="text-[0.65rem] uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
+                      {item.label}
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-primary)]">
+                      {item.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                {drink.buyUrl && (
+                  <a
+                    href={drink.buyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-campari)] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[var(--color-on-campari)] transition-colors hover:bg-[var(--color-campari-light)]"
+                  >
+                    {drink.buyLabel ?? 'Где купить'}
+                  </a>
+                )}
+                {partner?.phone && (
+                  <a
+                    href={`tel:${partner.phone.replace(/[^\d+]/g, '')}`}
+                    className="inline-flex items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] px-6 py-3 text-sm uppercase tracking-wider text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-text-primary)]"
+                  >
+                    {partner.phone}
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        <section className="mt-14 grid gap-8 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 md:p-8 lg:grid-cols-[160px_1fr]">
-          <div>
-            <span className="font-display text-5xl text-[var(--color-accent)]/55">01</span>
-            <p className="mt-3 text-xs uppercase tracking-[0.26em] text-[var(--color-text-secondary)]">
-              {drink.storyTitle ?? 'Описание / легенда'}
-            </p>
-          </div>
+        <section className="mt-12">
           <div className="max-w-3xl">
+            <span className="text-xs uppercase tracking-[0.28em] text-[var(--color-accent)]">
+              {drink.storyTitle ?? 'История создания'}
+            </span>
+            <h2 className="mt-3 font-display text-3xl font-semibold uppercase text-[var(--color-text-primary)] md:text-4xl">
+              Не презентация бренда, а рабочий профиль для бара
+            </h2>
             {drink.purchaseNote && (
-              <p className="font-display text-2xl leading-relaxed text-[var(--color-text-primary)]">
+              <p className="mt-4 text-base leading-relaxed text-[var(--color-text-muted)]">
                 {drink.purchaseNote}
               </p>
             )}
+          </div>
+
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            {storyCards.map((card) => (
+              <article key={card.label} className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+                <p className="text-xs uppercase tracking-[0.24em] text-[var(--color-campari)]">
+                  {card.label}
+                </p>
+                <h3 className="mt-4 font-display text-2xl text-[var(--color-text-primary)]">
+                  {card.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-muted)]">
+                  {card.text}
+                </p>
+              </article>
+            ))}
           </div>
         </section>
 
