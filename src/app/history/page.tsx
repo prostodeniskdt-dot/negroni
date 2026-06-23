@@ -7,7 +7,7 @@ import { useI18n } from '@/hooks/useI18n';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
-import { getRecipeByIdFrom } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeCardImage } from '@/lib/public-recipes';
 
 const HISTORY_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp'] as const;
 
@@ -241,7 +241,7 @@ export default function HistoryPage() {
 
                       {hasImage && (
                         <PublicRecipeImage
-                          src={classicRecipe.recipe.image}
+                          src={getRecipeCardImage(classicRecipe.recipe)}
                           alt={classicRecipe.recipe.name}
                           className="mt-5 aspect-[3/4] rounded-[var(--radius-md)] border border-[var(--color-border)]"
                           overlay={

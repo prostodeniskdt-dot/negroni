@@ -5,7 +5,7 @@ import React from 'react';
 import { readFile } from 'fs/promises';
 import path from 'path';
 import { getRecipeById } from '@/data/recipes';
-import { normalizeRecipeEntry } from '@/lib/public-recipes';
+import { normalizeRecipeEntry, getRecipePageImage } from '@/lib/public-recipes';
 import { RecipesPdf, type PdfRecipe } from '@/lib/pdf/RecipesPdf';
 
 export const runtime = 'nodejs';
@@ -74,7 +74,7 @@ export async function GET(req: Request) {
     name: normalized.recipe.name,
     region: normalized.recipe.region,
     intro: normalized.recipe.intro,
-    image: normalized.recipe.image,
+    image: getRecipePageImage(normalized.recipe),
     method: normalized.recipe.method,
     glass: normalized.recipe.glass,
     garnish: normalized.recipe.garnish,

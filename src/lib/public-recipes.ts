@@ -6,12 +6,25 @@ import {
 
 export type PublicRecipeEntry = RecipeEntry;
 
+export const fallbackRecipeImage = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1200';
+
+/** Фото коктейля на странице рецепта — только из public/images/recipes/ */
+export function getRecipePageImage(recipe: Recipe): string {
+  return recipe.image || fallbackRecipeImage;
+}
+
+/** Превью для карточек в коллекции и подборках — только из public/images/cards/ */
+export function getRecipeCardImage(recipe: Recipe): string {
+  return recipe.cardImage || fallbackRecipeImage;
+}
+
 export function normalizeRecipeEntry(entry: PublicRecipeEntry): PublicRecipeEntry {
   return {
     ...entry,
     recipe: {
       ...entry.recipe,
-      image: entry.recipe.image || fallbackRecipeImage,
+      image: getRecipePageImage(entry.recipe),
+      cardImage: entry.recipe.cardImage,
       tags: entry.recipe.tags ?? [],
       ingredients: entry.recipe.ingredients ?? [],
       steps: entry.recipe.steps ?? [],
@@ -24,12 +37,6 @@ export function normalizeRecipeEntry(entry: PublicRecipeEntry): PublicRecipeEntr
       },
     },
   };
-}
-
-export const fallbackRecipeImage = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1200';
-
-export function getRecipeCardImage(recipe: Recipe): string {
-  return recipe.cardImage || recipe.image || fallbackRecipeImage;
 }
 
 export function getRecipeByIdFrom(entries: PublicRecipeEntry[], id: string): PublicRecipeEntry | undefined {
