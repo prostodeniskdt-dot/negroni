@@ -22,9 +22,9 @@ export const curations: Curation[] = [
     id: 'signature-serve',
     title: 'Авторская подача',
     titleEn: 'Signature Serve',
-    description: 'Ярославский Негрони от Александры Таран: локальный джин, сливянка, ромашковый кордиал и биттер.',
-    descriptionEn: 'Yaroslavl Negroni by Alexandra Taran: local gin, prune liqueur, chamomile cordial and bitter.',
-    recipeIds: ['yaroslavl'],
+    description: 'Ярославский Негрони и «Парадокс» от Александры Таран: региональная классика и молочно-осветлённый твист на Negroni.',
+    descriptionEn: 'Yaroslavl Negroni and Paradox by Alexandra Taran: a regional classic and a milk-clarified Negroni twist.',
+    recipeIds: ['yaroslavl', 'paradox'],
     icon: '',
   },
 ];

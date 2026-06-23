@@ -99,6 +99,11 @@ export default function RecipePage() {
   };
 
   const isPrebatchObject = typeof recipe.prebatch === 'object';
+  const prebatchItems: Prebatch[] = Array.isArray(recipe.prebatch)
+    ? recipe.prebatch
+    : isPrebatchObject
+      ? [recipe.prebatch as Prebatch]
+      : [];
 
   return (
     <main className="min-h-screen px-4 py-8 md:py-12">
@@ -182,6 +187,13 @@ export default function RecipePage() {
               <p className="font-prose text-[var(--color-text-muted)] leading-relaxed">
                 {recipe.intro}
               </p>
+              {recipe.story && (
+                <div className="mt-4 space-y-4 font-prose text-[var(--color-text-muted)] leading-relaxed">
+                  {recipe.story.split('\n\n').map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
+                </div>
+              )}
             </Reveal>
 
             <Reveal>
@@ -244,30 +256,34 @@ export default function RecipePage() {
                   {recipe.prebatch}
                 </p>
               ) : (
-                <div className="space-y-3">
-                  <h4 className="font-semibold text-[var(--color-text-primary)]">
-                    {(recipe.prebatch as Prebatch).name}
-                  </h4>
-                  <div>
-                    <span className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">
-                      {t('recipe.prebatchIngredients')}
-                    </span>
-                    <ul className="list-disc list-inside mt-1 space-y-1 text-[var(--color-text-muted)] font-prose">
-                      {(recipe.prebatch as Prebatch).ingredients.map((ing, i) => (
-                        <li key={i}>{ing}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <span className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">
-                      {t('recipe.prebatchSteps')}
-                    </span>
-                    <ol className="list-decimal list-inside mt-1 space-y-1 text-[var(--color-text-muted)] font-prose">
-                      {(recipe.prebatch as Prebatch).steps.map((step, i) => (
-                        <li key={i}>{step}</li>
-                      ))}
-                    </ol>
-                  </div>
+                <div className="space-y-6">
+                  {prebatchItems.map((batch, batchIndex) => (
+                    <div key={batchIndex} className="space-y-3">
+                      <h4 className="font-semibold text-[var(--color-text-primary)]">
+                        {batch.name}
+                      </h4>
+                      <div>
+                        <span className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">
+                          {t('recipe.prebatchIngredients')}
+                        </span>
+                        <ul className="list-disc list-inside mt-1 space-y-1 text-[var(--color-text-muted)] font-prose">
+                          {batch.ingredients.map((ing, i) => (
+                            <li key={i}>{ing}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <span className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">
+                          {t('recipe.prebatchSteps')}
+                        </span>
+                        <ol className="list-decimal list-inside mt-1 space-y-1 text-[var(--color-text-muted)] font-prose">
+                          {batch.steps.map((step, i) => (
+                            <li key={i}>{step}</li>
+                          ))}
+                        </ol>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </Reveal>
