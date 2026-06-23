@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
+import { getRecipeCardImage } from '@/lib/public-recipes';
 import {
   drinkCategories,
   drinks,
@@ -322,7 +323,7 @@ export default async function PartnerDrinkPage({
                   className="group overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] transition-all duration-500 hover:-translate-y-1 hover:border-[var(--color-campari)] hover:shadow-[var(--shadow-lg)]"
                 >
                   <PublicRecipeImage
-                    src={entry.recipe.image}
+                    src={getRecipeCardImage(entry.recipe)}
                     alt={entry.recipe.name}
                     className="aspect-[3/4]"
                     variant="card"

@@ -7,7 +7,7 @@ import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
-import { getRecipeByIdFrom } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeCardImage } from '@/lib/public-recipes';
 
 export default function FavoritesPage() {
   const { t } = useI18n();
@@ -135,7 +135,7 @@ export default function FavoritesPage() {
               >
                 <Link href={`/recipe/${entry.id}`} className="block">
                   <PublicRecipeImage
-                    src={entry.recipe.image}
+                    src={getRecipeCardImage(entry.recipe)}
                     alt={entry.recipe.name}
                     className="aspect-[3/4]"
                     variant="card"

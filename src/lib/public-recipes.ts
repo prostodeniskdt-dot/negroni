@@ -1,5 +1,6 @@
 import {
   recipes as staticRecipes,
+  type Recipe,
   type RecipeEntry,
 } from '@/data/recipes';
 
@@ -26,6 +27,10 @@ export function normalizeRecipeEntry(entry: PublicRecipeEntry): PublicRecipeEntr
 }
 
 export const fallbackRecipeImage = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1200';
+
+export function getRecipeCardImage(recipe: Recipe): string {
+  return recipe.cardImage || recipe.image || fallbackRecipeImage;
+}
 
 export function getRecipeByIdFrom(entries: PublicRecipeEntry[], id: string): PublicRecipeEntry | undefined {
   return entries.find((entry) => entry.id === id);

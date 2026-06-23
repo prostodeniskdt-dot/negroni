@@ -9,7 +9,7 @@ import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import { type Prebatch, type RecipeEntry } from '@/data/recipes';
-import { getRecipeByIdFrom } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeCardImage } from '@/lib/public-recipes';
 
 const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
 
@@ -446,7 +446,7 @@ export default function RecipePage() {
                 className="block p-4 bg-[var(--color-bg)]/30 border border-[var(--color-border)] rounded-[var(--radius-md)] hover:border-[var(--color-campari)] hover:-translate-y-0.5 transition-all group"
               >
                 <PublicRecipeImage
-                  src={r.recipe.image}
+                  src={getRecipeCardImage(r.recipe)}
                   alt={r.recipe.name}
                   className="aspect-[3/4] rounded mb-3"
                   variant="thumbnail"

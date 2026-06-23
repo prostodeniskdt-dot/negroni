@@ -23,7 +23,10 @@ export interface Recipe {
   barCity: string;
   tags: string[];
   intro: string;
+  /** Фото для страницы рецепта (hero). */
   image: string;
+  /** Фото для карточек в коллекции и списках. Если не задано — используется image. */
+  cardImage?: string;
   method: string;
   glass: string;
   garnish: string;
@@ -70,6 +73,7 @@ export const recipes: RecipeEntry[] = [
       intro:
         'Milano-Torino, или Mi-To, — минималистичный предок Americano и Негрони. В нём нет джина и содовой: только равные части Кампари и сладкого красного вермута, поэтому вкус получается плотным, горько-сладким и очень прямым.',
       image: '/images/recipes/milano-torino.png',
+      cardImage: '/images/cards/milano-torino.png',
       method: 'Сборка в бокале',
       glass: 'Рокс',
       garnish: 'Апельсиновая цедра или долька апельсина',
@@ -121,6 +125,7 @@ export const recipes: RecipeEntry[] = [
       intro:
         'Americano — лёгкий итальянский аперитив и прямой предшественник Негрони. Та же горько-сладкая база Кампари и красного вермута становится более свежей за счёт содовой: напиток сохраняет характер, но пьётся легче.',
       image: '/images/recipes/americano.png',
+      cardImage: '/images/cards/americano.png',
       method: 'Сборка в бокале',
       glass: 'Хайбол или рокс',
       garnish: 'Долька апельсина или апельсиновая цедра',

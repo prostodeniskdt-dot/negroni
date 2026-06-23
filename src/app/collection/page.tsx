@@ -16,6 +16,7 @@ import {
   getAllCategoriesFrom,
   getAllRegionsFrom,
   getAllTagsFrom,
+  getRecipeCardImage,
 } from '@/lib/public-recipes';
 
 const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
@@ -417,7 +418,7 @@ export default function CollectionPage() {
                 className="block group relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(28,28,28,0.82))] transition-all duration-[var(--transition-base)] hover:-translate-y-1 hover:border-[var(--color-campari)] hover:shadow-[var(--shadow-lg),0_0_26px_rgba(187,10,48,0.18)]"
               >
                 <PublicRecipeImage
-                  src={entry.recipe.image}
+                  src={getRecipeCardImage(entry.recipe)}
                   alt={entry.recipe.name}
                   className="card-media aspect-[3/4]"
                   variant="card"

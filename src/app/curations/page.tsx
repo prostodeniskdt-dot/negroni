@@ -6,7 +6,7 @@ import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import { curations } from '@/data/curations';
-import { getRecipeByIdFrom } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeCardImage } from '@/lib/public-recipes';
 
 export default function CurationsPage() {
   const { t, lang } = useI18n();
@@ -61,7 +61,7 @@ export default function CurationsPage() {
                         className="block group relative overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(18,18,18,0.75))] transition-all hover:-translate-y-1 hover:border-[var(--color-campari)] hover:shadow-[var(--shadow-md)]"
                       >
                         <PublicRecipeImage
-                          src={entry.recipe.image}
+                          src={getRecipeCardImage(entry.recipe)}
                           alt={entry.recipe.name}
                           className="aspect-[3/4]"
                           variant="card"
