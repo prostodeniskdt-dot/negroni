@@ -310,13 +310,21 @@ export default async function PartnerDrinkPage({
               Рецепты с этим джином
             </h2>
             <p className="mt-3 text-[var(--color-text-muted)]">
-              Продукт привязан только к двум проверенным рецептам музея.
+              {recipeList.length > 0
+                ? `В коллекции музея ${recipeList.length} ${
+                    recipeList.length === 1
+                      ? 'рецепт'
+                      : recipeList.length < 5
+                        ? 'рецепта'
+                        : 'рецептов'
+                  } с джином в составе.`
+                : 'Пока рецепты не привязаны.'}
             </p>
           </div>
 
           {recipeList.length > 0 ? (
-            <div className="mt-6 grid gap-6 md:grid-cols-2">
-              {recipeList.slice(0, 2).map((entry, index) => (
+            <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {recipeList.map((entry, index) => (
                 <Link
                   key={entry.id}
                   href={`/recipe/${entry.id}`}
@@ -335,7 +343,9 @@ export default async function PartnerDrinkPage({
                         {String(index + 1).padStart(2, '0')}
                       </span>
                       <span className="rounded-full bg-[var(--color-campari)]/15 px-2 py-1 text-xs uppercase tracking-[0.16em] text-[var(--color-campari)]">
-                        {entry.id === 'classic' ? 'Классика' : 'Авторская подача'}
+                        {entry.id === 'classic' || entry.id === 'milano-torino' || entry.id === 'americano'
+                          ? 'Классика'
+                          : 'Авторская подача'}
                       </span>
                       <span className="text-sm text-[var(--color-text-muted)]">
                         {entry.city}

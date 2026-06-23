@@ -6,7 +6,7 @@ import CategoryCard from '@/components/partners/CategoryCard';
 import { drinkCategories, getDrinksByCategory } from '@/data/partners';
 
 export default function PartnersPage() {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
 
   return (
     <>
@@ -30,9 +30,7 @@ export default function PartnersPage() {
           {t('partners.catalogSubtitle')}
         </p>
         <p className="text-center text-sm font-medium text-[var(--color-text-secondary)] mb-12">
-          {lang === 'ru'
-            ? 'Сейчас в каталоге представлен джин Bartenders United и две подачи Негрони: классическая и ярославская.'
-            : 'The catalog currently features Bartenders United gin and two Negroni serves: classic and Yaroslavl.'}
+          {t('partners.catalogNote')}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {drinkCategories.map((category) => (

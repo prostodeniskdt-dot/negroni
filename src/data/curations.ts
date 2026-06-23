@@ -11,20 +11,34 @@ export interface Curation {
 export const curations: Curation[] = [
   {
     id: 'classic-serve',
-    title: 'Классика Негрони',
-    titleEn: 'Classic Negroni',
-    description: 'Каноническая формула 1:1:1: джин, Кампари и сладкий красный вермут.',
-    descriptionEn: 'The canonical 1:1:1 formula: gin, Campari and sweet red vermouth.',
-    recipeIds: ['classic'],
+    title: 'Классика и предки',
+    titleEn: 'Classics & Precursors',
+    description:
+      'Milano-Torino, Americano и классический Негрони — итальянская линия, из которой вырос современный эталон.',
+    descriptionEn:
+      'Milano-Torino, Americano and the classic Negroni — the Italian lineage behind the modern benchmark.',
+    recipeIds: ['milano-torino', 'americano', 'classic'],
     icon: '',
   },
   {
     id: 'signature-serve',
-    title: 'Авторская подача',
-    titleEn: 'Signature Serve',
-    description: 'Ярославский Негрони и «Парадокс» от Александры Таран: региональная классика и молочно-осветлённый твист на Negroni.',
-    descriptionEn: 'Yaroslavl Negroni and Paradox by Alexandra Taran: a regional classic and a milk-clarified Negroni twist.',
-    recipeIds: ['yaroslavl', 'paradox'],
+    title: 'Авторские подачи России',
+    titleEn: 'Signature Serves from Russia',
+    description:
+      'Региональные и барные твисты: от Ярославля и Перми до Москвы, Владивостока и Набережных Челнов.',
+    descriptionEn:
+      'Regional and bar twists from Yaroslavl and Perm to Moscow, Vladivostok and Naberezhnye Chelny.',
+    recipeIds: [
+      'yaroslavl',
+      'paradox',
+      'opponent',
+      'santi-negroni',
+      'athletes',
+      'rat-pack-negroni',
+      'infinity',
+      'bacio-russo',
+      'lao',
+    ],
     icon: '',
   },
 ];

@@ -124,3 +124,41 @@ export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
 export function staticPublicRecipes(): PublicRecipeEntry[] {
   return staticRecipes.map(normalizeRecipeEntry);
 }
+
+export function getCollectionStats(entries: PublicRecipeEntry[]) {
+  return {
+    recipeCount: entries.length,
+    cityCount: new Set(entries.map((entry) => entry.city)).size,
+  };
+}
+
+const HOMEPAGE_FEATURED_IDS = [
+  'classic',
+  'yaroslavl',
+  'paradox',
+  'santi-negroni',
+  'bacio-russo',
+  'lao',
+] as const;
+
+export function getFeaturedRecipes(
+  entries: PublicRecipeEntry[],
+  limit = 6
+): PublicRecipeEntry[] {
+  const byId = new Map(entries.map((entry) => [entry.id, entry]));
+  const featured: PublicRecipeEntry[] = [];
+
+  for (const id of HOMEPAGE_FEATURED_IDS) {
+    const entry = byId.get(id);
+    if (entry) featured.push(entry);
+  }
+
+  for (const entry of entries) {
+    if (featured.length >= limit) break;
+    if (!featured.some((item) => item.id === entry.id)) {
+      featured.push(entry);
+    }
+  }
+
+  return featured.slice(0, limit);
+}

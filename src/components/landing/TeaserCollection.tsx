@@ -4,9 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
-import { getRecipeByIdFrom } from '@/lib/public-recipes';
-
-const FEATURED_IDS = ['classic', 'yaroslavl'] as const;
+import { getFeaturedRecipes, getRecipeCardImage } from '@/lib/public-recipes';
+import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 
 export function TeaserCollection() {
   const { t } = useI18n();
@@ -28,7 +27,7 @@ export function TeaserCollection() {
     return () => observer.disconnect();
   }, []);
 
-  const featured = FEATURED_IDS.map((id) => getRecipeByIdFrom(recipes, id)).filter(Boolean);
+  const featured = getFeaturedRecipes(recipes, 6);
 
   return (
     <section
@@ -60,12 +59,19 @@ export function TeaserCollection() {
             <Link
               key={id}
               href={`/recipe/${id}`}
-              className={`group relative overflow-hidden bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] p-6 transition-all duration-500 hover:border-[var(--color-campari)] hover:-translate-y-1 hover:shadow-[var(--shadow-lg),0_0_24px_rgba(187,10,48,0.15)] ${
+              className={`group relative overflow-hidden bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] transition-all duration-500 hover:border-[var(--color-campari)] hover:-translate-y-1 hover:shadow-[var(--shadow-lg),0_0_24px_rgba(187,10,48,0.15)] ${
                 titleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: `${200 + i * 80}ms` }}
             >
-              <div className="absolute top-0 left-0 right-0 h-1 bg-[var(--color-campari)] opacity-0 transition-opacity group-hover:opacity-100" />
+              <div className="absolute top-0 left-0 right-0 h-1 bg-[var(--color-campari)] opacity-0 transition-opacity group-hover:opacity-100 z-10" />
+              <PublicRecipeImage
+                src={getRecipeCardImage(recipe)}
+                alt={recipe.name}
+                className="aspect-[3/4] rounded-none border-0"
+                variant="card"
+              />
+              <div className="p-6">
               <div className="flex items-baseline justify-between gap-2 mb-2">
                 <span className="text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide">
                   {recipe.tags[0] || recipe.category}
@@ -81,6 +87,7 @@ export function TeaserCollection() {
               <span className="mt-4 inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-[var(--color-campari)]">
                 {t('recipe.ingredients')}
               </span>
+              </div>
             </Link>
           );
         })}

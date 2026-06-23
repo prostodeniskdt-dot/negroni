@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
+import { usePublicRecipes } from '@/hooks/usePublicRecipes';
+import { getCollectionStats } from '@/lib/public-recipes';
 
 const HERO_IMAGE_SRC = '/images/Negronifon.png';
 const HERO_IMAGE_ALT = 'Negroni фон';
@@ -36,12 +38,15 @@ function useAnimatedCounter(target: number, duration: number, start: boolean) {
 
 export function HeroSection() {
   const { t } = useI18n();
+  const { recipes, loading } = usePublicRecipes();
   const [loaded, setLoaded] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const [scrollY, setScrollY] = useState(0);
 
-  const recipesCount = useAnimatedCounter(2, 1200, loaded);
-  const citiesCount = useAnimatedCounter(2, 1200, loaded);
+  const { recipeCount, cityCount } = getCollectionStats(recipes);
+  const statsReady = loaded && !loading;
+  const recipesCount = useAnimatedCounter(recipeCount, 1200, statsReady);
+  const citiesCount = useAnimatedCounter(cityCount, 1200, statsReady);
   const yearCount = useAnimatedCounter(2025, 2200, loaded);
 
   useEffect(() => {
