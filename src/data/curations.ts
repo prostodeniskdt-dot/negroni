@@ -17,7 +17,7 @@ export const curations: Curation[] = [
       'Milano-Torino, Americano и классический Негрони — итальянская линия, из которой вырос современный эталон.',
     descriptionEn:
       'Milano-Torino, Americano and the classic Negroni — the Italian lineage behind the modern benchmark.',
-    recipeIds: ['milano-torino', 'americano', 'classic'],
+    recipeIds: ['milano-torino', 'americano', 'classic', 'tasty-negroni'],
     icon: '',
   },
   {
@@ -38,6 +38,8 @@ export const curations: Curation[] = [
       'infinity',
       'bacio-russo',
       'lao',
+      'coco-negroni',
+      'o-kuninushi',
     ],
     icon: '',
   },
