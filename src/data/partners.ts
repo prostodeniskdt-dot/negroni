@@ -133,7 +133,7 @@ export const drinks: Drink[] = [
       'Проект вырос из идеи объединить опыт JOIA и международной барной команды DKG. На этикетке — два бармена как символ сообщества, для которого создан продукт: не просто бутылка на полке, а инструмент для коктейльной культуры.',
     purchaseNoteEn:
       'The label shows two bartenders representing co-creators Denis Barabanov (CEO, JOIA) and Richard (Creative Director, DKG). The team combined JOIA’s premium wine expertise with DKG’s mixology background — including The Dead Rabbit, Guinness Open Gate, Johnnie Walker Experience, Gunpowder Gin and Shed Distillery. Brand motto: Raise the bar.',
-    recipeHints: 'classic,yaroslavl,opponent,santi-negroni,rat-pack-negroni,infinity,bacio-russo,o-kuninushi,tasty-negroni',
+    recipeHints: 'classic,yaroslavl,opponent,santi-negroni,rat-pack-negroni,infinity,bacio-russo,o-kuninushi,tasty-negroni,onyx,pistachio-negroni,bloodberry-negroni,general,spirit-of-ecstasy',
     sortOrder: 1,
     isActive: true,
     notebookStyle: true,

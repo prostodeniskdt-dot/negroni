@@ -25,9 +25,9 @@ export const curations: Curation[] = [
     title: 'Авторские подачи России',
     titleEn: 'Signature Serves from Russia',
     description:
-      'Региональные и барные твисты: от Ярославля и Перми до Москвы, Владивостока и Набережных Челнов.',
+      'Региональные и барные твисты: от Ярославля и Перми до Москвы, Владивостока, Воронежа и Набережных Челнов.',
     descriptionEn:
-      'Regional and bar twists from Yaroslavl and Perm to Moscow, Vladivostok and Naberezhnye Chelny.',
+      'Regional and bar twists from Yaroslavl and Perm to Moscow, Vladivostok, Voronezh and Naberezhnye Chelny.',
     recipeIds: [
       'yaroslavl',
       'paradox',
@@ -40,6 +40,12 @@ export const curations: Curation[] = [
       'lao',
       'coco-negroni',
       'o-kuninushi',
+      'onyx',
+      'count-p-kobyakov',
+      'pistachio-negroni',
+      'bloodberry-negroni',
+      'general',
+      'spirit-of-ecstasy',
     ],
     icon: '',
   },
