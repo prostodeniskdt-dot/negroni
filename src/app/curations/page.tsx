@@ -6,7 +6,7 @@ import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import { curations } from '@/data/curations';
-import { getRecipeByIdFrom, getRecipeCardImage } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeCardImage, getRecipeCardLabel } from '@/lib/public-recipes';
 
 export default function CurationsPage() {
   const { t, lang } = useI18n();
@@ -68,9 +68,11 @@ export default function CurationsPage() {
                           overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-25" />}
                         />
                         <div className="p-4">
-                          <span className="inline-block text-[0.65rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-1.5">
-                            {entry.recipe.region}
-                          </span>
+                          {getRecipeCardLabel(entry) && (
+                            <span className="inline-block text-[0.65rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-1.5">
+                              {getRecipeCardLabel(entry)}
+                            </span>
+                          )}
                           <h3 className="font-display text-sm font-bold uppercase tracking-wide group-hover:text-[var(--color-campari-light)] transition-colors">
                             {entry.recipe.name}
                           </h3>

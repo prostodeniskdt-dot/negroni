@@ -8,6 +8,7 @@ import { useFavorites } from '@/hooks/useFavorites';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
+import RecipeTagsFilter from '@/components/collection/RecipeTagsFilter';
 import {
   type RecipeEntry,
 } from '@/data/recipes';
@@ -17,47 +18,12 @@ import {
   getAllRegionsFrom,
   getAllTagsFrom,
   getRecipeCardImage,
+  getRecipeCardLabel,
 } from '@/lib/public-recipes';
 
 const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
 
 const DEFAULT_FLAVOR_RANGE: [number, number] = [0, 10];
-
-const TAG_GROUP_DEFINITIONS = [
-  {
-    id: 'style',
-    title: 'Стиль и формат',
-    description: 'Классика, твисты, авторские и сезонные вариации.',
-    keywords: ['класс', 'твист', 'twist', 'автор', 'signature', 'сезон', 'бар', 'prebatch', 'батч'],
-  },
-  {
-    id: 'taste',
-    title: 'Вкус и аромат',
-    description: 'Быстрый подбор по вкусовому профилю.',
-    keywords: ['горь', 'слад', 'кисл', 'прян', 'цитрус', 'трав', 'ягод', 'фрукт', 'дым', 'кофе', 'сух'],
-  },
-  {
-    id: 'ingredients',
-    title: 'Ингредиенты',
-    description: 'Ключевые напитки, добавки и акценты.',
-    keywords: ['джин', 'вермут', 'биттер', 'кампари', 'ликер', 'ликёр', 'аперитив', 'апельс', 'грейп', 'тоник'],
-  },
-  {
-    id: 'geo',
-    title: 'География и контекст',
-    description: 'Региональные, локальные и событийные подборки.',
-    keywords: ['москва', 'петербург', 'санкт', 'сибир', 'юг', 'снг', 'росси', 'регион', 'локал', 'город'],
-  },
-] as const;
-
-function getTagGroupId(tag: string) {
-  const normalized = tag.toLowerCase();
-  return (
-    TAG_GROUP_DEFINITIONS.find((group) =>
-      group.keywords.some((keyword) => normalized.includes(keyword))
-    )?.id ?? 'other'
-  );
-}
 
 function getUniqueCitiesCount(entries: RecipeEntry[]): number {
   const cities = new Set(entries.map((r) => r.city));
@@ -84,30 +50,6 @@ export default function CollectionPage() {
   const regions = useMemo(() => getAllRegionsFrom(recipes), [recipes]);
   const tags = useMemo(() => getAllTagsFrom(recipes), [recipes]);
   const categories = useMemo(() => getAllCategoriesFrom(recipes), [recipes]);
-  const groupedTags = useMemo(() => {
-    const groups = [
-      ...TAG_GROUP_DEFINITIONS.map((group) => ({ ...group, tags: [] as string[] })),
-      {
-        id: 'other',
-        title: 'Другое',
-        description: 'Дополнительные теги из редакции.',
-        keywords: [] as string[],
-        tags: [] as string[],
-      },
-    ];
-
-    tags.forEach((tag) => {
-      const group = groups.find((item) => item.id === getTagGroupId(tag));
-      group?.tags.push(tag);
-    });
-
-    return groups
-      .map((group) => ({
-        ...group,
-        tags: group.tags.sort((a, b) => a.localeCompare(b, 'ru')),
-      }))
-      .filter((group) => group.tags.length > 0);
-  }, [tags]);
 
   const filteredResults = useMemo(() => {
     const results = filterRecipesFrom(recipes, {
@@ -276,61 +218,13 @@ export default function CollectionPage() {
             className="w-full px-4 py-2.5 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
           />
 
-          <div className="space-y-4">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-text-primary)]">
-                  Теги рецептов
-                </p>
-                <p className="text-sm text-[var(--color-text-muted)]">
-                  Выбирайте один или несколько тегов из нужной группы.
-                </p>
-              </div>
-              {activeTags.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setActiveTags([])}
-                  className="self-start rounded-full border border-[var(--color-border)] px-3 py-1.5 text-xs uppercase tracking-wider text-[var(--color-text-muted)] hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] transition-colors"
-                >
-                  Сбросить теги ({activeTags.length})
-                </button>
-              )}
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              {groupedTags.map((group) => (
-                <div
-                  key={group.id}
-                  className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/70 p-4"
-                >
-                  <div className="mb-3">
-                    <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">
-                      {group.title}
-                    </h3>
-                    <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
-                      {group.description}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {group.tags.map((tag) => (
-                      <button
-                        key={tag}
-                        type="button"
-                        onClick={() => toggleTag(tag)}
-                        className={`rounded-full px-3 py-1.5 text-sm transition-all ${
-                          activeTags.includes(tag)
-                            ? 'bg-[var(--color-campari)] text-[var(--color-on-campari)] shadow-[0_0_18px_rgba(187,10,48,0.25)]'
-                            : 'border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-muted)] hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)]'
-                        }`}
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <RecipeTagsFilter
+            recipes={recipes}
+            tags={tags}
+            activeTags={activeTags}
+            onToggleTag={toggleTag}
+            onClearTags={() => setActiveTags([])}
+          />
 
           <div>
             <button
@@ -446,9 +340,11 @@ export default function CollectionPage() {
                     />
                   </button>
 
-                  <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">
-                    {entry.recipe.region}
-                  </span>
+                  {getRecipeCardLabel(entry) && (
+                    <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">
+                      {getRecipeCardLabel(entry)}
+                    </span>
+                  )}
 
                   <h3 className="font-display text-[1.15rem] font-bold uppercase tracking-wide mb-1.5 group-hover:text-[var(--color-campari-light)] transition-colors">
                     {entry.recipe.name}

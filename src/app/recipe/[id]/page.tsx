@@ -9,7 +9,7 @@ import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import { type Prebatch, type RecipeEntry } from '@/data/recipes';
-import { getRecipeByIdFrom, getRecipeCardImage, getRecipePageImage } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeCardImage, getRecipeCardLabel, getRecipePageImage } from '@/lib/public-recipes';
 
 const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
 
@@ -482,7 +482,7 @@ export default function RecipePage() {
                   </div>
                 )}
                 <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
-                  {r.recipe.region}
+                  {getRecipeCardLabel(r) ?? r.recipe.region}
                 </p>
               </Link>
             ))}

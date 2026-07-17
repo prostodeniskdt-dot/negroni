@@ -7,7 +7,7 @@ import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
-import { getRecipeByIdFrom, getRecipeCardImage } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeCardImage, getRecipeCardLabel } from '@/lib/public-recipes';
 
 export default function FavoritesPage() {
   const { t } = useI18n();
@@ -26,7 +26,7 @@ export default function FavoritesPage() {
       '',
     ];
     favoriteEntries.forEach((entry, i) => {
-      lines.push(`${i + 1}. ${entry.recipe.name} (${entry.recipe.region})`);
+      lines.push(`${i + 1}. ${entry.recipe.name} (${getRecipeCardLabel(entry) ?? entry.recipe.region})`);
       lines.push(`   ${entry.recipe.intro}`);
       lines.push(`   ${t('favorites.exportIngredients')}: ${entry.recipe.ingredients.join(', ')}`);
       lines.push('');
@@ -142,9 +142,11 @@ export default function FavoritesPage() {
                     overlay={<div className="absolute inset-0 bg-gradient-to-t from-[var(--color-campari-darker)] via-transparent to-transparent opacity-25" />}
                   />
                   <div className="relative p-5">
-                    <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">
-                      {entry.recipe.region}
-                    </span>
+                    {getRecipeCardLabel(entry) && (
+                      <span className="inline-block text-[0.7rem] text-[var(--color-on-campari)] bg-[var(--color-campari)] px-2 py-0.5 rounded-full uppercase tracking-wide mb-2">
+                        {getRecipeCardLabel(entry)}
+                      </span>
+                    )}
                     <h3 className="font-display text-lg font-bold uppercase tracking-wide mb-1.5 group-hover:text-[var(--color-campari-light)] transition-colors">
                       {entry.recipe.name}
                     </h3>

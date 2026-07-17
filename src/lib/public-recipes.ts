@@ -18,6 +18,34 @@ export function getRecipeCardImage(recipe: Recipe): string {
   return recipe.cardImage || fallbackRecipeImage;
 }
 
+/** Город для подписи на карточке — без «Россия». */
+function getRecipeCardCity(entry: RecipeEntry): string | null {
+  const city = entry.city?.trim();
+  if (city && !/^россия$/i.test(city)) {
+    return city;
+  }
+
+  const region = entry.recipe.region?.trim() ?? '';
+  const withoutRussia = region.replace(/,\s*Россия\s*$/i, '').trim();
+  if (withoutRussia && !/^россия$/i.test(withoutRussia)) {
+    return withoutRussia;
+  }
+
+  return null;
+}
+
+/** Подпись на карточке рецепта: «Город, Бар» (без «Россия»). */
+export function getRecipeCardLabel(entry: RecipeEntry): string | null {
+  const bar = entry.recipe.bar?.trim();
+  const hasBar = Boolean(bar && bar !== '—');
+  const city = getRecipeCardCity(entry);
+
+  if (city && hasBar) return `${city}, ${bar}`;
+  if (hasBar) return bar!;
+  if (city) return city;
+  return null;
+}
+
 export function normalizeRecipeEntry(entry: PublicRecipeEntry): PublicRecipeEntry {
   return {
     ...entry,
