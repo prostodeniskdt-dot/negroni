@@ -73,7 +73,7 @@ export function getPopularTagsFrom(entries: RecipeEntry[], limit = 10): string[]
   const counts = new Map<string, { tag: string; count: number }>();
 
   entries.forEach((entry) => {
-    entry.recipe.tags.forEach((tag) => {
+    (entry.recipe.tags ?? []).forEach((tag) => {
       const key = tag.toLowerCase();
       const existing = counts.get(key);
       if (existing) {

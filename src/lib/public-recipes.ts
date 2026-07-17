@@ -121,14 +121,18 @@ export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
 
   if (opts.tags?.length) {
     const selected = opts.tags.map((tag) => tag.toLowerCase());
-    result = result.filter((entry) => selected.some((tag) => entry.recipe.tags.some((recipeTag) => recipeTag.toLowerCase() === tag)));
+    result = result.filter((entry) =>
+      selected.some((tag) =>
+        (entry.recipe.tags ?? []).some((recipeTag) => recipeTag.toLowerCase() === tag)
+      )
+    );
   }
 
   if (opts.ingredients) {
     const queries = opts.ingredients.trim().toLowerCase().split(/[,;]+/).map((item) => item.trim()).filter(Boolean);
     if (queries.length) {
       result = result.filter((entry) => {
-        const ingredients = entry.recipe.ingredients.join(' ').toLowerCase();
+        const ingredients = (entry.recipe.ingredients ?? []).join(' ').toLowerCase();
         return queries.every((query) => ingredients.includes(query));
       });
     }

@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { REVEAL_OBSERVER_OPTIONS } from '@/components/Reveal';
+
+const REVEAL_FALLBACK_MS = 1000;
 
 export function useReveal(options?: IntersectionObserverInit) {
   const ref = useRef<HTMLElement>(null);
@@ -15,18 +18,31 @@ export function useReveal(options?: IntersectionObserverInit) {
       return;
     }
 
+    const reveal = () => setIsVisible(true);
+
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0 && rect.width > 0) {
+      reveal();
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
+          reveal();
           observer.unobserve(el);
         }
       },
-      { rootMargin: '0px 0px -60px 0px', threshold: 0.1, ...options }
+      { ...REVEAL_OBSERVER_OPTIONS, ...options }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    const fallback = window.setTimeout(reveal, REVEAL_FALLBACK_MS);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, [options]);
 
   return { ref, isVisible };

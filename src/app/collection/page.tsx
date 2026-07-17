@@ -297,8 +297,9 @@ export default function CollectionPage() {
         </p>
       </Reveal>
 
-      {/* ====== GRID ====== */}
-      <Reveal as="section" className="px-6 py-8 max-w-[1200px] mx-auto">
+      {/* ====== GRID ======
+          eager: длинная сетка не должна зависеть от % высоты в IntersectionObserver */}
+      <Reveal as="section" eager className="px-6 py-8 max-w-[1200px] mx-auto">
         {filteredResults.length === 0 ? (
           <p className="text-[var(--color-text-muted)] text-center py-12 font-prose">
             {t('collection.empty')}
@@ -367,9 +368,9 @@ export default function CollectionPage() {
                   </p>
 
                   <div className="flex flex-wrap gap-1.5">
-                    {entry.recipe.tags.slice(0, 3).map((tag) => (
+                    {(entry.recipe.tags ?? []).slice(0, 3).map((tag, index) => (
                       <span
-                        key={tag}
+                        key={`${entry.id}-tag-${index}-${tag}`}
                         className="text-[0.7rem] px-2 py-0.5 rounded bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text-secondary)]"
                       >
                         {tag}
