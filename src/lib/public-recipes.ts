@@ -8,14 +8,54 @@ export type PublicRecipeEntry = RecipeEntry;
 
 export const fallbackRecipeImage = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1200';
 
+/**
+ * Кодирует сегменты пути к файлу в /public, чтобы &, пробелы, акценты и ’ не ломали URL.
+ * Внешние URL и data: не трогает. Повторный вызов безопасен (сначала decode сегмента).
+ */
+export function encodePublicAssetPath(path: string): string {
+  const value = path.trim();
+  if (!value) return value;
+  if (/^(https?:|data:|blob:)/i.test(value)) return value;
+
+  const hashIndex = value.indexOf('#');
+  const queryIndex = value.indexOf('?');
+  let pathPart = value;
+  let suffix = '';
+  const cutAt = [hashIndex, queryIndex].filter((i) => i >= 0).sort((a, b) => a - b)[0];
+  if (cutAt !== undefined) {
+    pathPart = value.slice(0, cutAt);
+    suffix = value.slice(cutAt);
+  }
+
+  return (
+    pathPart
+      .split('/')
+      .map((segment) => {
+        if (!segment) return '';
+        try {
+          return encodeURIComponent(decodeURIComponent(segment));
+        } catch {
+          return encodeURIComponent(segment);
+        }
+      })
+      .join('/') + suffix
+  );
+}
+
 /** Фото коктейля на странице рецепта — только из public/images/recipes/ */
 export function getRecipePageImage(recipe: Recipe): string {
-  return recipe.image || fallbackRecipeImage;
+  return encodePublicAssetPath(recipe.image || fallbackRecipeImage);
 }
 
 /** Превью для карточек в коллекции и подборках — только из public/images/cards/ */
 export function getRecipeCardImage(recipe: Recipe): string {
-  return recipe.cardImage || fallbackRecipeImage;
+  return encodePublicAssetPath(recipe.cardImage || fallbackRecipeImage);
+}
+
+/** Фото автора — с безопасным URL-кодированием */
+export function getRecipeAuthorImage(recipe: Recipe): string | undefined {
+  if (!recipe.authorImage) return undefined;
+  return encodePublicAssetPath(recipe.authorImage);
 }
 
 /** Город для подписи на карточке — без «Россия». */
@@ -51,7 +91,7 @@ export function normalizeRecipeEntry(entry: PublicRecipeEntry): PublicRecipeEntr
     ...entry,
     recipe: {
       ...entry.recipe,
-      image: getRecipePageImage(entry.recipe),
+      image: entry.recipe.image || fallbackRecipeImage,
       cardImage: entry.recipe.cardImage,
       tags: entry.recipe.tags ?? [],
       ingredients: entry.recipe.ingredients ?? [],

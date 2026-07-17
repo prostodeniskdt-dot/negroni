@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
-import { getRecipeCardImage } from '@/lib/public-recipes';
+import { getRecipeAuthorImage, getRecipeCardImage } from '@/lib/public-recipes';
 import {
   drinkCategories,
   drinks,
@@ -354,10 +354,10 @@ export default async function PartnerDrinkPage({
                     <h3 className="font-display text-2xl font-semibold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-campari)]">
                       {entry.recipe.name}
                     </h3>
-                    {entry.recipe.authorImage && (
+                    {getRecipeAuthorImage(entry.recipe) && (
                       <div className="mt-3 flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
                         <img
-                          src={entry.recipe.authorImage}
+                          src={getRecipeAuthorImage(entry.recipe)}
                           alt={entry.recipe.author}
                           className="h-8 w-8 rounded-full object-cover ring-1 ring-[var(--color-border)]"
                           loading="lazy"

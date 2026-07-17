@@ -9,7 +9,7 @@ import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import { type Prebatch, type RecipeEntry } from '@/data/recipes';
-import { getRecipeByIdFrom, getRecipeCardImage, getRecipeCardLabel, getRecipePageImage } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeAuthorImage, getRecipeCardImage, getRecipeCardLabel, getRecipePageImage } from '@/lib/public-recipes';
 
 const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
 
@@ -340,10 +340,10 @@ export default function RecipePage() {
                   <h3 className="font-display text-base font-bold text-[var(--color-text-primary)] mb-3 uppercase tracking-wide">
                     {t('recipe.barProfile') || 'Бар и автор'}
                   </h3>
-                  {recipe.authorImage && (
+                  {getRecipeAuthorImage(recipe) && (
                     <div className="mb-4 overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
                       <img
-                        src={recipe.authorImage}
+                        src={getRecipeAuthorImage(recipe)}
                         alt={recipe.author !== '—' ? recipe.author : 'Автор коктейля'}
                         className="block aspect-[4/5] w-full object-cover"
                         loading="lazy"
@@ -470,10 +470,10 @@ export default function RecipePage() {
                 <h4 className="font-display font-bold text-[var(--color-text-primary)]">
                   {r.recipe.name}
                 </h4>
-                {r.recipe.authorImage && (
+                {getRecipeAuthorImage(r.recipe) && (
                   <div className="mt-2 flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
                     <img
-                      src={r.recipe.authorImage}
+                      src={getRecipeAuthorImage(r.recipe)}
                       alt={r.recipe.author}
                       className="h-7 w-7 rounded-full object-cover ring-1 ring-[var(--color-border)]"
                       loading="lazy"

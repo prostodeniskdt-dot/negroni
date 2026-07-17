@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { fallbackRecipeImage } from '@/lib/public-recipes';
+import { fallbackRecipeImage, encodePublicAssetPath } from '@/lib/public-recipes';
 
 type ImageVariant = 'hero' | 'card' | 'thumbnail';
 
@@ -28,7 +28,8 @@ export function PublicRecipeImage({
   preserveIntrinsicAspect?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  const resolvedSrc = !failed && src ? src : fallbackRecipeImage;
+  const safeSrc = src ? encodePublicAssetPath(src) : null;
+  const resolvedSrc = !failed && safeSrc ? safeSrc : fallbackRecipeImage;
 
   useEffect(() => {
     setFailed(false);

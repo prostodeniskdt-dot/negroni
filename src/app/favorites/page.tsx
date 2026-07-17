@@ -7,7 +7,7 @@ import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
-import { getRecipeByIdFrom, getRecipeCardImage, getRecipeCardLabel } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeAuthorImage, getRecipeCardImage, getRecipeCardLabel } from '@/lib/public-recipes';
 
 export default function FavoritesPage() {
   const { t } = useI18n();
@@ -150,10 +150,10 @@ export default function FavoritesPage() {
                     <h3 className="font-display text-lg font-bold uppercase tracking-wide mb-1.5 group-hover:text-[var(--color-campari-light)] transition-colors">
                       {entry.recipe.name}
                     </h3>
-                    {entry.recipe.authorImage && (
+                    {getRecipeAuthorImage(entry.recipe) && (
                       <div className="mb-3 flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
                         <img
-                          src={entry.recipe.authorImage}
+                          src={getRecipeAuthorImage(entry.recipe)}
                           alt={entry.recipe.author}
                           className="h-8 w-8 rounded-full object-cover ring-1 ring-[var(--color-border)]"
                           loading="lazy"

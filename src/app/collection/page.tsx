@@ -17,6 +17,7 @@ import {
   getAllCategoriesFrom,
   getAllRegionsFrom,
   getAllTagsFrom,
+  getRecipeAuthorImage,
   getRecipeCardImage,
   getRecipeCardLabel,
 } from '@/lib/public-recipes';
@@ -351,10 +352,10 @@ export default function CollectionPage() {
                     {entry.recipe.name}
                   </h3>
 
-                  {entry.recipe.authorImage && (
+                  {getRecipeAuthorImage(entry.recipe) && (
                     <div className="mb-3 flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
                       <img
-                        src={entry.recipe.authorImage}
+                        src={getRecipeAuthorImage(entry.recipe)}
                         alt={entry.recipe.author}
                         className="h-8 w-8 rounded-full object-cover ring-1 ring-[var(--color-border)]"
                         loading="lazy"

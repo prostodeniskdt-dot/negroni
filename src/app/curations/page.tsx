@@ -6,7 +6,7 @@ import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import { curations } from '@/data/curations';
-import { getRecipeByIdFrom, getRecipeCardImage, getRecipeCardLabel } from '@/lib/public-recipes';
+import { getRecipeByIdFrom, getRecipeAuthorImage, getRecipeCardImage, getRecipeCardLabel } from '@/lib/public-recipes';
 
 export default function CurationsPage() {
   const { t, lang } = useI18n();
@@ -76,10 +76,10 @@ export default function CurationsPage() {
                           <h3 className="font-display text-sm font-bold uppercase tracking-wide group-hover:text-[var(--color-campari-light)] transition-colors">
                             {entry.recipe.name}
                           </h3>
-                          {entry.recipe.authorImage && (
+                          {getRecipeAuthorImage(entry.recipe) && (
                             <div className="mt-2 flex items-center gap-2 text-[0.7rem] text-[var(--color-text-secondary)]">
                               <img
-                                src={entry.recipe.authorImage}
+                                src={getRecipeAuthorImage(entry.recipe)}
                                 alt={entry.recipe.author}
                                 className="h-7 w-7 rounded-full object-cover ring-1 ring-[var(--color-border)]"
                                 loading="lazy"
