@@ -1,6 +1,5 @@
 import { readFile } from 'fs/promises';
 import path from 'path';
-import sharp from 'sharp';
 import { getRecipeById, recipes, type Prebatch, type RecipeEntry } from '@/data/recipes';
 import { getRecipeAuthorImage, getRecipePageImage } from '@/lib/public-recipes';
 import type { PdfRecipe } from '@/lib/pdf/RecipesPdf';
@@ -50,12 +49,20 @@ async function fileToJpeg(publicPath: string | undefined, maxWidth: number) {
   const absolute = path.join(process.cwd(), 'public', decoded.replace(/^\/+/, ''));
   try {
     const source = await readFile(absolute);
-    const jpeg = await sharp(source)
-      .rotate()
-      .resize({ width: maxWidth, height: maxWidth, fit: 'inside', withoutEnlargement: true })
-      .jpeg({ quality: 74, mozjpeg: true })
-      .toBuffer();
-    return `data:image/jpeg;base64,${jpeg.toString('base64')}`;
+    try {
+      const sharp = (await import('sharp')).default;
+      const jpeg = await sharp(source)
+        .rotate()
+        .resize({ width: maxWidth, height: maxWidth, fit: 'inside', withoutEnlargement: true })
+        .jpeg({ quality: 74, mozjpeg: true })
+        .toBuffer();
+      return `data:image/jpeg;base64,${jpeg.toString('base64')}`;
+    } catch {
+      const extension = path.extname(absolute).toLowerCase();
+      const mime = extension === '.png' ? 'image/png' : extension === '.jpg' || extension === '.jpeg' ? 'image/jpeg' : '';
+      if (!mime) return null;
+      return `data:${mime};base64,${source.toString('base64')}`;
+    }
   } catch {
     return null;
   }

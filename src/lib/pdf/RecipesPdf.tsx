@@ -1,8 +1,17 @@
+import { existsSync } from 'fs';
 import path from 'path';
 import React from 'react';
 import { Document, Font, Image, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 
-const fontDir = path.join(process.cwd(), 'src/lib/pdf/fonts');
+function resolveFontDir() {
+  const candidates = [
+    path.join(process.cwd(), 'fonts'),
+    path.join(process.cwd(), 'src/lib/pdf/fonts'),
+  ];
+  return candidates.find((dir) => existsSync(path.join(dir, 'CormorantGaramond-Regular.ttf'))) ?? candidates[0];
+}
+
+const fontDir = resolveFontDir();
 
 Font.register({
   family: 'Cormorant',

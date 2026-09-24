@@ -3,6 +3,9 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   output: 'standalone',
   serverExternalPackages: ['sharp'],
+  outputFileTracingIncludes: {
+    '/api/export/pdf': ['./src/lib/pdf/fonts/**/*'],
+  },
 
   // Image optimization
   images: {

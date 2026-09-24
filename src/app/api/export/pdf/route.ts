@@ -42,20 +42,25 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'TOO_MANY' }, { status: 400 });
   }
 
-  const recipes = await loadPdfRecipes(selected);
-  if (recipes.length === 0) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
+  try {
+    const recipes = await loadPdfRecipes(selected);
+    if (recipes.length === 0) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
 
-  const title = recipes.length === 1 ? recipes[0].name : `Музей Негрони — ${recipes.length} рецептов`;
-  const filename = recipes.length === 1 ? recipes[0].name : `negroni-${recipes.length}`;
-  const doc = React.createElement(RecipesPdf, { title, recipes });
-  const buffer = await renderToBuffer(doc);
+    const title = recipes.length === 1 ? recipes[0].name : `Музей Негрони — ${recipes.length} рецептов`;
+    const filename = recipes.length === 1 ? recipes[0].name : `negroni-${recipes.length}`;
+    const doc = React.createElement(RecipesPdf, { title, recipes });
+    const buffer = await renderToBuffer(doc);
 
-  return new Response(new Uint8Array(buffer), {
-    status: 200,
-    headers: {
-      'content-type': 'application/pdf',
-      'content-disposition': `attachment; filename="${asciiFallback(filename)}.pdf"; filename*=UTF-8''${encodeURIComponent(filename)}.pdf`,
-      'cache-control': 'no-store',
-    },
-  });
+    return new Response(new Uint8Array(buffer), {
+      status: 200,
+      headers: {
+        'content-type': 'application/pdf',
+        'content-disposition': `attachment; filename="${asciiFallback(filename)}.pdf"; filename*=UTF-8''${encodeURIComponent(filename)}.pdf`,
+        'cache-control': 'no-store',
+      },
+    });
+  } catch (error) {
+    console.error('PDF export failed', error);
+    return NextResponse.json({ error: 'PDF_FAILED' }, { status: 500 });
+  }
 }
