@@ -51,17 +51,29 @@ async function fileToJpeg(publicPath: string | undefined, maxWidth: number) {
     const source = await readFile(absolute);
     try {
       const sharp = (await import('sharp')).default;
-      const jpeg = await sharp(source)
-        .rotate()
+      const image = sharp(source).rotate();
+      const meta = await image.metadata();
+      const width = meta.width ?? maxWidth;
+      const height = meta.height ?? maxWidth;
+      const jpeg = await image
         .resize({ width: maxWidth, height: maxWidth, fit: 'inside', withoutEnlargement: true })
-        .jpeg({ quality: 74, mozjpeg: true })
+        .jpeg({ quality: 82, mozjpeg: true })
         .toBuffer();
-      return `data:image/jpeg;base64,${jpeg.toString('base64')}`;
+      const resized = await sharp(jpeg).metadata();
+      return {
+        src: `data:image/jpeg;base64,${jpeg.toString('base64')}`,
+        width: resized.width ?? width,
+        height: resized.height ?? height,
+      };
     } catch {
       const extension = path.extname(absolute).toLowerCase();
       const mime = extension === '.png' ? 'image/png' : extension === '.jpg' || extension === '.jpeg' ? 'image/jpeg' : '';
       if (!mime) return null;
-      return `data:${mime};base64,${source.toString('base64')}`;
+      return {
+        src: `data:${mime};base64,${source.toString('base64')}`,
+        width: maxWidth,
+        height: Math.round(maxWidth * 0.75),
+      };
     }
   } catch {
     return null;
@@ -87,7 +99,7 @@ async function toPdfRecipe(entry: RecipeEntry): Promise<PdfRecipe> {
     intro: present(recipe.intro),
     story: present(recipe.story),
     image,
-    authorImage,
+    authorImage: authorImage?.src ?? null,
     method: present(recipe.method),
     glass: present(recipe.glass),
     garnish: present(recipe.garnish),

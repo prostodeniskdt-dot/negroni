@@ -42,7 +42,7 @@ export type PdfRecipe = {
   barCity: string;
   intro: string;
   story: string;
-  image: string | null;
+  image: { src: string; width: number; height: number } | null;
   authorImage: string | null;
   method: string;
   glass: string;
@@ -140,11 +140,12 @@ const styles = StyleSheet.create({
     color: muted,
     fontSize: 11,
   },
-  hero: {
+  heroWrap: {
     marginTop: 14,
-    width: '100%',
-    height: 248,
-    objectFit: 'cover',
+    alignItems: 'center',
+  },
+  hero: {
+    objectFit: 'contain',
   },
   specs: {
     marginTop: 14,
@@ -193,27 +194,34 @@ const styles = StyleSheet.create({
   },
   ingredient: {
     fontSize: 12,
-    lineHeight: 1.35,
-    marginBottom: 3,
+    lineHeight: 1.55,
+    marginBottom: 4,
   },
   stepRow: {
     flexDirection: 'row',
-    marginBottom: 5,
+    marginBottom: 6,
   },
   stepNo: {
-    width: 18,
+    width: 22,
     color: wine,
     fontWeight: 600,
     fontSize: 12,
+    lineHeight: 1.55,
   },
   stepText: {
-    flex: 1,
+    flexGrow: 1,
+    flexBasis: 0,
     fontSize: 12,
-    lineHeight: 1.35,
+    lineHeight: 1.55,
+  },
+  batchLine: {
+    fontSize: 12,
+    lineHeight: 1.55,
+    marginBottom: 4,
   },
   story: {
     fontSize: 12,
-    lineHeight: 1.4,
+    lineHeight: 1.55,
     color: '#3a2c2e',
   },
   batch: {
@@ -303,6 +311,22 @@ const styles = StyleSheet.create({
   },
 });
 
+const PAGE_CONTENT_WIDTH = 523;
+const HERO_MAX_HEIGHT = 320;
+
+function heroSize(width: number, height: number) {
+  const safeWidth = width > 0 ? width : PAGE_CONTENT_WIDTH;
+  const safeHeight = height > 0 ? height : Math.round(PAGE_CONTENT_WIDTH * 0.66);
+  const ratio = safeHeight / safeWidth;
+  let drawWidth = PAGE_CONTENT_WIDTH;
+  let drawHeight = Math.round(drawWidth * ratio);
+  if (drawHeight > HERO_MAX_HEIGHT) {
+    drawHeight = HERO_MAX_HEIGHT;
+    drawWidth = Math.round(drawHeight / ratio);
+  }
+  return { width: drawWidth, height: drawHeight };
+}
+
 function Spec({ label, value }: { label: string; value: string }) {
   if (!value) return null;
   return (
@@ -330,7 +354,14 @@ function RecipePage({ recipe, index, total }: { recipe: PdfRecipe; index: number
       <Text style={styles.title}>{recipe.name}</Text>
       {place ? <Text style={styles.meta}>{place}</Text> : null}
       {recipe.intro ? <Text style={styles.intro}>{recipe.intro}</Text> : null}
-      {recipe.image ? <Image style={styles.hero} src={recipe.image} /> : null}
+      {recipe.image ? (
+        <View style={styles.heroWrap}>
+          <Image
+            style={[styles.hero, heroSize(recipe.image.width, recipe.image.height)]}
+            src={recipe.image.src}
+          />
+        </View>
+      ) : null}
 
       <View style={styles.specs}>
         <Spec label="Метод" value={recipe.method} />
@@ -353,7 +384,7 @@ function RecipePage({ recipe, index, total }: { recipe: PdfRecipe; index: number
       <View style={styles.section}>
         <Text style={styles.h3}>Приготовление</Text>
         {recipe.steps.map((step, i) => (
-          <View key={i} style={styles.stepRow} wrap={false}>
+          <View key={i} style={styles.stepRow}>
             <Text style={styles.stepNo}>{i + 1}</Text>
             <Text style={styles.stepText}>{step}</Text>
           </View>
@@ -365,13 +396,13 @@ function RecipePage({ recipe, index, total }: { recipe: PdfRecipe; index: number
           <Text style={styles.h3}>Заготовки</Text>
           {recipe.prebatchNote ? <Text style={styles.story}>{recipe.prebatchNote}</Text> : null}
           {recipe.prebatches.map((batch, batchIndex) => (
-            <View key={batchIndex} style={styles.batch} wrap={false}>
+            <View key={batchIndex} style={styles.batch}>
               <Text style={styles.batchName}>{batch.name}</Text>
               {batch.ingredients.map((item, i) => (
-                <Text key={i} style={styles.ingredient}>·  {item}</Text>
+                <Text key={`ing-${i}`} style={styles.batchLine}>·  {item}</Text>
               ))}
               {batch.steps.map((step, i) => (
-                <Text key={i} style={styles.stepText}>{i + 1}. {step}</Text>
+                <Text key={`step-${i}`} style={styles.batchLine}>{i + 1}. {step}</Text>
               ))}
             </View>
           ))}
