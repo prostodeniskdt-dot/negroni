@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Menu, X } from 'lucide-react';
+import NegroniMark from '@/components/NegroniMark';
 
 export default function Header() {
   const pathname = usePathname();
@@ -88,9 +89,7 @@ export default function Header() {
             className="relative flex items-center text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors p-1"
             aria-label={t('nav.favorites')}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
+            <NegroniMark active size={20} />
             {favCount > 0 && (
               <span className="absolute -top-0.5 -right-1 bg-[var(--color-campari)] text-[var(--color-on-campari)] text-[0.6rem] font-bold min-w-[14px] h-[14px] rounded-full flex items-center justify-center leading-none font-display">
                 {favCount}
@@ -118,7 +117,7 @@ export default function Header() {
 
         <div className="flex 2xl:hidden items-center gap-2 shrink-0">
           <Link href="/favorites" className="relative p-2 text-[var(--color-text-muted)]" aria-label={t('nav.favorites')}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+            <NegroniMark active size={22} />
             {favCount > 0 && (
               <span className="absolute top-0 right-0 bg-[var(--color-campari)] text-[var(--color-on-campari)] text-[0.6rem] font-bold min-w-[14px] h-[14px] rounded-full flex items-center justify-center">{favCount}</span>
             )}

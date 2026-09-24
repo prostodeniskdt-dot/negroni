@@ -1,100 +1,61 @@
 import { NextResponse } from 'next/server';
-import { z } from 'zod';
-import { pdf } from '@react-pdf/renderer';
+import { renderToBuffer } from '@react-pdf/renderer';
 import React from 'react';
-import { readFile } from 'fs/promises';
-import path from 'path';
-import { getRecipeById } from '@/data/recipes';
-import { normalizeRecipeEntry, getRecipePageImage } from '@/lib/public-recipes';
-import { RecipesPdf, type PdfRecipe } from '@/lib/pdf/RecipesPdf';
+import { z } from 'zod';
+import { RecipesPdf } from '@/lib/pdf/RecipesPdf';
+import { allRecipeIds, loadPdfRecipes } from '@/lib/pdf/load-recipes';
 
 export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 const QuerySchema = z.object({
   id: z.string().optional(),
-  lang: z.string().optional(),
+  ids: z.string().optional(),
+  all: z.string().optional(),
 });
 
-const imageContentTypes: Record<string, string> = {
-  jpg: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  png: 'image/png',
-  webp: 'image/webp',
-  gif: 'image/gif',
-};
-
-async function normalizeImageForPdf(image?: string | null) {
-  if (!image) return null;
-  if (!image.startsWith('/uploads/recipes/')) return image;
-
-  const filename = path.basename(image);
-  const extension = filename.split('.').pop()?.toLowerCase() ?? '';
-  const contentType = imageContentTypes[extension];
-  if (!contentType) return null;
-
-  try {
-    const file = await readFile(path.join(process.cwd(), 'public', 'uploads', 'recipes', filename));
-    return `data:${contentType};base64,${file.toString('base64')}`;
-  } catch {
-    return null;
-  }
-}
-
-async function normalizeRecipes(list: any[]): Promise<PdfRecipe[]> {
-  return Promise.all(list.map(async (r) => ({
-    slug: r.slug,
-    name: r.name,
-    region: r.region,
-    intro: r.intro,
-    image: await normalizeImageForPdf(r.image),
-    method: r.method,
-    glass: r.glass,
-    garnish: r.garnish,
-    ice: r.ice,
-    ingredients: r.ingredients ?? [],
-    steps: r.steps ?? [],
-  })));
+function asciiFallback(name: string) {
+  const safe = name
+    .normalize('NFKD')
+    .replace(/[^\w.\- ]+/g, '')
+    .trim()
+    .replace(/\s+/g, '-');
+  return safe || 'negroni';
 }
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const q = Object.fromEntries(url.searchParams.entries());
-  const parsed = QuerySchema.safeParse(q);
+  const parsed = QuerySchema.safeParse(Object.fromEntries(url.searchParams.entries()));
   if (!parsed.success) return NextResponse.json({ error: 'INVALID_QUERY' }, { status: 400 });
 
-  const { id } = parsed.data;
+  const { id, ids, all } = parsed.data;
+  let selected: string[] = [];
 
-  if (!id) return NextResponse.json({ error: 'ID_REQUIRED' }, { status: 400 });
-  const entry = getRecipeById(id);
-  if (!entry) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
-  const normalized = normalizeRecipeEntry(entry);
-  const title = normalized.recipe.name;
-  const recipes = [{
-    slug: normalized.id,
-    name: normalized.recipe.name,
-    region: normalized.recipe.region,
-    intro: normalized.recipe.intro,
-    image: getRecipePageImage(normalized.recipe),
-    method: normalized.recipe.method,
-    glass: normalized.recipe.glass,
-    garnish: normalized.recipe.garnish,
-    ice: normalized.recipe.ice,
-    ingredients: normalized.recipe.ingredients,
-    steps: normalized.recipe.steps,
-  }];
+  if (all === '1' || all === 'true') selected = allRecipeIds();
+  else if (ids) selected = ids.split(',').map((item) => item.trim()).filter(Boolean);
+  else if (id) selected = [id];
 
-  const doc = React.createElement(RecipesPdf, { title, recipes: await normalizeRecipes(recipes) });
-  // @react-pdf/renderer provides Node helpers; `toBuffer()` is the most compatible for Response.
-  const buf: Buffer = await (pdf(doc) as any).toBuffer();
-  const body = new Uint8Array(buf);
+  if (selected.length === 0) {
+    return NextResponse.json({ error: 'ID_REQUIRED' }, { status: 400 });
+  }
+  if (selected.length > 120) {
+    return NextResponse.json({ error: 'TOO_MANY' }, { status: 400 });
+  }
 
-  return new Response(body, {
+  const recipes = await loadPdfRecipes(selected);
+  if (recipes.length === 0) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 });
+
+  const title = recipes.length === 1 ? recipes[0].name : `Музей Негрони — ${recipes.length} рецептов`;
+  const filename = recipes.length === 1 ? recipes[0].name : `negroni-${recipes.length}`;
+  const doc = React.createElement(RecipesPdf, { title, recipes });
+  const buffer = await renderToBuffer(doc);
+
+  return new Response(new Uint8Array(buffer), {
     status: 200,
     headers: {
       'content-type': 'application/pdf',
-      'content-disposition': `attachment; filename="${encodeURIComponent(title)}.pdf"`,
+      'content-disposition': `attachment; filename="${asciiFallback(filename)}.pdf"; filename*=UTF-8''${encodeURIComponent(filename)}.pdf`,
       'cache-control': 'no-store',
     },
   });
 }
-

@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Heart } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
+import NegroniMark from '@/components/NegroniMark';
+import { downloadRecipesPdf } from '@/lib/pdf/download';
 import { useFavorites } from '@/hooks/useFavorites';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import Reveal from '@/components/Reveal';
@@ -47,6 +48,9 @@ export default function CollectionPage() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [sortBy, setSortBy] = useState<'name' | 'region' | 'difficulty'>('name');
+  const [selectMode, setSelectMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [exporting, setExporting] = useState(false);
 
   const regions = useMemo(() => getAllRegionsFrom(recipes), [recipes]);
   const tags = useMemo(() => getAllTagsFrom(recipes), [recipes]);
@@ -121,6 +125,17 @@ export default function CollectionPage() {
 
   const resetFlavorFilters = () => {
     setFlavorFilters({});
+  };
+
+  const exportPdf = (opts: { ids?: string[]; all?: boolean }) => {
+    setExporting(true);
+    downloadRecipesPdf(opts)
+      .catch(() => window.alert(t('recipe.exportFailed')))
+      .finally(() => setExporting(false));
+  };
+
+  const toggleSelected = (id: string) => {
+    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
   };
 
   return (
@@ -292,10 +307,50 @@ export default function CollectionPage() {
           </div>
         </div>
 
-        <p className="mt-4 text-[var(--color-text-muted)]">
-          {t('collection.found')}: {filteredResults.length}
-          {source === 'db' ? ' · данные из редактора' : ''}
-        </p>
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <p className="text-[var(--color-text-muted)]">
+            {t('collection.found')}: {filteredResults.length}
+            {source === 'db' ? ' · данные из редактора' : ''}
+          </p>
+          <button
+            type="button"
+            disabled={exporting || filteredResults.length === 0}
+            onClick={() => exportPdf({ ids: filteredResults.map((entry) => entry.id) })}
+            className="px-4 py-2 text-sm border border-[var(--color-border)] rounded-[var(--radius-sm)] hover:border-[var(--color-campari)] disabled:opacity-50"
+          >
+            {exporting ? t('recipe.exporting') : `${t('collection.exportFound')} (${filteredResults.length})`}
+          </button>
+          {filteredResults.length !== recipes.length && (
+            <button
+              type="button"
+              disabled={exporting}
+              onClick={() => exportPdf({ all: true })}
+              className="px-4 py-2 text-sm border border-[var(--color-border)] rounded-[var(--radius-sm)] hover:border-[var(--color-campari)] disabled:opacity-50"
+            >
+              {t('collection.exportAll')}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => {
+              setSelectMode((value) => !value);
+              setSelectedIds([]);
+            }}
+            className="px-4 py-2 text-sm border border-[var(--color-border)] rounded-[var(--radius-sm)] hover:border-[var(--color-campari)]"
+          >
+            {selectMode ? t('collection.exportCancel') : t('collection.exportPick')}
+          </button>
+          {selectMode && (
+            <button
+              type="button"
+              disabled={exporting || selectedIds.length === 0}
+              onClick={() => exportPdf({ ids: selectedIds })}
+              className="px-4 py-2 text-sm bg-[var(--color-campari)] text-[var(--color-on-campari)] rounded-[var(--radius-sm)] disabled:opacity-50"
+            >
+              {t('collection.exportSelected')} ({selectedIds.length})
+            </button>
+          )}
+        </div>
       </Reveal>
 
       {/* ====== GRID ======
@@ -313,6 +368,23 @@ export default function CollectionPage() {
                 href={`/recipe/${entry.id}`}
                 className="block group relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(28,28,28,0.82))] transition-all duration-[var(--transition-base)] hover:-translate-y-1 hover:border-[var(--color-campari)] hover:shadow-[var(--shadow-lg),0_0_26px_rgba(187,10,48,0.18)]"
               >
+                {selectMode && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleSelected(entry.id);
+                    }}
+                    className={`absolute top-4 left-4 z-10 w-8 h-8 rounded-full border flex items-center justify-center text-sm ${
+                      selectedIds.includes(entry.id)
+                        ? 'bg-[var(--color-campari)] border-[var(--color-campari)] text-[var(--color-on-campari)]'
+                        : 'bg-[var(--color-surface-solid)]/90 border-[var(--color-border)] text-[var(--color-text-primary)]'
+                    }`}
+                    aria-label={entry.recipe.name}
+                  >
+                    {selectedIds.includes(entry.id) ? '✓' : ''}
+                  </button>
+                )}
                 <PublicRecipeImage
                   src={getRecipeCardImage(entry.recipe)}
                   alt={entry.recipe.name}
@@ -336,10 +408,7 @@ export default function CollectionPage() {
                         : t('recipe.addFavorite')
                     }
                   >
-                    <Heart
-                      size={18}
-                      className={isFavorite(entry.id) ? 'fill-[var(--color-campari)] text-[var(--color-campari)]' : 'text-[var(--color-text-muted)]'}
-                    />
+                    <NegroniMark active={isFavorite(entry.id)} size={20} />
                   </button>
 
                   {getRecipeCardLabel(entry) && (

@@ -1,46 +1,35 @@
 ﻿'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import Link from 'next/link';
-import { Heart } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
+import NegroniMark from '@/components/NegroniMark';
+import { downloadRecipesPdf } from '@/lib/pdf/download';
 import { getRecipeByIdFrom, getRecipeAuthorImage, getRecipeCardImage, getRecipeCardLabel } from '@/lib/public-recipes';
 
 export default function FavoritesPage() {
   const { t } = useI18n();
   const { favorites, remove, clear } = useFavorites();
   const { recipes } = usePublicRecipes();
+  const [selectMode, setSelectMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [exporting, setExporting] = useState(false);
 
   const favoriteEntries = favorites
     .map((id) => getRecipeByIdFrom(recipes, id))
     .filter((entry): entry is NonNullable<typeof entry> => !!entry);
 
   const handleExport = useCallback(() => {
-    const lines: string[] = [
-      t('favorites.exportHeader'),
-      '',
-      '---',
-      '',
-    ];
-    favoriteEntries.forEach((entry, i) => {
-      lines.push(`${i + 1}. ${entry.recipe.name} (${getRecipeCardLabel(entry) ?? entry.recipe.region})`);
-      lines.push(`   ${entry.recipe.intro}`);
-      lines.push(`   ${t('favorites.exportIngredients')}: ${entry.recipe.ingredients.join(', ')}`);
-      lines.push('');
-    });
-    lines.push('---');
-    lines.push(t('favorites.exportFooter'));
-    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'negroni-favorites.txt';
-    a.click();
-    URL.revokeObjectURL(url);
-  }, [favoriteEntries, t]);
+    const ids = selectMode ? selectedIds : favoriteEntries.map((entry) => entry.id);
+    if (ids.length === 0) return;
+    setExporting(true);
+    downloadRecipesPdf({ ids })
+      .catch(() => window.alert(t('recipe.exportFailed')))
+      .finally(() => setExporting(false));
+  }, [favoriteEntries, selectMode, selectedIds, t]);
 
   const handleShare = useCallback(async () => {
     const recipeLinks = favoriteEntries
@@ -50,10 +39,6 @@ export default function FavoritesPage() {
     await navigator.clipboard.writeText(recipeLinks).catch(() => {});
     alert('Ссылки на избранные рецепты скопированы в буфер обмена.');
   }, [favoriteEntries]);
-
-  const handlePdf = useCallback(() => {
-    window.print();
-  }, []);
 
   const handleClear = useCallback(() => {
     if (typeof window !== 'undefined' && window.confirm(t('favorites.removeConfirm'))) {
@@ -78,10 +63,21 @@ export default function FavoritesPage() {
             <button
               type="button"
               onClick={handleExport}
+              disabled={favoriteEntries.length === 0 || exporting || (selectMode && selectedIds.length === 0)}
+              className="px-5 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {exporting ? t('recipe.exporting') : selectMode ? `${t('favorites.exportSelected')} (${selectedIds.length})` : t('favorites.export')}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectMode((value) => !value);
+                setSelectedIds([]);
+              }}
               disabled={favoriteEntries.length === 0}
               className="px-5 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {t('favorites.export')}
+              {selectMode ? t('favorites.exportCancel') : t('favorites.exportPick')}
             </button>
             <button
               type="button"
@@ -90,14 +86,6 @@ export default function FavoritesPage() {
               className="px-5 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Поделиться
-            </button>
-            <button
-              type="button"
-              onClick={handlePdf}
-              disabled={favoriteEntries.length === 0}
-              className="px-5 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-md)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              PDF
             </button>
             <button
               type="button"
@@ -115,7 +103,7 @@ export default function FavoritesPage() {
       <section className="px-6 py-8 max-w-[1200px] mx-auto">
         {favoriteEntries.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <Heart size={48} strokeWidth={1.25} className="mb-6 text-[var(--color-text-secondary)] opacity-70" />
+            <NegroniMark size={56} className="mb-6" />
             <p className="text-[var(--color-text-muted)] font-prose mb-6 max-w-md">
               {t('favorites.empty')}
             </p>
@@ -133,6 +121,20 @@ export default function FavoritesPage() {
                 key={entry.id}
                 className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(28,28,28,0.82))] transition-all duration-[var(--transition-base)] hover:border-[var(--color-campari)] group"
               >
+                {selectMode && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedIds((prev) => prev.includes(entry.id) ? prev.filter((id) => id !== entry.id) : [...prev, entry.id])}
+                    className={`absolute top-4 left-4 z-10 w-8 h-8 rounded-full border flex items-center justify-center text-sm ${
+                      selectedIds.includes(entry.id)
+                        ? 'bg-[var(--color-campari)] border-[var(--color-campari)] text-[var(--color-on-campari)]'
+                        : 'bg-[var(--color-surface-solid)]/90 border-[var(--color-border)]'
+                    }`}
+                    aria-label={entry.recipe.name}
+                  >
+                    {selectedIds.includes(entry.id) ? '✓' : ''}
+                  </button>
+                )}
                 <Link href={`/recipe/${entry.id}`} className="block">
                   <PublicRecipeImage
                     src={getRecipeCardImage(entry.recipe)}

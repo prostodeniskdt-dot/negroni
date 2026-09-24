@@ -10,6 +10,8 @@ import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import { type Prebatch, type RecipeEntry } from '@/data/recipes';
 import { getRecipeByIdFrom, getRecipeAuthorImage, getRecipeCardImage, getRecipeCardLabel, getRecipePageImage } from '@/lib/public-recipes';
+import NegroniMark from '@/components/NegroniMark';
+import { downloadRecipesPdf } from '@/lib/pdf/download';
 
 const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
 
@@ -36,6 +38,7 @@ export default function RecipePage() {
   const { isFavorite, toggle } = useFavorites();
   const { recipes } = usePublicRecipes();
   const [copyFeedback, setCopyFeedback] = useState<'copied' | 'error' | null>(null);
+  const [exporting, setExporting] = useState(false);
 
   const entry = useMemo(() => getRecipeByIdFrom(recipes, id), [id, recipes]);
   const related = useMemo(
@@ -159,26 +162,21 @@ export default function RecipePage() {
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-transparent text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:bg-[var(--color-campari)]/10 transition-all"
                   aria-label={isFavorite(id) ? t('recipe.removeFavorite') : t('recipe.addFavorite')}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill={isFavorite(id) ? 'currentColor' : 'none'}
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="w-5 h-5 text-[var(--color-campari)]"
-                  >
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                  </svg>
+                  <NegroniMark active={isFavorite(id)} size={22} />
                   {isFavorite(id) ? t('recipe.inFavorites') : t('recipe.addFavorite')}
                 </button>
                 <button
                   type="button"
-                  onClick={() => window.location.assign(`/api/export/pdf?id=${id}`)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-transparent text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:bg-[var(--color-campari)]/10 transition-all"
+                  disabled={exporting}
+                  onClick={() => {
+                    setExporting(true);
+                    downloadRecipesPdf({ id })
+                      .catch(() => window.alert(t('recipe.exportFailed')))
+                      .finally(() => setExporting(false));
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-transparent text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:bg-[var(--color-campari)]/10 transition-all disabled:opacity-60"
                 >
-                  {t('recipe.export')}
+                  {exporting ? t('recipe.exporting') : t('recipe.export')}
                 </button>
               </div>
             </Reveal>
