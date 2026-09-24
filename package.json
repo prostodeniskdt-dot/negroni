@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-pdf/renderer": "^4.5.1",
+    "@react-pdf/renderer": "4.5.1",
     "@types/leaflet": "^1.9.21",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.567.0",

@@ -8,8 +8,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
 
 FROM base AS deps
 
-COPY package.json ./
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci
 
 FROM base AS builder
 
