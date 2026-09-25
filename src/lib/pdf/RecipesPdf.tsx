@@ -263,8 +263,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   authorImage: {
-    width: 46,
-    height: 46,
+    width: 128,
+    height: 160,
     objectFit: 'cover',
   },
   cover: {

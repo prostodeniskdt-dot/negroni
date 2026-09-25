@@ -85,7 +85,7 @@ async function toPdfRecipe(entry: RecipeEntry): Promise<PdfRecipe> {
   const prebatch = asPrebatches(recipe.prebatch);
   const [image, authorImage] = await Promise.all([
     fileToJpeg(getRecipePageImage(recipe), 1100),
-    fileToJpeg(getRecipeAuthorImage(recipe), 360),
+    fileToJpeg(getRecipeAuthorImage(recipe), 720),
   ]);
 
   return {

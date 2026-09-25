@@ -195,7 +195,7 @@ export default function RecipePage() {
             </Reveal>
 
             <Reveal>
-              <div className="grid grid-cols-2 gap-3 p-4 bg-[var(--color-bg)]/50 rounded-[var(--radius-md)] border border-[var(--color-border)]">
+              <div className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 p-4 bg-[var(--color-bg)]/50 rounded-[var(--radius-md)] border border-[var(--color-border)]">
                 <div>
                   <span className="text-xs text-[var(--color-text-secondary)] uppercase tracking-wider">
                     {t('recipe.techMethod')}

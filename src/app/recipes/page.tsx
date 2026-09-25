@@ -42,7 +42,7 @@ export default function RecipesPage() {
   }, []);
 
   return (
-    <section className="mt-[60px] h-[calc(100vh-60px)] flex flex-col md:flex-row">
+    <section className="mt-[var(--header-height)] flex h-[calc(100dvh-var(--header-height))] min-h-0 flex-col overflow-hidden md:flex-row">
       {/* Mobile toggle */}
       <div className="flex md:hidden border-b border-[var(--color-border)] bg-[var(--color-surface-solid)]">
         <button
@@ -70,7 +70,7 @@ export default function RecipesPage() {
       </div>
 
       {/* Map */}
-      <div className={`flex-1 min-w-0 relative ${mobileView === 'list' ? 'hidden md:block' : ''}`}>
+      <div className={`relative min-h-0 min-w-0 flex-1 ${mobileView === 'list' ? 'hidden md:block' : ''}`}>
         {!mapReady && (
           <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-bg)] z-10">
             <div className="flex flex-col items-center gap-3">
@@ -90,7 +90,7 @@ export default function RecipesPage() {
       </div>
 
       {/* Sidebar */}
-      <aside className={`w-full md:w-[320px] shrink-0 bg-[var(--color-surface-solid)] border-l border-[var(--color-border)] flex flex-col ${mobileView === 'map' ? 'hidden md:flex' : 'flex'}`}>
+      <aside className={`flex min-h-0 w-full shrink-0 flex-col overflow-hidden border-l border-[var(--color-border)] bg-[var(--color-surface-solid)] md:w-[320px] ${mobileView === 'map' ? 'hidden md:flex' : 'flex flex-1'}`}>
         <div className="px-5 py-4 border-b border-[var(--color-border)]">
           <h1 className="font-display text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-muted)] mb-1">
             {t('map.title')}
@@ -104,7 +104,7 @@ export default function RecipesPage() {
             {t('map.cities')} ({recipes.length})
           </h2>
         </div>
-        <nav className="flex-1 overflow-y-auto space-y-2 px-3 pb-4" aria-label="Города с рецептами">
+        <nav className="min-h-0 flex-1 space-y-2 overflow-y-auto px-3 pb-4" aria-label="Города с рецептами">
           {recipes.map((entry) => (
             <button
               key={entry.id}

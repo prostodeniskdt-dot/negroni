@@ -23,12 +23,12 @@ export default function Footer() {
                 {t('logo')}
               </Link>
             </div>
-            <p className="text-base text-[var(--color-text-muted)] leading-relaxed max-w-xs">
+            <p className="text-base text-[var(--color-text-muted)] leading-relaxed">
               {t('hero.desc')}
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-8">
             <div>
               <h4 className="text-sm tracking-[0.2em] uppercase text-[var(--color-text-primary)] mb-4">
                 {t('nav.collection')}
@@ -82,18 +82,18 @@ export default function Footer() {
               method="post"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex"
+              className="flex flex-col gap-2 min-[420px]:flex-row"
             >
               <input
                 type="email"
                 name="email"
                 placeholder={t('footer.newsletterPlaceholder')}
-                className="flex-1 bg-[var(--color-surface)] border border-[var(--color-border)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)]/50 focus:outline-none focus:border-[var(--color-campari)]/50 transition-colors rounded-l-[var(--radius-sm)]"
+                className="w-full min-w-0 bg-[var(--color-surface)] border border-[var(--color-border)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)]/50 focus:outline-none focus:border-[var(--color-campari)]/50 transition-colors rounded-[var(--radius-sm)] min-[420px]:rounded-r-none"
                 aria-label={t('footer.newsletterPlaceholder')}
               />
               <button
                 type="submit"
-                className="px-5 py-3 bg-[var(--color-campari)] text-[var(--color-on-campari)] text-xs tracking-widest uppercase hover:bg-[var(--color-campari-light)] transition-colors rounded-r-[var(--radius-sm)]"
+                className="px-5 py-3 bg-[var(--color-campari)] text-[var(--color-on-campari)] text-xs tracking-widest uppercase hover:bg-[var(--color-campari-light)] transition-colors rounded-[var(--radius-sm)] min-[420px]:rounded-l-none"
               >
                 {t('footer.newsletterSubmit')}
               </button>
