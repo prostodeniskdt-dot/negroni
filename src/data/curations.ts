@@ -25,7 +25,7 @@ export const curations: Curation[] = [
     title: 'Авторские подачи России',
     titleEn: 'Signature Serves from Russia',
     description:
-      'Региональные и барные твисты: от Ярославля и Перми до Москвы, Санкт-Петербурга, Владивостока, Воронежа, Казани, Краснодара, Красноярска, Ижевска, Новороссийска, Тюмени, Сочи и Набережных Челнов.',
+      'Региональные и барные твисты: от Ярославля и Перми до Москвы, Санкт-Петербурга, Владивостока, Воронежа, Казани, Краснодара, Красноярска, Ижевска, Новороссийска, Тюмени, Сочи, Нижнего Новгорода, Завидово, Анапы, Саранска и Набережных Челнов.',
     descriptionEn:
       'Regional and bar twists from Yaroslavl and Perm to Moscow, St. Petersburg, Vladivostok, Voronezh, Kazan, Krasnodar, Krasnoyarsk, Izhevsk, Novorossiysk, Tyumen, Sochi and Naberezhnye Chelny.',
     recipeIds: [
@@ -88,6 +88,17 @@ export const curations: Curation[] = [
       'nikitich',
       'daichi-harada',
       'wax-negroni',
+      'cioccolato-negroni',
+      'macau-negroni',
+      'berry-negroni',
+      'zoomer-negroni',
+      'ice-waves',
+      'summer-negroni',
+      'podporini',
+      'lumen',
+      'madam-butterfly',
+      'absinth-negroni',
+      'black-lime-myrtle',
     ],
     icon: '',
   },

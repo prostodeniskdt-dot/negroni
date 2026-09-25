@@ -298,6 +298,7 @@ export default function RecipePage() {
               />
             </Reveal>
 
+            {recipe.flavorProfile && (
             <Reveal>
               <div className="p-4 bg-[var(--color-bg)]/50 rounded-[var(--radius-md)] border border-[var(--color-border)]">
                 <h3 className="font-display text-base font-bold text-[var(--color-text-primary)] mb-3 uppercase tracking-wide">
@@ -330,6 +331,7 @@ export default function RecipePage() {
                 </div>
               </div>
             </Reveal>
+            )}
 
             {/* Bar & Author Profile */}
             {(recipe.bar !== '—' || recipe.author !== '—') && (

@@ -85,7 +85,7 @@ export default function CollectionPage() {
         case 'region':
           return a.recipe.region.localeCompare(b.recipe.region, 'ru');
         case 'difficulty':
-          return (difficultyOrder[a.recipe.difficulty] ?? 0) - (difficultyOrder[b.recipe.difficulty] ?? 0);
+          return (difficultyOrder[a.recipe.difficulty ?? ''] ?? 0) - (difficultyOrder[b.recipe.difficulty ?? ''] ?? 0);
         default:
           return 0;
       }

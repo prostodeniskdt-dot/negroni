@@ -418,6 +418,7 @@ function RecipePage({ recipe, index, total }: { recipe: PdfRecipe; index: number
         </View>
       ) : null}
 
+      {recipe.flavor.length > 0 ? (
       <View style={styles.section} wrap={false}>
         <Text style={styles.h3}>Вкус</Text>
         {recipe.flavor.map((item) => (
@@ -429,6 +430,7 @@ function RecipePage({ recipe, index, total }: { recipe: PdfRecipe; index: number
           </View>
         ))}
       </View>
+      ) : null}
 
       {(recipe.author || recipe.authorImage) && (
         <View style={styles.authorRow} wrap={false}>

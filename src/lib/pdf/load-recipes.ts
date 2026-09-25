@@ -104,7 +104,7 @@ async function toPdfRecipe(entry: RecipeEntry): Promise<PdfRecipe> {
     glass: present(recipe.glass),
     garnish: present(recipe.garnish),
     ice: present(recipe.ice),
-    difficulty: difficultyLabel[recipe.difficulty] ?? '',
+    difficulty: recipe.difficulty ? difficultyLabel[recipe.difficulty] ?? '' : '',
     category: present(recipe.category),
     ingredients: (recipe.ingredients ?? []).map((item) => item.trim()).filter(Boolean),
     steps: (recipe.steps ?? []).map((item) => item.trim()).filter(Boolean),
@@ -116,10 +116,12 @@ async function toPdfRecipe(entry: RecipeEntry): Promise<PdfRecipe> {
         steps: (batch.steps ?? []).map((item) => item.trim()).filter(Boolean),
       }))
       .filter((batch) => batch.ingredients.length > 0 || batch.steps.length > 0),
-    flavor: flavorLabels.map(([key, label]) => ({
-      label,
-      value: Math.max(0, Math.min(10, Number(recipe.flavorProfile?.[key] ?? 0))),
-    })),
+    flavor: recipe.flavorProfile
+      ? flavorLabels.map(([key, label]) => ({
+          label,
+          value: Math.max(0, Math.min(10, Number(recipe.flavorProfile?.[key] ?? 0))),
+        }))
+      : [],
   };
 }
 

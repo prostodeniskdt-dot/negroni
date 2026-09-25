@@ -96,13 +96,7 @@ export function normalizeRecipeEntry(entry: PublicRecipeEntry): PublicRecipeEntr
       tags: entry.recipe.tags ?? [],
       ingredients: entry.recipe.ingredients ?? [],
       steps: entry.recipe.steps ?? [],
-      flavorProfile: entry.recipe.flavorProfile ?? {
-        bitter: 0,
-        sweet: 0,
-        sour: 0,
-        spicy: 0,
-        strong: 0,
-      },
+      flavorProfile: entry.recipe.flavorProfile,
     },
   };
 }
@@ -181,12 +175,16 @@ export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
   if (opts.flavor) {
     const keys = Object.keys(opts.flavor);
     if (keys.length) {
-      result = result.filter((entry) => keys.every((key) => {
-        const range = opts.flavor?.[key];
-        if (!Array.isArray(range)) return true;
-        const value = (entry.recipe.flavorProfile as unknown as Record<string, number>)[key] ?? 0;
-        return value >= range[0] && value <= range[1];
-      }));
+      result = result.filter((entry) => {
+        const profile = entry.recipe.flavorProfile;
+        if (!profile) return false;
+        return keys.every((key) => {
+          const range = opts.flavor?.[key];
+          if (!Array.isArray(range)) return true;
+          const value = (profile as unknown as Record<string, number>)[key] ?? 0;
+          return value >= range[0] && value <= range[1];
+        });
+      });
     }
   }
 
