@@ -121,6 +121,20 @@ export function getAllCategoriesFrom(entries: PublicRecipeEntry[]): string[] {
   return Array.from(new Set(entries.map((entry) => entry.recipe.category).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'ru'));
 }
 
+const TAG_SYNONYM_GROUPS: readonly string[][] = [['negroni', 'негрони']];
+
+function normalizeTag(tag: string): string {
+  return tag.trim().toLowerCase();
+}
+
+function tagsAreEquivalent(left: string, right: string): boolean {
+  const a = normalizeTag(left);
+  const b = normalizeTag(right);
+  if (a === b) return true;
+
+  return TAG_SYNONYM_GROUPS.some((group) => group.includes(a) && group.includes(b));
+}
+
 export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
   query?: string;
   region?: string;
@@ -138,11 +152,13 @@ export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
       result = result.filter((entry) => {
         const text = [
           entry.recipe.name,
+          entry.id.replace(/-/g, ' '),
           entry.city,
           entry.recipe.region,
           entry.recipe.intro,
           entry.recipe.author,
           entry.recipe.bar,
+          ...(entry.recipe.tags ?? []),
         ].join(' ').toLowerCase();
         return text.includes(q);
       });
@@ -157,7 +173,7 @@ export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
     const selected = opts.tags.map((tag) => tag.toLowerCase());
     result = result.filter((entry) =>
       selected.some((tag) =>
-        (entry.recipe.tags ?? []).some((recipeTag) => recipeTag.toLowerCase() === tag)
+        (entry.recipe.tags ?? []).some((recipeTag) => tagsAreEquivalent(recipeTag, tag))
       )
     );
   }

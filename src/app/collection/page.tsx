@@ -240,6 +240,10 @@ export default function CollectionPage() {
             activeTags={activeTags}
             onToggleTag={toggleTag}
             onClearTags={() => setActiveTags([])}
+            onApplyRecipeSearch={(query) => {
+              setSearchQuery(query);
+              setActiveTags([]);
+            }}
           />
 
           <div>

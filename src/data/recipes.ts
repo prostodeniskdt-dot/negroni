@@ -7631,6 +7631,7 @@ export const recipes: RecipeEntry[] = [
       barCity: 'Нижний Новгород',
       tags: [
         'Negroni',
+        'негрони',
         'Cioccolato Negroni',
         'Ona',
         'Нижний Новгород',

@@ -15,6 +15,7 @@ interface RecipeTagsFilterProps {
   activeTags: string[];
   onToggleTag: (tag: string) => void;
   onClearTags: () => void;
+  onApplyRecipeSearch?: (query: string) => void;
 }
 
 function tagPillClass(isActive: boolean) {
@@ -218,6 +219,7 @@ export default function RecipeTagsFilter({
   activeTags,
   onToggleTag,
   onClearTags,
+  onApplyRecipeSearch,
 }: RecipeTagsFilterProps) {
   const [tagSearch, setTagSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
@@ -245,9 +247,19 @@ export default function RecipeTagsFilter({
   );
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && searchSuggestions.length > 0) {
-      e.preventDefault();
-      selectTagFromSearch(searchSuggestions[0]);
+    if (e.key === 'Enter') {
+      const query = tagSearch.trim();
+      if (searchSuggestions.length > 0) {
+        e.preventDefault();
+        selectTagFromSearch(searchSuggestions[0]);
+        return;
+      }
+      if (query && onApplyRecipeSearch) {
+        e.preventDefault();
+        onApplyRecipeSearch(query);
+        setTagSearch('');
+        setSuggestionsOpen(false);
+      }
     }
     if (e.key === 'Escape') {
       setSuggestionsOpen(false);
