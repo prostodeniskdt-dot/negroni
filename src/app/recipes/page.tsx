@@ -5,6 +5,7 @@ import { useI18n } from '@/hooks/useI18n';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import MapLeaflet from '@/components/MapLeaflet';
 import MapPanel from '@/components/map/MapPanel';
+import MobileMapSheet, { type MobileSheetState } from '@/components/map/MobileMapSheet';
 import { buildMapCities, findCityByRecipe } from '@/lib/map-recipes';
 
 export default function RecipesPage() {
@@ -15,12 +16,17 @@ export default function RecipesPage() {
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
   const [viewRequest, setViewRequest] = useState(0);
   const [mapReady, setMapReady] = useState(false);
+  const [sheetState, setSheetState] = useState<MobileSheetState>('collapsed');
+  const [sheetHeight, setSheetHeight] = useState(88);
   const selectedCity = cities.find((city) => city.id === selectedCityId) ?? null;
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const focus = params.get('focus');
-    if (focus) setSelectedRecipeId(focus);
+    if (focus) {
+      setSelectedRecipeId(focus);
+      setSheetState('half');
+    }
   }, []);
 
   useEffect(() => {
@@ -36,10 +42,12 @@ export default function RecipesPage() {
     setSelectedCityId(cityId);
     setSelectedRecipeId(null);
     setViewRequest((value) => value + 1);
+    setSheetState('half');
   }, []);
 
   const handleRecipeSelect = useCallback((recipeId: string) => {
     setSelectedRecipeId(recipeId);
+    setSheetState('half');
     window.requestAnimationFrame(() => {
       document.getElementById(`map-recipe-${recipeId}`)?.scrollIntoView({
         behavior: 'smooth',
@@ -53,6 +61,12 @@ export default function RecipesPage() {
     setSelectedRecipeId(null);
     setViewRequest((value) => value + 1);
   }, []);
+
+  const handleClearSelection = useCallback(() => {
+    setSelectedRecipeId(null);
+    if (!selectedCityId) return;
+    setViewRequest((value) => value + 1);
+  }, [selectedCityId]);
 
   return (
     <section className="map-page relative mt-[var(--header-height)] flex h-[calc(100dvh-var(--header-height))] min-h-0 overflow-hidden">
@@ -72,11 +86,25 @@ export default function RecipesPage() {
           selectedCityId={selectedCityId}
           selectedRecipeId={selectedRecipeId}
           viewRequest={viewRequest}
+          bottomPadding={sheetHeight}
           unknownVenueLabel={t('map.unknownVenue')}
           recipesLabel={t('map.recipeCountLabel')}
           onCitySelect={handleCitySelect}
           onRecipeSelect={handleRecipeSelect}
           onReady={() => setMapReady(true)}
+        />
+
+        <MobileMapSheet
+          cities={cities}
+          selectedCity={selectedCity}
+          selectedRecipeId={selectedRecipeId}
+          sheetState={sheetState}
+          onSheetStateChange={setSheetState}
+          onCitySelect={handleCitySelect}
+          onRecipeSelect={handleRecipeSelect}
+          onClearSelection={handleClearSelection}
+          onBackToCities={handleBack}
+          onHeightChange={setSheetHeight}
         />
       </div>
 

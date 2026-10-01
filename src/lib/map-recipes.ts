@@ -116,3 +116,126 @@ export function findCityByRecipe(cities: MapCity[], recipeId: string | null): Ma
   if (!recipeId) return undefined;
   return cities.find((city) => city.recipes.some((recipe) => recipe.id === recipeId));
 }
+
+export function findVenueByRecipe(cities: MapCity[], recipeId: string | null): MapVenue | undefined {
+  if (!recipeId) return undefined;
+  for (const city of cities) {
+    const venue = city.venues.find((item) => item.recipes.some((recipe) => recipe.id === recipeId));
+    if (venue) return venue;
+  }
+  return undefined;
+}
+
+export type MapSearchResult =
+  | { type: 'city'; city: MapCity }
+  | { type: 'venue'; city: MapCity; venue: MapVenue }
+  | { type: 'recipe'; city: MapCity; recipe: MapRecipe };
+
+export type MapSearchFilters = {
+  cityId?: string | null;
+  category?: string | null;
+  difficulty?: string | null;
+  tag?: string | null;
+};
+
+function recipeMatchesFilters(recipe: MapRecipe, filters: MapSearchFilters): boolean {
+  if (filters.category && recipe.entry.recipe.category !== filters.category) return false;
+  if (filters.difficulty && recipe.entry.recipe.difficulty !== filters.difficulty) return false;
+  if (filters.tag) {
+    const needle = normalizeKey(filters.tag);
+    const hasTag = (recipe.entry.recipe.tags ?? []).some((tag) => normalizeKey(tag) === needle);
+    if (!hasTag) return false;
+  }
+  return true;
+}
+
+function textMatches(haystack: string | null | undefined, needle: string): boolean {
+  if (!haystack) return false;
+  return normalizeKey(haystack).includes(needle);
+}
+
+export function searchMapItems(
+  cities: MapCity[],
+  query: string,
+  filters: MapSearchFilters = {}
+): MapSearchResult[] {
+  const needle = normalizeKey(query);
+  const hasQuery = needle.length > 0;
+  const hasFilters = Boolean(filters.cityId || filters.category || filters.difficulty || filters.tag);
+  const results: MapSearchResult[] = [];
+
+  const scopedCities = filters.cityId
+    ? cities.filter((city) => city.id === filters.cityId)
+    : cities;
+
+  for (const city of scopedCities) {
+    const cityRecipes = city.recipes.filter((recipe) => recipeMatchesFilters(recipe, filters));
+    if (cityRecipes.length === 0 && hasFilters) continue;
+
+    const cityMatchesQuery = !hasQuery || textMatches(city.name, needle);
+    if (cityMatchesQuery && !hasFilters) {
+      results.push({ type: 'city', city });
+    } else if (cityMatchesQuery && hasFilters && cityRecipes.length > 0) {
+      results.push({ type: 'city', city: { ...city, recipes: cityRecipes } });
+    }
+
+    for (const venue of city.venues) {
+      const venueRecipes = venue.recipes.filter((recipe) => recipeMatchesFilters(recipe, filters));
+      if (hasFilters && venueRecipes.length === 0) continue;
+
+      const venueMatchesQuery =
+        !hasQuery ||
+        textMatches(venue.name, needle) ||
+        venueRecipes.some((recipe) => textMatches(recipe.name, needle));
+
+      if (venueMatchesQuery && (hasQuery || hasFilters)) {
+        results.push({
+          type: 'venue',
+          city,
+          venue: hasFilters ? { ...venue, recipes: venueRecipes } : venue,
+        });
+      }
+    }
+
+    for (const recipe of cityRecipes) {
+      const recipeMatchesQuery =
+        !hasQuery ||
+        textMatches(recipe.name, needle) ||
+        textMatches(recipe.venueName, needle) ||
+        textMatches(recipe.city, needle) ||
+        textMatches(recipe.entry.recipe.category, needle) ||
+        (recipe.entry.recipe.tags ?? []).some((tag) => textMatches(tag, needle));
+
+      if (recipeMatchesQuery && (hasQuery || hasFilters)) {
+        results.push({ type: 'recipe', city, recipe });
+      }
+    }
+  }
+
+  if (!hasQuery && !hasFilters) {
+    return cities.map((city) => ({ type: 'city' as const, city }));
+  }
+
+  return results;
+}
+
+export function getMapFilterOptions(cities: MapCity[]) {
+  const categories = new Set<string>();
+  const difficulties = new Set<string>();
+  const tags = new Set<string>();
+
+  cities.forEach((city) => {
+    city.recipes.forEach((recipe) => {
+      if (recipe.entry.recipe.category) categories.add(recipe.entry.recipe.category);
+      if (recipe.entry.recipe.difficulty) difficulties.add(recipe.entry.recipe.difficulty);
+      (recipe.entry.recipe.tags ?? []).forEach((tag) => tags.add(tag));
+    });
+  });
+
+  return {
+    cities: cities.map((city) => ({ id: city.id, name: city.name })),
+    categories: Array.from(categories).sort((a, b) => a.localeCompare(b, 'ru')),
+    difficulties: Array.from(difficulties),
+    tags: Array.from(tags).sort((a, b) => a.localeCompare(b, 'ru')).slice(0, 24),
+  };
+}

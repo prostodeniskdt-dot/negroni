@@ -11,6 +11,7 @@ type MapLeafletProps = {
   selectedCityId: string | null;
   selectedRecipeId: string | null;
   viewRequest: number;
+  bottomPadding?: number;
   unknownVenueLabel: string;
   recipesLabel: string;
   onCitySelect: (cityId: string) => void;
@@ -32,6 +33,7 @@ export default function MapLeaflet({
   selectedCityId,
   selectedRecipeId,
   viewRequest,
+  bottomPadding = 50,
   unknownVenueLabel,
   recipesLabel,
   onCitySelect,
@@ -110,11 +112,13 @@ export default function MapLeaflet({
 
     if (!selectedCity) {
       cities.forEach((city) => {
+        const isMobile = window.innerWidth < 768;
+        const size = isMobile ? 32 : 52;
         const icon = L.divIcon({
           className: 'map-city-marker-wrapper',
           html: `<div class="map-city-marker"><span>${city.recipes.length}</span></div>`,
-          iconSize: [52, 52],
-          iconAnchor: [26, 26],
+          iconSize: [size, size],
+          iconAnchor: [size / 2, size / 2],
         });
         const marker = L.marker([city.lat, city.lng], {
           icon,
@@ -124,7 +128,7 @@ export default function MapLeaflet({
 
         marker.bindTooltip(
           `<strong>${escapeHtml(city.name)}</strong><span>${escapeHtml(recipesLabel)}: ${city.recipes.length}</span>`,
-          { className: 'map-marker-tooltip', direction: 'top', offset: [0, -22] }
+          { className: 'map-marker-tooltip', direction: 'top', offset: [0, isMobile ? -14 : -22] }
         );
         marker.on('click', () => callbacksRef.current.onCitySelect(city.id));
       });
@@ -133,11 +137,15 @@ export default function MapLeaflet({
 
     selectedCity.venues.forEach((venue) => {
       const isActive = venue.recipes.some((recipe) => recipe.id === selectedRecipeId);
+      const isMobile = window.innerWidth < 768;
+      const baseSize = isMobile ? 28 : 36;
+      const activeSize = isMobile ? 34 : 44;
+      const size = isActive ? activeSize : baseSize;
       const icon = L.divIcon({
         className: 'map-venue-marker-wrapper',
         html: `<div class="map-venue-marker${isActive ? ' is-active' : ''}"><span>${venue.recipes.length}</span></div>`,
-        iconSize: isActive ? [44, 44] : [36, 36],
-        iconAnchor: isActive ? [22, 22] : [18, 18],
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
       });
       const venueName = venue.name ?? unknownVenueLabel;
       const marker = L.marker([venue.lat, venue.lng], {
@@ -150,7 +158,7 @@ export default function MapLeaflet({
       const recipeNames = venue.recipes.map((recipe) => escapeHtml(recipe.name)).join('<br>');
       marker.bindTooltip(
         `<strong>${escapeHtml(venueName)}</strong><span>${recipeNames}</span>`,
-        { className: 'map-marker-tooltip', direction: 'top', offset: [0, -16] }
+        { className: 'map-marker-tooltip', direction: 'top', offset: [0, isMobile ? -12 : -16] }
       );
 
       venue.recipes.forEach((recipe) => {
@@ -172,11 +180,18 @@ export default function MapLeaflet({
     if (!isReady || !L || !map) return;
 
     const selectedCity = cities.find((city) => city.id === selectedCityId);
+    const isMobile = window.innerWidth < 768;
+    const padBottom = isMobile ? Math.max(bottomPadding + 16, 100) : 50;
 
     if (!selectedCity) {
       if (cities.length === 0) return;
       const bounds = L.latLngBounds(cities.map((city) => [city.lat, city.lng] as [number, number]));
-      map.fitBounds(bounds, { animate: true, padding: [40, 40], maxZoom: 4 });
+      map.fitBounds(bounds, {
+        animate: true,
+        paddingTopLeft: [24, 48],
+        paddingBottomRight: [24, padBottom],
+        maxZoom: isMobile ? 3.5 : 4,
+      });
       return;
     }
 
@@ -187,18 +202,23 @@ export default function MapLeaflet({
       (bounds.getNorth() === bounds.getSouth() && bounds.getEast() === bounds.getWest());
 
     if (isSinglePoint) {
-      map.setView(points[0], 13, { animate: true });
+      map.setView(points[0], isMobile ? 12 : 13, { animate: true });
       return;
     }
 
-    const mobilePanelPadding = window.innerWidth < 768 ? Math.min(window.innerHeight * 0.38, 340) : 50;
     map.fitBounds(bounds, {
       animate: true,
       maxZoom: 13,
-      paddingTopLeft: [40, 60],
-      paddingBottomRight: [40, mobilePanelPadding],
+      paddingTopLeft: [24, 56],
+      paddingBottomRight: [24, padBottom],
     });
-  }, [cities, isReady, selectedCityId, viewRequest]);
+  }, [bottomPadding, cities, isReady, selectedCityId, viewRequest]);
+
+  useEffect(() => {
+    if (!isReady || !mapRef.current) return;
+    const map = mapRef.current;
+    window.setTimeout(() => map.invalidateSize({ animate: false }), 60);
+  }, [bottomPadding, isReady]);
 
   useEffect(() => {
     if (!selectedRecipeId || !mapRef.current) return;
@@ -207,7 +227,9 @@ export default function MapLeaflet({
 
     const map = mapRef.current;
     const point = marker.getLatLng();
-    if (!map.getBounds().pad(-0.15).contains(point)) {
+    const isMobile = window.innerWidth < 768;
+    const padRatio = isMobile ? -0.05 : -0.15;
+    if (!map.getBounds().pad(padRatio).contains(point)) {
       map.panTo(point, { animate: true });
     }
   }, [selectedRecipeId]);

@@ -26,7 +26,7 @@ export default function MapPanel({
   const totalRecipes = cities.reduce((sum, city) => sum + city.recipes.length, 0);
 
   return (
-    <aside className="map-panel" aria-label={t('map.panelLabel')}>
+    <aside className="map-panel map-panel-desktop" aria-label={t('map.panelLabel')}>
       <div className="border-b border-[var(--color-border)] px-5 py-4">
         {selectedCity ? (
           <>
