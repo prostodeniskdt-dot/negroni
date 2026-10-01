@@ -205,55 +205,227 @@ a {
 }
 
 /* ====== LEAFLET MAP THEMING ====== */
-.negroni-custom-marker {
+.map-leaflet {
+  background:
+    radial-gradient(circle at 45% 38%, rgba(187, 10, 48, 0.16), transparent 36%),
+    #100b0d;
+  font-family: var(--font-display);
+}
+
+.map-leaflet .leaflet-tile {
+  filter: saturate(0.72) contrast(1.04) brightness(0.92);
+}
+
+.map-city-marker-wrapper,
+.map-venue-marker-wrapper {
   background: transparent !important;
   border: none !important;
 }
-.negroni-custom-marker svg {
-  display: block;
-  width: 28px;
-  height: 28px;
+
+.map-city-marker,
+.map-venue-marker {
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  font-weight: 700;
+  line-height: 1;
+  color: #18080c;
+  background: var(--color-accent);
+  border: 2px solid rgba(20, 8, 12, 0.9);
+  box-shadow:
+    0 0 0 5px rgba(248, 207, 44, 0.16),
+    0 8px 24px rgba(0, 0, 0, 0.42);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
 }
 
-.dark-tiles .leaflet-tile-pane {
-  filter: brightness(0.7) contrast(1.1) saturate(0.8);
+.map-city-marker {
+  width: 52px;
+  height: 52px;
+  font-size: 0.9rem;
 }
 
-.leaflet-popup-content-wrapper {
-  background: var(--color-surface-solid, #1a0a0f);
-  color: var(--color-text-primary);
+.map-venue-marker {
+  width: 36px;
+  height: 36px;
+  font-size: 0.72rem;
+}
+
+.map-city-marker-wrapper:hover .map-city-marker,
+.map-city-marker-wrapper:focus .map-city-marker,
+.map-venue-marker-wrapper:hover .map-venue-marker,
+.map-venue-marker-wrapper:focus .map-venue-marker {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 0 7px rgba(248, 207, 44, 0.2),
+    0 10px 30px rgba(0, 0, 0, 0.48);
+}
+
+.map-venue-marker.is-active {
+  width: 44px;
+  height: 44px;
+  color: var(--color-on-campari);
+  background: var(--color-campari);
+  border-color: var(--color-accent);
+  box-shadow:
+    0 0 0 6px rgba(187, 10, 48, 0.26),
+    0 10px 30px rgba(0, 0, 0, 0.52);
+}
+
+.map-leaflet .leaflet-bar {
+  overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
 }
-.leaflet-popup-tip {
-  background: var(--color-surface-solid, #1a0a0f);
-}
-.leaflet-container a.leaflet-popup-close-button {
-  color: var(--color-text-muted);
-}
-.leaflet-popup-content {
-  margin: 10px 14px;
-  font-family: var(--font-display);
-  font-size: 0.875rem;
-  line-height: 1.45;
+
+.map-leaflet .leaflet-bar a {
+  color: var(--color-text-primary);
+  background: var(--color-surface-solid);
+  border-color: var(--color-border);
 }
 
-.popup-btn {
-  margin-top: 6px;
-  padding: 4px 8px;
-  font-family: var(--font-display);
-  font-size: 0.875rem;
-  line-height: 1.35;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  background: var(--color-campari);
-  color: var(--color-on-campari);
+.map-leaflet .leaflet-bar a:hover,
+.map-leaflet .leaflet-bar a:focus {
+  color: var(--color-campari-light);
+  background: var(--color-surface);
 }
-.popup-btn:hover {
-  background: var(--color-campari-light);
+
+.map-leaflet .leaflet-control-attribution {
+  max-width: min(65vw, 360px);
+  color: var(--color-text-muted);
+  background: rgba(16, 11, 13, 0.84);
+  backdrop-filter: blur(8px);
+}
+
+.map-leaflet .leaflet-control-attribution a {
+  color: var(--color-text-secondary);
+}
+
+.map-marker-tooltip {
+  padding: 9px 11px;
+  color: var(--color-text-primary);
+  background: var(--color-surface-solid);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.map-marker-tooltip::before {
+  border-top-color: var(--color-border) !important;
+}
+
+.map-marker-tooltip strong,
+.map-marker-tooltip span {
+  display: block;
+}
+
+.map-marker-tooltip strong {
+  font-size: 0.8rem;
+}
+
+.map-marker-tooltip span {
+  margin-top: 2px;
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.map-panel {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  z-index: 700;
+  display: flex;
+  max-height: min(44dvh, 390px);
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface-solid) 94%, transparent);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.46);
+  backdrop-filter: blur(18px);
+}
+
+.map-panel-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.map-city-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0.95rem;
+  text-align: left;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.map-city-card:hover,
+.map-city-card:focus-visible {
+  border-color: var(--color-campari);
+  background: rgba(187, 10, 48, 0.08);
+  outline: none;
+  transform: translateX(-2px);
+}
+
+.map-recipe-card {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.map-recipe-card:hover {
+  border-color: color-mix(in srgb, var(--color-campari) 62%, var(--color-border));
+}
+
+.map-recipe-card.is-active {
+  border-color: var(--color-campari);
+  background: rgba(187, 10, 48, 0.1);
+  box-shadow: 0 0 18px rgba(187, 10, 48, 0.15);
+}
+
+@media (min-width: 768px) {
+  .map-panel {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    z-index: 1;
+    width: 380px;
+    max-height: none;
+    flex-shrink: 0;
+    border-width: 0 0 0 1px;
+    border-radius: 0;
+    box-shadow: -18px 0 45px rgba(0, 0, 0, 0.24);
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-city-marker,
+  .map-venue-marker,
+  .map-city-card,
+  .map-recipe-card {
+    transition: none;
+  }
 }
 
 /* ====== ACCESSIBILITY ====== */

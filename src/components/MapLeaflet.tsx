@@ -1,23 +1,54 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type * as LType from 'leaflet';
-import type { RecipeEntry } from '@/data/recipes';
+import type { MapCity } from '@/lib/map-recipes';
 
 import 'leaflet/dist/leaflet.css';
 
 type MapLeafletProps = {
-  recipes: RecipeEntry[];
-  focusId?: string | null;
-  onMarkerClick?: (id: string) => void;
+  cities: MapCity[];
+  selectedCityId: string | null;
+  selectedRecipeId: string | null;
+  viewRequest: number;
+  unknownVenueLabel: string;
+  recipesLabel: string;
+  onCitySelect: (cityId: string) => void;
+  onRecipeSelect: (recipeId: string) => void;
   onReady?: () => void;
 };
 
-export default function MapLeaflet({ recipes, focusId, onMarkerClick, onReady }: MapLeafletProps) {
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+export default function MapLeaflet({
+  cities,
+  selectedCityId,
+  selectedRecipeId,
+  viewRequest,
+  unknownVenueLabel,
+  recipesLabel,
+  onCitySelect,
+  onRecipeSelect,
+  onReady,
+}: MapLeafletProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<LType.Map | null>(null);
-  const markersRef = useRef<Record<string, LType.Marker>>({});
-  const iconsRef = useRef<{ default: LType.DivIcon | null; active: LType.DivIcon | null }>({ default: null, active: null });
+  const leafletRef = useRef<typeof LType | null>(null);
+  const layerRef = useRef<LType.LayerGroup | null>(null);
+  const recipeMarkersRef = useRef<Record<string, LType.Marker>>({});
+  const callbacksRef = useRef({ onCitySelect, onRecipeSelect, onReady });
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    callbacksRef.current = { onCitySelect, onRecipeSelect, onReady };
+  }, [onCitySelect, onRecipeSelect, onReady]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -29,92 +60,28 @@ export default function MapLeaflet({ recipes, focusId, onMarkerClick, onReady }:
       if (mapRef.current) return;
 
       const map = L.map(containerRef.current, {
-        center: [61, 96],
-        zoom: 3.5,
-        maxBounds: [
-          [35, 15],
-          [82, 191],
-        ],
-        maxBoundsViscosity: 0.8,
+        center: [59, 75],
+        zoom: 3,
+        minZoom: 2,
+        worldCopyJump: true,
+        zoomControl: true,
       });
 
+      leafletRef.current = L;
       mapRef.current = map;
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+        subdomains: 'abcd',
+        maxZoom: 19,
       }).addTo(map);
 
-      const yellowMarkerSvg =
-        "<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'>" +
-        "<circle cx='14' cy='14' r='12' fill='#f8cf2c' stroke='#0d0d0d' stroke-width='2'/>" +
-        '</svg>';
+      layerRef.current = L.layerGroup().addTo(map);
+      map.attributionControl.setPosition('topright');
+      setIsReady(true);
+      callbacksRef.current.onReady?.();
 
-      const activeMarkerSvg =
-        "<svg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'>" +
-        "<circle cx='17' cy='17' r='14' fill='#BB0A30' stroke='#f8cf2c' stroke-width='3'/>" +
-        '</svg>';
-
-      const defaultIcon = L.divIcon({
-        html: yellowMarkerSvg,
-        className: 'negroni-custom-marker',
-        iconSize: [28, 28],
-        iconAnchor: [14, 14],
-      });
-
-      const activeIcon = L.divIcon({
-        html: activeMarkerSvg,
-        className: 'negroni-custom-marker',
-        iconSize: [34, 34],
-        iconAnchor: [17, 17],
-      });
-
-      iconsRef.current = { default: defaultIcon, active: activeIcon };
-
-      function escapeHtml(s: string) {
-        const div = document.createElement('div');
-        div.textContent = s;
-        return div.innerHTML;
-      }
-
-      recipes.forEach((r) => {
-        if (r.lat == null || r.lng == null) return;
-
-        const marker = L.marker([r.lat, r.lng], { icon: defaultIcon }).addTo(map);
-        markersRef.current[r.id] = marker;
-
-        const html =
-          `<strong>${escapeHtml(r.city)}</strong><br>` +
-          `<em>${escapeHtml(r.recipe.name)}</em><br>` +
-          `<button type='button' class='popup-btn'>Открыть рецепт</button>`;
-
-        marker.bindPopup(html);
-
-        marker.on('popupopen', () => {
-          marker.setIcon(activeIcon);
-          onMarkerClick?.(r.id);
-          const popup = marker.getPopup();
-          const el = popup?.getElement();
-          const btn = el?.querySelector<HTMLButtonElement>('.popup-btn');
-          if (btn) {
-            btn.onclick = () => {
-              window.location.href = `/recipe/${encodeURIComponent(r.id)}?from=map`;
-            };
-          }
-        });
-
-        marker.on('popupclose', () => {
-          marker.setIcon(defaultIcon);
-        });
-      });
-
-      if (focusId && markersRef.current[focusId]) {
-        const marker = markersRef.current[focusId];
-        const latLng = marker.getLatLng();
-        map.setView(latLng, 5, { animate: true });
-        marker.openPopup();
-      }
-
-      onReady?.();
+      window.setTimeout(() => map.invalidateSize(), 0);
     }
 
     void init();
@@ -125,19 +92,126 @@ export default function MapLeaflet({ recipes, focusId, onMarkerClick, onReady }:
         mapRef.current.remove();
         mapRef.current = null;
       }
+      leafletRef.current = null;
+      layerRef.current = null;
+      recipeMarkersRef.current = {};
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recipes]);
+  }, []);
 
-  // Handle external focus changes
   useEffect(() => {
-    if (!focusId || !mapRef.current || !markersRef.current[focusId]) return;
-    const marker = markersRef.current[focusId];
+    const L = leafletRef.current;
     const map = mapRef.current;
-    const latLng = marker.getLatLng();
-    map.setView(latLng, 5, { animate: true });
-    marker.openPopup();
-  }, [focusId]);
+    const layer = layerRef.current;
+    if (!isReady || !L || !map || !layer) return;
 
-  return <div ref={containerRef} className="w-full h-full dark-tiles" />;
+    layer.clearLayers();
+    recipeMarkersRef.current = {};
+
+    const selectedCity = cities.find((city) => city.id === selectedCityId);
+
+    if (!selectedCity) {
+      cities.forEach((city) => {
+        const icon = L.divIcon({
+          className: 'map-city-marker-wrapper',
+          html: `<div class="map-city-marker"><span>${city.recipes.length}</span></div>`,
+          iconSize: [52, 52],
+          iconAnchor: [26, 26],
+        });
+        const marker = L.marker([city.lat, city.lng], {
+          icon,
+          keyboard: true,
+          title: city.name,
+        }).addTo(layer);
+
+        marker.bindTooltip(
+          `<strong>${escapeHtml(city.name)}</strong><span>${escapeHtml(recipesLabel)}: ${city.recipes.length}</span>`,
+          { className: 'map-marker-tooltip', direction: 'top', offset: [0, -22] }
+        );
+        marker.on('click', () => callbacksRef.current.onCitySelect(city.id));
+      });
+      return;
+    }
+
+    selectedCity.venues.forEach((venue) => {
+      const isActive = venue.recipes.some((recipe) => recipe.id === selectedRecipeId);
+      const icon = L.divIcon({
+        className: 'map-venue-marker-wrapper',
+        html: `<div class="map-venue-marker${isActive ? ' is-active' : ''}"><span>${venue.recipes.length}</span></div>`,
+        iconSize: isActive ? [44, 44] : [36, 36],
+        iconAnchor: isActive ? [22, 22] : [18, 18],
+      });
+      const venueName = venue.name ?? unknownVenueLabel;
+      const marker = L.marker([venue.lat, venue.lng], {
+        icon,
+        keyboard: true,
+        title: venueName,
+        zIndexOffset: isActive ? 1000 : 0,
+      }).addTo(layer);
+
+      const recipeNames = venue.recipes.map((recipe) => escapeHtml(recipe.name)).join('<br>');
+      marker.bindTooltip(
+        `<strong>${escapeHtml(venueName)}</strong><span>${recipeNames}</span>`,
+        { className: 'map-marker-tooltip', direction: 'top', offset: [0, -16] }
+      );
+
+      venue.recipes.forEach((recipe) => {
+        recipeMarkersRef.current[recipe.id] = marker;
+      });
+
+      marker.on('click', () => {
+        const selectedRecipe = venue.recipes.find((recipe) => recipe.id === selectedRecipeId);
+        callbacksRef.current.onRecipeSelect(selectedRecipe?.id ?? venue.recipes[0].id);
+      });
+
+      if (isActive) marker.openTooltip();
+    });
+  }, [cities, isReady, recipesLabel, selectedCityId, selectedRecipeId, unknownVenueLabel]);
+
+  useEffect(() => {
+    const L = leafletRef.current;
+    const map = mapRef.current;
+    if (!isReady || !L || !map) return;
+
+    const selectedCity = cities.find((city) => city.id === selectedCityId);
+
+    if (!selectedCity) {
+      if (cities.length === 0) return;
+      const bounds = L.latLngBounds(cities.map((city) => [city.lat, city.lng] as [number, number]));
+      map.fitBounds(bounds, { animate: true, padding: [40, 40], maxZoom: 4 });
+      return;
+    }
+
+    const points = selectedCity.venues.map((venue) => [venue.lat, venue.lng] as [number, number]);
+    const bounds = L.latLngBounds(points);
+    const isSinglePoint =
+      points.length === 1 ||
+      (bounds.getNorth() === bounds.getSouth() && bounds.getEast() === bounds.getWest());
+
+    if (isSinglePoint) {
+      map.setView(points[0], 13, { animate: true });
+      return;
+    }
+
+    const mobilePanelPadding = window.innerWidth < 768 ? Math.min(window.innerHeight * 0.38, 340) : 50;
+    map.fitBounds(bounds, {
+      animate: true,
+      maxZoom: 13,
+      paddingTopLeft: [40, 60],
+      paddingBottomRight: [40, mobilePanelPadding],
+    });
+  }, [cities, isReady, selectedCityId, viewRequest]);
+
+  useEffect(() => {
+    if (!selectedRecipeId || !mapRef.current) return;
+    const marker = recipeMarkersRef.current[selectedRecipeId];
+    if (!marker) return;
+
+    const map = mapRef.current;
+    const point = marker.getLatLng();
+    if (!map.getBounds().pad(-0.15).contains(point)) {
+      map.panTo(point, { animate: true });
+    }
+  }, [selectedRecipeId]);
+
+  return <div ref={containerRef} className="map-leaflet h-full w-full" />;
 }

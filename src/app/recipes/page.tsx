@@ -1,137 +1,93 @@
 ﻿'use client';
 
-import { useEffect, useState, useCallback } from 'react';
-import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useI18n } from '@/hooks/useI18n';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import MapLeaflet from '@/components/MapLeaflet';
+import MapPanel from '@/components/map/MapPanel';
+import { buildMapCities, findCityByRecipe } from '@/lib/map-recipes';
 
 export default function RecipesPage() {
   const { t } = useI18n();
   const { recipes } = usePublicRecipes();
-  const [focusId, setFocusId] = useState<string | null>(null);
-  const [activeCity, setActiveCity] = useState<string | null>(null);
-  const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
+  const cities = useMemo(() => buildMapCities(recipes), [recipes]);
+  const [selectedCityId, setSelectedCityId] = useState<string | null>(null);
+  const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null);
+  const [viewRequest, setViewRequest] = useState(0);
   const [mapReady, setMapReady] = useState(false);
+  const selectedCity = cities.find((city) => city.id === selectedCityId) ?? null;
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     const focus = params.get('focus');
-    if (focus) {
-      setFocusId(focus);
-      setActiveCity(focus);
-    }
+    if (focus) setSelectedRecipeId(focus);
   }, []);
 
-  const handleCityClick = useCallback((id: string) => {
-    setFocusId(id);
-    setActiveCity(id);
-    if (window.innerWidth < 768) {
-      setMobileView('map');
+  useEffect(() => {
+    if (!selectedRecipeId) return;
+    const recipeCity = findCityByRecipe(cities, selectedRecipeId);
+    if (recipeCity && recipeCity.id !== selectedCityId) {
+      setSelectedCityId(recipeCity.id);
+      setViewRequest((value) => value + 1);
     }
+  }, [cities, selectedCityId, selectedRecipeId]);
+
+  const handleCitySelect = useCallback((cityId: string) => {
+    setSelectedCityId(cityId);
+    setSelectedRecipeId(null);
+    setViewRequest((value) => value + 1);
   }, []);
 
-  const handleMapMarkerClick = useCallback((id: string) => {
-    setActiveCity(id);
-    // Scroll sidebar to active city
-    const el = document.getElementById(`sidebar-city-${id}`);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+  const handleRecipeSelect = useCallback((recipeId: string) => {
+    setSelectedRecipeId(recipeId);
+    window.requestAnimationFrame(() => {
+      document.getElementById(`map-recipe-${recipeId}`)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    });
+  }, []);
+
+  const handleBack = useCallback(() => {
+    setSelectedCityId(null);
+    setSelectedRecipeId(null);
+    setViewRequest((value) => value + 1);
   }, []);
 
   return (
-    <section className="mt-[var(--header-height)] flex h-[calc(100dvh-var(--header-height))] min-h-0 flex-col overflow-hidden md:flex-row">
-      {/* Mobile toggle */}
-      <div className="flex md:hidden border-b border-[var(--color-border)] bg-[var(--color-surface-solid)]">
-        <button
-          type="button"
-          onClick={() => setMobileView('map')}
-          className={`flex-1 py-3 text-sm font-semibold uppercase tracking-wider transition-colors ${
-            mobileView === 'map'
-              ? 'text-[var(--color-campari)] border-b-2 border-[var(--color-campari)]'
-              : 'text-[var(--color-text-muted)]'
-          }`}
-        >
-          {t('map.tabMap') || 'Карта'}
-        </button>
-        <button
-          type="button"
-          onClick={() => setMobileView('list')}
-          className={`flex-1 py-3 text-sm font-semibold uppercase tracking-wider transition-colors ${
-            mobileView === 'list'
-              ? 'text-[var(--color-campari)] border-b-2 border-[var(--color-campari)]'
-              : 'text-[var(--color-text-muted)]'
-          }`}
-        >
-          {t('map.tabList') || 'Список'}
-        </button>
-      </div>
-
-      {/* Map */}
-      <div className={`relative min-h-0 min-w-0 flex-1 ${mobileView === 'list' ? 'hidden md:block' : ''}`}>
+    <section className="map-page relative mt-[var(--header-height)] flex h-[calc(100dvh-var(--header-height))] min-h-0 overflow-hidden">
+      <div className="relative min-h-0 min-w-0 flex-1">
         {!mapReady && (
-          <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-bg)] z-10">
+          <div className="absolute inset-0 z-[450] flex items-center justify-center bg-[var(--color-bg)]">
             <div className="flex flex-col items-center gap-3">
-              <div className="w-10 h-10 border-3 border-[var(--color-border)] border-t-[var(--color-campari)] rounded-full animate-spin" />
+              <div className="h-10 w-10 animate-spin rounded-full border-3 border-[var(--color-border)] border-t-[var(--color-campari)]" />
               <span className="text-sm text-[var(--color-text-muted)]">
-                {t('map.loading') || 'Загрузка карты...'}
+                {t('map.loading')}
               </span>
             </div>
           </div>
         )}
         <MapLeaflet
-          recipes={recipes}
-          focusId={focusId}
-          onMarkerClick={handleMapMarkerClick}
+          cities={cities}
+          selectedCityId={selectedCityId}
+          selectedRecipeId={selectedRecipeId}
+          viewRequest={viewRequest}
+          unknownVenueLabel={t('map.unknownVenue')}
+          recipesLabel={t('map.recipeCountLabel')}
+          onCitySelect={handleCitySelect}
+          onRecipeSelect={handleRecipeSelect}
           onReady={() => setMapReady(true)}
         />
       </div>
 
-      {/* Sidebar */}
-      <aside className={`flex min-h-0 w-full shrink-0 flex-col overflow-hidden border-l border-[var(--color-border)] bg-[var(--color-surface-solid)] md:w-[320px] ${mobileView === 'map' ? 'hidden md:flex' : 'flex flex-1'}`}>
-        <div className="px-5 py-4 border-b border-[var(--color-border)]">
-          <h1 className="font-display text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-text-muted)] mb-1">
-            {t('map.title')}
-          </h1>
-          <p className="text-xs text-[var(--color-text-secondary)] font-prose">
-            {t('map.desc')}
-          </p>
-        </div>
-        <div className="px-5 pt-3 pb-2">
-          <h2 className="font-display text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
-            {t('map.cities')} ({recipes.length})
-          </h2>
-        </div>
-        <nav className="min-h-0 flex-1 space-y-2 overflow-y-auto px-3 pb-4" aria-label="Города с рецептами">
-          {recipes.map((entry) => (
-            <button
-              key={entry.id}
-              id={`sidebar-city-${entry.id}`}
-              type="button"
-              onClick={() => handleCityClick(entry.id)}
-              className={`w-full text-left block px-4 py-3 rounded-[var(--radius-md)] border text-sm transition-all duration-[var(--transition-base)] cursor-pointer ${
-                activeCity === entry.id
-                  ? 'border-[var(--color-campari)] bg-[var(--color-campari)]/10 text-[var(--color-text-primary)] shadow-[0_0_12px_rgba(187,10,48,0.15)]'
-                  : 'border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:-translate-x-1'
-              }`}
-            >
-              <span className="font-medium block">{entry.recipe.name}</span>
-              <span className="text-xs text-[var(--color-text-muted)] flex items-center justify-between mt-0.5">
-                <span>{entry.city}</span>
-                <Link
-                  href={`/recipe/${entry.id}`}
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-[var(--color-campari)] hover:text-[var(--color-campari-light)] transition-colors"
-                >
-                  {t('map.openRecipe')}
-                </Link>
-              </span>
-            </button>
-          ))}
-        </nav>
-      </aside>
+      <MapPanel
+        cities={cities}
+        selectedCity={selectedCity}
+        selectedRecipeId={selectedRecipeId}
+        onCitySelect={handleCitySelect}
+        onRecipeSelect={handleRecipeSelect}
+        onBack={handleBack}
+      />
     </section>
   );
 }
