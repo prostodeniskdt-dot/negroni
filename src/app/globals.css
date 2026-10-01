@@ -213,7 +213,7 @@ a {
 }
 
 .map-leaflet .leaflet-tile {
-  filter: saturate(0.72) contrast(1.04) brightness(0.92);
+  filter: grayscale(0.35) invert(0.92) hue-rotate(180deg) brightness(0.68) contrast(1.15);
 }
 
 .map-city-marker-wrapper,
