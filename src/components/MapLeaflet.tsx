@@ -78,7 +78,8 @@ export default function MapLeaflet({
       }).addTo(map);
 
       layerRef.current = L.layerGroup().addTo(map);
-      map.attributionControl.setPosition('topright');
+      map.attributionControl.setPrefix('');
+      map.attributionControl.setPosition('bottomright');
       setIsReady(true);
       callbacksRef.current.onReady?.();
 
