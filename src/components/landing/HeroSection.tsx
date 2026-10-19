@@ -76,12 +76,12 @@ export function HeroSection() {
           className="object-cover object-[72%_center]"
           priority
         />
-        <div className="absolute inset-0 bg-[var(--color-bg)]/45" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-bg)]/85 via-[var(--color-bg)]/35 to-transparent" />
+        <div className="absolute inset-0 bg-[var(--color-bg)]/28" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-bg)]/95 via-[var(--color-bg)]/55 via-[42%] to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-bg)]/35 via-transparent to-[var(--color-bg)]/90" />
       </div>
 
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center w-full max-w-5xl mx-auto px-6 pt-[calc(var(--header-height)+1.5rem)] pb-6 text-center">
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center px-6 pt-[calc(var(--header-height)+1.5rem)] pb-6 text-center md:px-8 lg:items-start lg:px-12 lg:text-left">
         <div
           className={`transition-all duration-1000 ${
             loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -95,20 +95,22 @@ export function HeroSection() {
           </span>
         </div>
 
-        <h1 className="mt-6 flex w-full items-center justify-center">
+        <h1 className="mt-8 flex w-full items-center justify-center lg:justify-start">
           <span
             className={`block transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               loaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
             style={{ transitionDelay: '0.7s' }}
           >
-            <BrandLogo tone="red" size="hero" priority className="mx-auto" />
+            <span className="mx-auto block w-[min(20rem,calc(100vw-3rem))] lg:mx-0 lg:w-[min(40vw,34rem)]">
+              <BrandLogo tone="red" size="hero" priority />
+            </span>
             <span className="sr-only">{t('hero.subtitle')}</span>
           </span>
         </h1>
 
         <p
-          className={`mt-6 font-display text-lg md:text-xl font-normal text-[var(--color-text-muted)] max-w-2xl mx-auto leading-relaxed transition-all duration-1000 ${
+          className={`mt-6 font-display text-lg md:text-xl font-normal text-[var(--color-text-muted)] max-w-xl mx-auto leading-relaxed transition-all duration-1000 lg:mx-0 ${
             loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ transitionDelay: '1.3s' }}
@@ -117,7 +119,7 @@ export function HeroSection() {
         </p>
 
         <div
-          className={`mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-6 md:gap-8 w-full max-w-lg sm:max-w-none transition-all duration-1000 ${
+          className={`mt-10 flex w-full max-w-lg flex-col items-stretch gap-6 transition-all duration-1000 sm:max-w-none sm:flex-row sm:items-center sm:justify-center md:gap-8 lg:max-w-3xl lg:flex-wrap lg:justify-start ${
             loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ transitionDelay: '1.6s' }}
@@ -139,7 +141,7 @@ export function HeroSection() {
         </div>
 
         <div
-          className={`mt-12 md:mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-14 transition-all duration-1000 ${
+          className={`mt-12 md:mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-14 transition-all duration-1000 lg:justify-start ${
             loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ transitionDelay: '1.9s' }}
