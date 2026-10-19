@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
+import BrandLogo from '@/components/BrandLogo';
 
 /* TODO: заменить action на реальный endpoint подписки (сейчас заглушка) */
 const NEWSLETTER_ACTION = 'https://example.com/newsletter-placeholder';
@@ -14,13 +15,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-px h-5 bg-gradient-to-b from-transparent via-[var(--color-accent)] to-transparent opacity-70" aria-hidden />
-              <Link
-                href="/"
-                className="font-display text-lg font-light tracking-[var(--letter-spacing-hero)] leading-tight text-[var(--color-text-primary)] no-underline hover:text-[var(--color-accent)] transition-colors"
-              >
-                {t('logo')}
+            <div className="mb-6">
+              <Link href="/" aria-label={t('logo')} className="inline-flex no-underline">
+                <BrandLogo tone="red" size="footer" />
               </Link>
             </div>
             <p className="text-base text-[var(--color-text-muted)] leading-relaxed">

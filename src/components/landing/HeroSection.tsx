@@ -7,6 +7,7 @@ import { ChevronDown } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import { getCollectionStats } from '@/lib/public-recipes';
+import BrandLogo from '@/components/BrandLogo';
 
 const HERO_IMAGE_SRC = '/images/Negronifon.png';
 const HERO_IMAGE_ALT = 'Negroni фон';
@@ -94,14 +95,15 @@ export function HeroSection() {
           </span>
         </div>
 
-        <h1 className="type-hero-title mt-6 w-full text-balance flex items-center justify-center">
+        <h1 className="mt-6 flex w-full items-center justify-center">
           <span
-            className={`block text-[clamp(2.75rem,7.5vw,5rem)] leading-[1.12] text-[var(--color-text-primary)] transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            className={`block transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               loaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
             style={{ transitionDelay: '0.7s' }}
           >
-            {t('hero.subtitle')}
+            <BrandLogo tone="red" size="hero" priority className="mx-auto" />
+            <span className="sr-only">{t('hero.subtitle')}</span>
           </span>
         </h1>
 

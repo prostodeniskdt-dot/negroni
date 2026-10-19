@@ -7,6 +7,7 @@ import { useI18n } from '@/hooks/useI18n';
 import { useFavorites } from '@/hooks/useFavorites';
 import { Menu, X } from 'lucide-react';
 import NegroniMark from '@/components/NegroniMark';
+import BrandLogo from '@/components/BrandLogo';
 
 export default function Header() {
   const pathname = usePathname();
@@ -39,21 +40,24 @@ export default function Header() {
       }`}
     >
       <nav className="flex items-center justify-between gap-3 px-6 py-3 md:px-8 lg:px-12 min-h-[var(--header-height)]">
-        <div className="flex min-w-0 shrink items-end gap-3">
+        <div className="flex min-w-0 shrink items-center gap-3">
           <Link
             href="/"
-            className="group flex shrink-0 items-end gap-3 no-underline"
+            aria-label={t('logo')}
+            className="group flex shrink-0 items-center no-underline"
           >
-            <div className="mb-[0.12rem] h-6 w-px shrink-0 bg-gradient-to-b from-transparent via-[var(--color-accent)] to-transparent opacity-80 md:h-7" aria-hidden />
-            <span className="font-display text-xl font-semibold leading-none tracking-[var(--letter-spacing-hero)] text-[var(--color-text-primary)] transition-colors duration-500 group-hover:text-[var(--color-accent)] md:text-2xl">
-              {t('logo')}
-            </span>
+            <BrandLogo
+              tone="white"
+              size="header"
+              priority
+              className="transition-opacity duration-500 group-hover:opacity-80"
+            />
           </Link>
           <a
             href="https://barbossonline.ru/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden shrink-0 items-end gap-1.5 whitespace-nowrap pb-[0.08rem] no-underline sm:inline-flex"
+            className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap no-underline sm:inline-flex"
             aria-label="Бар Босс Онлайн"
           >
             <span className="type-label text-[0.65rem] leading-none tracking-[0.16em] text-[var(--color-text-secondary)]">
