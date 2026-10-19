@@ -12,10 +12,4 @@ if [ -z "${PORT:-}" ]; then
 fi
 
 cd /app
-echo "Starting Next.js on 0.0.0.0:${PORT}"
-
-if [ "$#" -eq 0 ]; then
-  set -- node server.js
-fi
-
-exec "$@"
+exec node server.js

@@ -1,12 +1,7 @@
 export const runtime = 'nodejs';
+export const dynamic = 'force-static';
 
-export async function GET() {
-  return Response.json(
-    {
-      ok: true,
-      timestamp: new Date().toISOString(),
-    },
-    { status: 200 }
-  );
+export function GET() {
+  return Response.json({ ok: true }, { status: 200 });
 }
 

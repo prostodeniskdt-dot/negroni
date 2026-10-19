@@ -35,18 +35,19 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/src/lib/pdf/fonts ./fonts
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-COPY docker-healthcheck.js /usr/local/bin/docker-healthcheck.js
 # Git on Windows can commit CRLF; a CR in the shebang makes the container
 # exit with "no such file or directory" before Node starts.
-RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh /usr/local/bin/docker-healthcheck.js \
-    && chmod 755 /usr/local/bin/docker-entrypoint.sh /usr/local/bin/docker-healthcheck.js
+RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh \
+    && chmod 755 /usr/local/bin/docker-entrypoint.sh
 
 USER nextjs
 
 EXPOSE 3000
 
-HEALTHCHECK --interval=10s --timeout=8s --start-period=40s --retries=8 \
-  CMD ["/usr/local/bin/node", "/usr/local/bin/docker-healthcheck.js"]
+# curl, not a second Node process: a Node probe competes with the server
+# during boot and keeps the platform in "starting" for the whole start-period.
+HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=5 \
+  CMD curl --fail --silent --show-error --max-time 2 "http://127.0.0.1:${PORT:-3000}/api/health"
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["node", "server.js"]
