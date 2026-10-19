@@ -22,7 +22,7 @@ npm start
 
 - Образ собирается в режиме Next.js `standalone` и стартует через `node server.js`.
 - Приложение слушает `0.0.0.0` и порт из переменной `PORT` (по умолчанию `3000`). Entrypoint принудительно ставит `HOSTNAME=0.0.0.0`, потому что платформа может подставить id контейнера.
-- Healthcheck проверяет `GET /api/health` на `127.0.0.1:$PORT` каждые 5 секунд.
+- Healthcheck вызывает `node /usr/local/bin/docker-healthcheck.js`: `GET /api/health` на `127.0.0.1:$PORT`.
 - Если платформа задаёт свой `PORT`, не переопределяйте его вручную — healthcheck использует ту же переменную.
 
 ## Структура проекта
