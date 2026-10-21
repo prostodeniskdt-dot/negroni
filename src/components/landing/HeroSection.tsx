@@ -82,20 +82,7 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center px-6 pt-[calc(var(--header-height)+1.5rem)] pb-6 text-center md:px-8 lg:items-start lg:px-12 lg:text-left">
-        <div
-          className={`transition-all duration-1000 ${
-            loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ transitionDelay: '0.5s' }}
-        >
-          <span className="inline-flex items-center gap-3 text-base font-semibold tracking-[var(--letter-spacing-wide)] uppercase text-[var(--color-accent)]">
-            <span className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-border)] to-transparent" />
-            Est. 2025
-            <span className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-border)] to-transparent" />
-          </span>
-        </div>
-
-        <h1 className="mt-8 flex w-full items-center justify-center lg:justify-start">
+        <h1 className="flex w-full items-center justify-center lg:justify-start">
           <span
             className={`block transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               loaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
