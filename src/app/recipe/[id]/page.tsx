@@ -13,7 +13,7 @@ import { getRecipeByIdFrom, getRecipeAuthorImage, getRecipeCardImage, getRecipeC
 import NegroniMark from '@/components/NegroniMark';
 import { downloadRecipesPdf } from '@/lib/pdf/download';
 
-const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
+const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'herbal', 'strong'] as const;
 
 function getRelatedRecipes(
   entries: RecipeEntry[],
@@ -305,10 +305,10 @@ export default function RecipePage() {
                   {t('recipe.flavor')}
                 </h3>
                 <p className="text-xs text-[var(--color-text-secondary)] mb-4">
-                  {t('flavor.caption')}
+                  {t(recipe.flavorProfile.herbal !== undefined ? 'flavor.herbalCaption' : 'flavor.caption')}
                 </p>
                 <div className="space-y-3">
-                  {FLAVOR_KEYS.map((key) => {
+                  {FLAVOR_KEYS.filter((key) => recipe.flavorProfile?.[key] !== undefined).map((key) => {
                     const val = recipe.flavorProfile?.[key] ?? 0;
                     const pct = Math.round((val / 10) * 100);
                     return (
@@ -317,7 +317,7 @@ export default function RecipePage() {
                           <span className="text-[var(--color-text-muted)]">
                             {t(`flavor.${key}`)}
                           </span>
-                          <span className="text-[var(--color-text-secondary)]">{pct}%</span>
+                          <span className="text-[var(--color-text-secondary)]">{recipe.flavorProfile?.herbal !== undefined ? `${val}/10` : `${pct}%`}</span>
                         </div>
                         <div className="h-2 bg-[var(--color-border)] rounded-full overflow-hidden">
                           <div
@@ -377,9 +377,12 @@ export default function RecipePage() {
                         {t('recipe.author')}
                       </span>
                       <p className="text-[var(--color-text-primary)] font-medium">{recipe.author}</p>
+                      {recipe.authorRole && (
+                        <p className="text-sm text-[var(--color-text-secondary)]">{recipe.authorRole}</p>
+                      )}
                     </div>
                   )}
-                  {(recipe.authorInstagram || recipe.authorTg || recipe.barLink) && (
+                  {(recipe.authorInstagram || recipe.authorTg || recipe.authorPhone || recipe.barLink) && (
                     <div className="flex flex-wrap gap-2 mt-3">
                       {recipe.authorInstagram && (
                         <a
@@ -399,6 +402,14 @@ export default function RecipePage() {
                           className="inline-flex items-center gap-1.5 px-3 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-transparent text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:bg-[var(--color-campari)]/10 transition-all text-sm font-medium"
                         >
                           {t('recipe.linkTelegram')}
+                        </a>
+                      )}
+                      {recipe.authorPhone && (
+                        <a
+                          href={`tel:${recipe.authorPhone}`}
+                          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-transparent text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:bg-[var(--color-campari)]/10 transition-all text-sm font-medium"
+                        >
+                          {t('recipe.linkPhone')}: {recipe.authorPhone}
                         </a>
                       )}
                       {recipe.barLink && (

@@ -15,6 +15,7 @@ const flavorLabels = [
   ['sweet', 'Сладость'],
   ['sour', 'Кислотность'],
   ['spicy', 'Пряность'],
+  ['herbal', 'Травянистость'],
   ['strong', 'Крепость'],
 ] as const;
 
@@ -117,7 +118,7 @@ async function toPdfRecipe(entry: RecipeEntry): Promise<PdfRecipe> {
       }))
       .filter((batch) => batch.ingredients.length > 0 || batch.steps.length > 0),
     flavor: recipe.flavorProfile
-      ? flavorLabels.map(([key, label]) => ({
+      ? flavorLabels.filter(([key]) => recipe.flavorProfile?.[key] !== undefined).map(([key, label]) => ({
           label,
           value: Math.max(0, Math.min(10, Number(recipe.flavorProfile?.[key] ?? 0))),
         }))
