@@ -380,6 +380,11 @@ export default function RecipePage() {
                       {recipe.authorRole && (
                         <p className="text-sm text-[var(--color-text-secondary)]">{recipe.authorRole}</p>
                       )}
+                      {recipe.authorAdditionalAccount && (
+                        <p className="text-sm text-[var(--color-text-secondary)]">
+                          {t('recipe.additionalAccount')}: {recipe.authorAdditionalAccount}
+                        </p>
+                      )}
                     </div>
                   )}
                   {(recipe.authorInstagram || recipe.authorTg || recipe.authorPhone || recipe.barLink) && (
@@ -406,7 +411,7 @@ export default function RecipePage() {
                       )}
                       {recipe.authorPhone && (
                         <a
-                          href={`tel:${recipe.authorPhone}`}
+                          href={`tel:${recipe.authorPhone.replace(/[^+\d]/g, '')}`}
                           className="inline-flex items-center gap-1.5 px-3 py-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-transparent text-[var(--color-text-primary)] hover:border-[var(--color-campari)] hover:bg-[var(--color-campari)]/10 transition-all text-sm font-medium"
                         >
                           {t('recipe.linkPhone')}: {recipe.authorPhone}

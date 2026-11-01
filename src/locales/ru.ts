@@ -59,6 +59,7 @@ const ru: Record<string, string> = {
   'flavor.herbal': 'Травянистость',
   'flavor.herbalCaption': 'Горечь, сладость, кислотность, травянистость, крепость — шкала 1–10',
   'recipe.linkPhone': 'Телефон',
+  'recipe.additionalAccount': 'Дополнительный аккаунт',
   'flavor.strong': 'Крепость',
   'flavor.bitterShort': 'Гор.',
   'flavor.sweetShort': 'Слад.',

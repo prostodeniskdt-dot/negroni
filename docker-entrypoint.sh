@@ -12,4 +12,5 @@ if [ -z "${PORT:-}" ]; then
 fi
 
 cd /app
-exec node server.js
+echo "Starting Next.js on ${HOSTNAME}:${PORT}"
+exec "$@"

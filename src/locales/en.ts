@@ -53,6 +53,7 @@ const en: Record<string, string> = {
   'flavor.herbal': 'Herbal character',
   'flavor.herbalCaption': 'Bitterness, sweetness, acidity, herbal character, strength — scale 1–10',
   'recipe.linkPhone': 'Phone',
+  'recipe.additionalAccount': 'Additional account',
   'flavor.strong': 'Strength',
   'flavor.bitterShort': 'Bit.',
   'flavor.sweetShort': 'Swt.',

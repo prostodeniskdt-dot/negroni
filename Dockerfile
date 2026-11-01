@@ -30,7 +30,7 @@ ENV PORT=3000
 RUN groupadd --system --gid 1001 nodejs \
     && useradd --system --uid 1001 --gid nodejs nextjs
 
-COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/src/lib/pdf/fonts ./fonts
@@ -46,8 +46,8 @@ EXPOSE 3000
 
 # curl, not a second Node process: a Node probe competes with the server
 # during boot and keeps the platform in "starting" for the whole start-period.
-HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=5 \
-  CMD curl --fail --silent --show-error --max-time 2 "http://127.0.0.1:${PORT:-3000}/api/health"
+HEALTHCHECK --interval=5s --timeout=5s --start-period=30s --retries=6 \
+  CMD curl --noproxy '*' --fail --silent --show-error --max-time 4 "http://127.0.0.1:${PORT:-3000}/api/health"
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["node", "server.js"]
