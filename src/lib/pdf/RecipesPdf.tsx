@@ -44,6 +44,7 @@ export type PdfRecipe = {
   story: string;
   image: { src: string; width: number; height: number } | null;
   authorImage: string | null;
+  authorImageCaption?: string;
   method: string;
   glass: string;
   garnish: string;
@@ -434,10 +435,11 @@ function RecipePage({ recipe, index, total }: { recipe: PdfRecipe; index: number
 
       {(recipe.author || recipe.authorImage) && (
         <View style={styles.authorRow} wrap={false}>
-          {recipe.authorImage ? <Image style={styles.authorImage} src={recipe.authorImage} /> : null}
+          {recipe.authorImage ? <Image style={recipe.authorImageCaption ? [styles.authorImage, { height: 171, objectFit: 'contain' }] : styles.authorImage} src={recipe.authorImage} /> : null}
           <View>
             {recipe.author ? <Text style={{ fontSize: 13, fontWeight: 600 }}>{recipe.author}</Text> : null}
             {recipe.bar ? <Text style={styles.meta}>{recipe.bar}</Text> : null}
+            {recipe.authorImageCaption ? <Text style={styles.meta}>{recipe.authorImageCaption}</Text> : null}
           </View>
         </View>
       )}

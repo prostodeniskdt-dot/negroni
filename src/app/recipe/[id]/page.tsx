@@ -341,14 +341,19 @@ export default function RecipePage() {
                     {t('recipe.barProfile') || 'Бар и автор'}
                   </h3>
                   {getRecipeAuthorImage(recipe) && (
-                    <div className="mb-4 overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
+                    <figure className="mb-4 overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)]">
                       <img
                         src={getRecipeAuthorImage(recipe)}
-                        alt={recipe.author !== '—' ? recipe.author : 'Автор коктейля'}
-                        className="block aspect-[4/5] w-full object-cover"
+                        alt={recipe.authorImageCaption || (recipe.author !== '—' ? recipe.author : 'Автор коктейля')}
+                        className={recipe.authorImageCaption ? 'block h-auto w-full' : 'block aspect-[4/5] w-full object-cover'}
                         loading="lazy"
                       />
-                    </div>
+                      {recipe.authorImageCaption && (
+                        <figcaption className="px-3 py-2 text-sm text-[var(--color-text-secondary)]">
+                          {recipe.authorImageCaption}
+                        </figcaption>
+                      )}
+                    </figure>
                   )}
                   {recipe.bar !== '—' && (
                     <div className="mb-2">

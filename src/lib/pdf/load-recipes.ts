@@ -101,6 +101,7 @@ async function toPdfRecipe(entry: RecipeEntry): Promise<PdfRecipe> {
     story: present(recipe.story),
     image,
     authorImage: authorImage?.src ?? null,
+    authorImageCaption: present(recipe.authorImageCaption),
     method: present(recipe.method),
     glass: present(recipe.glass),
     garnish: present(recipe.garnish),
