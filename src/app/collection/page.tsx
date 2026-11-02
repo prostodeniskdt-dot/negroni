@@ -1,6 +1,7 @@
-﻿'use client';
+'use client';
 
 import { useState, useMemo } from 'react';
+import { Search, MapPin, SlidersHorizontal, ChevronDown, X, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
 import { useI18n } from '@/hooks/useI18n';
 import NegroniMark from '@/components/NegroniMark';
@@ -11,26 +12,13 @@ import Reveal from '@/components/Reveal';
 import { PublicRecipeImage } from '@/components/PublicRecipeImage';
 import RecipeTagsFilter from '@/components/collection/RecipeTagsFilter';
 import {
-  type RecipeEntry,
-} from '@/data/recipes';
-import {
   filterRecipesFrom,
-  getAllCategoriesFrom,
-  getAllRegionsFrom,
+  getAllCitiesFrom,
   getAllTagsFrom,
   getRecipeAuthorImage,
   getRecipeCardImage,
   getRecipeCardLabel,
 } from '@/lib/public-recipes';
-
-const FLAVOR_KEYS = ['bitter', 'sweet', 'sour', 'spicy', 'strong'] as const;
-
-const DEFAULT_FLAVOR_RANGE: [number, number] = [0, 10];
-
-function getUniqueCitiesCount(entries: RecipeEntry[]): number {
-  const cities = new Set(entries.map((r) => r.city));
-  return cities.size;
-}
 
 export default function CollectionPage() {
   const { t } = useI18n();
@@ -38,93 +26,39 @@ export default function CollectionPage() {
   const { recipes, source } = usePublicRecipes();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const [tagsOpen, setTagsOpen] = useState(false);
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [ingredientSearch, setIngredientSearch] = useState('');
-  const [flavorFilters, setFlavorFilters] = useState<
-    Record<string, [number, number]>
-  >({});
-  const [flavorOpen, setFlavorOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('');
-  const [sortBy, setSortBy] = useState<'name' | 'region' | 'difficulty'>('name');
   const [selectMode, setSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [exporting, setExporting] = useState(false);
 
-  const regions = useMemo(() => getAllRegionsFrom(recipes), [recipes]);
+  const cities = useMemo(() => getAllCitiesFrom(recipes), [recipes]);
   const tags = useMemo(() => getAllTagsFrom(recipes), [recipes]);
-  const categories = useMemo(() => getAllCategoriesFrom(recipes), [recipes]);
 
   const filteredResults = useMemo(() => {
     const results = filterRecipesFrom(recipes, {
       query: searchQuery || undefined,
-      region: selectedRegion || undefined,
+      city: selectedCity || undefined,
       tags: activeTags.length > 0 ? activeTags : undefined,
       ingredients: ingredientSearch || undefined,
-      category: selectedCategory || undefined,
-      difficulty: selectedDifficulty || undefined,
-      flavor:
-        Object.keys(flavorFilters).length > 0
-          ? Object.fromEntries(
-              Object.entries(flavorFilters).filter(
-                ([, range]) =>
-                  range[0] !== DEFAULT_FLAVOR_RANGE[0] ||
-                  range[1] !== DEFAULT_FLAVOR_RANGE[1]
-              )
-            )
-          : undefined,
     });
+    return results.sort((a, b) => a.recipe.name.localeCompare(b.recipe.name, 'ru'));
+  }, [searchQuery, selectedCity, activeTags, ingredientSearch, recipes]);
 
-    const difficultyOrder: Record<string, number> = { easy: 1, medium: 2, hard: 3 };
-
-    return [...results].sort((a, b) => {
-      switch (sortBy) {
-        case 'name':
-          return a.recipe.name.localeCompare(b.recipe.name, 'ru');
-        case 'region':
-          return a.recipe.region.localeCompare(b.recipe.region, 'ru');
-        case 'difficulty':
-          return (difficultyOrder[a.recipe.difficulty ?? ''] ?? 0) - (difficultyOrder[b.recipe.difficulty ?? ''] ?? 0);
-        default:
-          return 0;
-      }
-    });
-  }, [
-    searchQuery,
-    selectedRegion,
-    activeTags,
-    ingredientSearch,
-    flavorFilters,
-    selectedCategory,
-    selectedDifficulty,
-    sortBy,
-    recipes,
-  ]);
-
-  const uniqueCitiesCount = useMemo(
-    () => getUniqueCitiesCount(recipes),
-    [recipes]
-  );
+  const hasFilters = Boolean(searchQuery.trim() || selectedCity || ingredientSearch.trim() || activeTags.length);
+  const resetFilters = () => {
+    setSearchQuery('');
+    setSelectedCity('');
+    setIngredientSearch('');
+    setActiveTags([]);
+  };
 
   const toggleTag = (tag: string) => {
     setActiveTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
-  };
-
-  const updateFlavorRange = (key: string, index: 0 | 1, value: number) => {
-    setFlavorFilters((prev) => {
-      const current = prev[key] ?? [...DEFAULT_FLAVOR_RANGE];
-      const next = [...current] as [number, number];
-      next[index] = value;
-      if (next[0] > next[1]) next[1 - index] = value;
-      return { ...prev, [key]: next };
-    });
-  };
-
-  const resetFlavorFilters = () => {
-    setFlavorFilters({});
   };
 
   const exportPdf = (opts: { ids?: string[]; all?: boolean }) => {
@@ -159,7 +93,7 @@ export default function CollectionPage() {
             </span>
             <span className="text-[0.95rem]">
               <span className="font-semibold text-[var(--color-text-primary)]">
-                {uniqueCitiesCount}
+                {cities.length}
               </span>{' '}
               {t('collection.citiesCount')}
             </span>
@@ -169,150 +103,102 @@ export default function CollectionPage() {
 
       {/* ====== CONTROLS ====== */}
       <Reveal as="section" className="px-6 py-6 max-w-[1200px] mx-auto">
-        <div className="space-y-4 p-5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder={t('collection.search')}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2.5 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
-            />
-            <select
-              value={selectedRegion}
-              onChange={(e) => setSelectedRegion(e.target.value)}
-              className="w-full px-4 py-2.5 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
-            >
-              <option value="">{t('collection.allRegions')}</option>
-              {regions.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-4 py-2.5 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
-            >
-              <option value="">{t('collection.allCategories', 'Все категории')}</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-            <select
-              value={selectedDifficulty}
-              onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="w-full px-4 py-2.5 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
-            >
-              <option value="">{t('collection.anyDifficulty', 'Любая сложность')}</option>
-              <option value="easy">{t('collection.difficultyEasy', 'Легко')}</option>
-              <option value="medium">{t('collection.difficultyMedium', 'Средне')}</option>
-              <option value="hard">{t('collection.difficultyHard', 'Сложно')}</option>
-            </select>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'name' | 'region' | 'difficulty')}
-              className="w-full px-4 py-2.5 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
-            >
-              <option value="name">{t('collection.sortByName', 'По названию')}</option>
-              <option value="region">{t('collection.sortByRegion', 'По региону')}</option>
-              <option value="difficulty">{t('collection.sortByDifficulty', 'По сложности')}</option>
-            </select>
-          </div>
-
-          <input
-            type="text"
-            placeholder={t('collection.ingredients')}
-            value={ingredientSearch}
-            onChange={(e) => setIngredientSearch(e.target.value)}
-            className="w-full px-4 py-2.5 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
-          />
-
-          <RecipeTagsFilter
-            recipes={recipes}
-            tags={tags}
-            activeTags={activeTags}
-            onToggleTag={toggleTag}
-            onClearTags={() => setActiveTags([])}
-            onApplyRecipeSearch={(query) => {
-              setSearchQuery(query);
-              setActiveTags([]);
-            }}
-          />
-
-          <div>
+        <div className="space-y-4 p-4 md:p-5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius-lg)]">
+          <div role="search" aria-label={t('collection.searchLabel')} className="grid grid-cols-2 gap-3 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.85fr)_minmax(0,1fr)_auto_auto] lg:items-center">
+            <label className="relative col-span-2 block min-w-0 lg:col-span-1">
+              <span className="sr-only">{t('collection.searchLabel')}</span>
+              <Search size={18} aria-hidden="true" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]" />
+              <input
+                type="search"
+                placeholder={t('collection.search')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="h-12 w-full min-w-0 pl-11 pr-3 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
+              />
+            </label>
+            <label className="relative col-span-2 block min-w-0 sm:col-span-1">
+              <span className="sr-only">{t('collection.cityLabel')}</span>
+              <MapPin size={18} aria-hidden="true" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]" />
+              <select
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="h-12 w-full min-w-0 appearance-none pl-11 pr-9 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-sm text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
+              >
+                <option value="">{t('collection.allCities')}</option>
+                {cities.map((city) => <option key={city} value={city}>{city}</option>)}
+              </select>
+              <ChevronDown size={16} aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]" />
+            </label>
+            <label className="col-span-2 block min-w-0 sm:col-span-1">
+              <span className="sr-only">{t('collection.ingredients')}</span>
+              <input
+                type="search"
+                placeholder={t('collection.ingredients')}
+                title={t('collection.ingredientsHint')}
+                value={ingredientSearch}
+                onChange={(e) => setIngredientSearch(e.target.value)}
+                className="h-12 w-full min-w-0 px-4 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-campari)] transition-colors"
+              />
+            </label>
             <button
               type="button"
-              onClick={() => setFlavorOpen((v) => !v)}
-              className="px-4 py-2 text-sm bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-sm)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)] transition-all flex items-center gap-2"
+              aria-expanded={tagsOpen}
+              aria-controls="collection-tags"
+              onClick={() => setTagsOpen((open) => !open)}
+              className={`inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-sm)] border px-4 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-campari)] ${tagsOpen || activeTags.length ? 'border-[var(--color-campari)] bg-[var(--color-campari)]/10 text-[var(--color-text-primary)]' : 'border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-primary)] hover:border-[var(--color-campari)]'}`}
             >
-              {t('collection.flavor')}
-              <span className="text-[var(--color-text-muted)]">
-                {flavorOpen ? '▲' : '▼'}
-              </span>
+              <SlidersHorizontal size={16} aria-hidden="true" />
+              {t('collection.tags')}
+              {activeTags.length > 0 && <span className="rounded-full bg-[var(--color-campari)] px-1.5 text-xs text-[var(--color-on-campari)]">{activeTags.length}</span>}
+              <ChevronDown size={14} aria-hidden="true" className={tagsOpen ? 'rotate-180 transition-transform' : 'transition-transform'} />
             </button>
-            {flavorOpen && (
-              <div className="mt-4 p-4 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-[var(--radius-md)] space-y-4">
-                {FLAVOR_KEYS.map((key) => {
-                  const range = flavorFilters[key] ?? [...DEFAULT_FLAVOR_RANGE];
-                  return (
-                    <div key={key} className="space-y-1">
-                      <label className="block text-sm text-[var(--color-text-muted)]">
-                        {t(`flavor.${key}`)}: {range[0]}–{range[1]}
-                      </label>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="range"
-                          min={0}
-                          max={10}
-                          value={range[0]}
-                          onChange={(e) =>
-                            updateFlavorRange(
-                              key,
-                              0,
-                              parseInt(e.target.value, 10)
-                            )
-                          }
-                          className="flex-1 h-2 bg-[var(--color-border)] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[var(--color-campari)]"
-                        />
-                        <input
-                          type="range"
-                          min={0}
-                          max={10}
-                          value={range[1]}
-                          onChange={(e) =>
-                            updateFlavorRange(
-                              key,
-                              1,
-                              parseInt(e.target.value, 10)
-                            )
-                          }
-                          className="flex-1 h-2 bg-[var(--color-border)] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[var(--color-campari)]"
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-                <button
-                  type="button"
-                  onClick={resetFlavorFilters}
-                  className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
-                >
-                  {t('collection.resetFlavor')}
-                </button>
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={resetFilters}
+              disabled={!hasFilters}
+              title={t('collection.resetFilters')}
+              aria-label={t('collection.resetFilters')}
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-[var(--radius-sm)] border border-[var(--color-border)] px-3 text-sm text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-campari)] hover:text-[var(--color-text-primary)] focus-visible:outline-2 focus-visible:outline-[var(--color-campari)] disabled:opacity-35 disabled:cursor-default disabled:hover:border-[var(--color-border)]"
+            >
+              <RotateCcw size={17} aria-hidden="true" />
+              <span className="lg:sr-only">{t('collection.resetFilters')}</span>
+            </button>
           </div>
+
+          {tagsOpen && (
+            <div id="collection-tags" className="border-t border-[var(--color-border)] pt-4">
+              <RecipeTagsFilter
+                recipes={recipes}
+                tags={tags}
+                activeTags={activeTags}
+                onToggleTag={toggleTag}
+                onClearTags={() => setActiveTags([])}
+                onApplyRecipeSearch={(query) => {
+                  setSearchQuery(query);
+                  setActiveTags([]);
+                }}
+              />
+            </div>
+          )}
+          {!tagsOpen && activeTags.length > 0 && (
+            <div className="flex flex-wrap gap-2" aria-label={t('collection.selectedTags')}>
+              {activeTags.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => toggleTag(tag)}
+                  aria-label={`${t('collection.removeTag')}: ${tag}`}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-campari)] px-3 py-1.5 text-sm text-[var(--color-on-campari)]"
+                >
+                  {tag}<X size={14} aria-hidden="true" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          <p className="text-[var(--color-text-muted)]">
+          <p role="status" aria-live="polite" aria-atomic="true" className="text-[var(--color-text-muted)]">
             {t('collection.found')}: {filteredResults.length}
             {source === 'db' ? ' · данные из редактора' : ''}
           </p>
@@ -361,9 +247,14 @@ export default function CollectionPage() {
           eager: длинная сетка не должна зависеть от % высоты в IntersectionObserver */}
       <Reveal as="section" eager className="px-6 py-8 max-w-[1200px] mx-auto">
         {filteredResults.length === 0 ? (
-          <p className="text-[var(--color-text-muted)] text-center py-12 font-prose">
-            {t('collection.empty')}
-          </p>
+          <div className="text-center py-12 font-prose">
+            <p className="text-[var(--color-text-muted)]">{t('collection.empty')}</p>
+            {hasFilters && (
+              <button type="button" onClick={resetFilters} className="mt-4 rounded-[var(--radius-sm)] border border-[var(--color-border)] px-4 py-2 text-sm hover:border-[var(--color-campari)]">
+                {t('collection.resetFilters')}
+              </button>
+            )}
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredResults.map((entry) => (

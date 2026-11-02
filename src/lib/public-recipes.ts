@@ -109,6 +109,18 @@ export function getAllRegionsFrom(entries: PublicRecipeEntry[]): string[] {
   return Array.from(new Set(entries.map((entry) => entry.recipe.region).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'ru'));
 }
 
+/** City names for collection filters, excluding records with only a country. */
+export function getRecipeCity(entry: PublicRecipeEntry): string | null {
+  const city = entry.city?.trim();
+  if (!city || /^(россия|—|-)$/i.test(city)) return null;
+  return city.replace(/^Классика\s*\(([^)]+)\)$/i, '$1').trim();
+}
+
+export function getAllCitiesFrom(entries: PublicRecipeEntry[]): string[] {
+  return Array.from(new Set(entries.map(getRecipeCity).filter((city): city is string => Boolean(city))))
+    .sort((a, b) => a.localeCompare(b, 'ru'));
+}
+
 export function getAllTagsFrom(entries: PublicRecipeEntry[]): string[] {
   const set = new Map<string, string>();
   entries.forEach((entry) => {
@@ -137,6 +149,7 @@ function tagsAreEquivalent(left: string, right: string): boolean {
 
 export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
   query?: string;
+  city?: string;
   region?: string;
   tags?: string[];
   flavor?: Record<string, [number, number]>;
@@ -158,6 +171,7 @@ export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
           entry.recipe.intro,
           entry.recipe.author,
           entry.recipe.bar,
+          ...(entry.recipe.ingredients ?? []),
           ...(entry.recipe.tags ?? []),
         ].join(' ').toLowerCase();
         return text.includes(q);
@@ -166,6 +180,7 @@ export function filterRecipesFrom(entries: PublicRecipeEntry[], opts: {
   }
 
   if (opts.region) result = result.filter((entry) => entry.recipe.region === opts.region);
+  if (opts.city) result = result.filter((entry) => getRecipeCity(entry) === opts.city);
   if (opts.category) result = result.filter((entry) => entry.recipe.category === opts.category);
   if (opts.difficulty) result = result.filter((entry) => entry.recipe.difficulty === opts.difficulty);
 

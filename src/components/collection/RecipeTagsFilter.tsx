@@ -36,7 +36,7 @@ function TagPill({
   onClick: () => void;
 }) {
   return (
-    <button type="button" onClick={onClick} className={tagPillClass(isActive)}>
+    <button type="button" onClick={onClick} aria-pressed={isActive} className={tagPillClass(isActive)}>
       {tag}
     </button>
   );
