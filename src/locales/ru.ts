@@ -25,6 +25,11 @@ const ru: Record<string, string> = {
   'hero.statsCities': 'Городов',
   'hero.statsYear': 'Год создания',
   'hero.scrollHint': 'Листайте',
+  'hero.videoLabel': 'Видео Музея Негрони',
+  'hero.playVideo': 'Включить видео',
+  'hero.pauseVideo': 'Пауза',
+  'hero.unmuteVideo': 'Включить звук',
+  'hero.muteVideo': 'Выключить звук',
   // Index sections
   'index.historyLabel': 'История',
   'index.historyTitle': 'Негрони',

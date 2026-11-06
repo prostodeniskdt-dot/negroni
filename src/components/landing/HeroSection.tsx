@@ -1,164 +1,73 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronDown } from 'lucide-react';
+import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import { getCollectionStats } from '@/lib/public-recipes';
 import BrandLogo from '@/components/BrandLogo';
-
-const HERO_IMAGE_SRC = '/images/Negronifon.png';
-const HERO_IMAGE_ALT = 'Negroni фон';
-
-function useAnimatedCounter(target: number, duration: number, start: boolean) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!start) return;
-    let startTime: number | null = null;
-    let raf: number;
-
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * target));
-      if (progress < 1) {
-        raf = requestAnimationFrame(step);
-      }
-    };
-
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [target, duration, start]);
-
-  return count;
-}
+import { HeroVideo } from './HeroVideo';
 
 export function HeroSection() {
   const { t } = useI18n();
-  const { recipes, loading } = usePublicRecipes();
-  const [loaded, setLoaded] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-  const [scrollY, setScrollY] = useState(0);
-
+  const { recipes } = usePublicRecipes();
   const { recipeCount, cityCount } = getCollectionStats(recipes);
-  const statsReady = loaded && !loading;
-  const recipesCount = useAnimatedCounter(recipeCount, 1200, statsReady);
-  const citiesCount = useAnimatedCounter(cityCount, 1200, statsReady);
-  const yearCount = useAnimatedCounter(2025, 2200, loaded);
-
-  useEffect(() => {
-    setLoaded(true);
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-screen flex flex-col overflow-hidden"
-    >
-      <div
-        className="absolute inset-0 z-0 transition-transform duration-100"
-        style={{
-          transform: `translateY(${scrollY * 0.3}px) scale(${1.1 + scrollY * 0.0002})`,
-        }}
-      >
-        <Image
-          src={HERO_IMAGE_SRC}
-          alt={HERO_IMAGE_ALT}
-          fill
-          sizes="100vw"
-          className="object-cover object-[72%_center]"
-          priority
-        />
-        <div className="absolute inset-0 bg-[var(--color-bg)]/28" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-bg)]/95 via-[var(--color-bg)]/55 via-[42%] to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-bg)]/35 via-transparent to-[var(--color-bg)]/90" />
-      </div>
-
-      <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center px-6 pt-[calc(var(--header-height)+1.5rem)] pb-6 text-center md:px-8 lg:items-start lg:px-12 lg:text-left">
-        <h1 className="flex w-full items-center justify-center lg:justify-start">
-          <span
-            className={`block transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              loaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`}
-            style={{ transitionDelay: '0.7s' }}
-          >
-            <span className="mx-auto block w-[min(20rem,calc(100vw-3rem))] lg:mx-0 lg:w-[min(40vw,34rem)]">
-              <BrandLogo tone="red" size="hero" priority />
-            </span>
-            <span className="sr-only">{t('hero.subtitle')}</span>
-          </span>
-        </h1>
-
-        <p
-          className={`mt-6 font-display text-lg md:text-xl font-normal text-[var(--color-text-muted)] max-w-xl mx-auto leading-relaxed transition-all duration-1000 lg:mx-0 ${
-            loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ transitionDelay: '1.3s' }}
-        >
-          {t('hero.desc')}
-        </p>
-
-        <div
-          className={`mt-10 flex w-full max-w-lg flex-col items-stretch gap-6 transition-all duration-1000 sm:max-w-none sm:flex-row sm:items-center sm:justify-center md:gap-8 lg:max-w-3xl lg:flex-wrap lg:justify-start ${
-            loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ transitionDelay: '1.6s' }}
-        >
-          <Link
-            href="/recipes"
-            className="group relative overflow-hidden px-8 py-4 bg-[var(--color-accent)] text-[var(--color-accent-contrast)] text-base tracking-[var(--letter-spacing-wide)] uppercase font-semibold transition-all duration-500 hover:shadow-[0_0_40px_rgba(196,165,116,0.2)]"
-          >
-            <span className="relative z-10">{t('hero.cta')}</span>
-            <div className="absolute inset-0 bg-[var(--color-text-primary)] translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-          </Link>
-          <Link
-            href="/collection"
-            className="group relative px-8 py-4 border border-[var(--color-accent)]/45 text-[var(--color-text-primary)] text-base tracking-[var(--letter-spacing-wide)] uppercase font-semibold hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-all duration-500 overflow-hidden"
-          >
-            <span className="relative z-10">{t('hero.secondary')}</span>
-            <div className="absolute bottom-0 left-0 right-0 h-0 group-hover:h-full bg-[var(--color-accent)]/5 transition-all duration-700" />
-          </Link>
-        </div>
-
-        <div
-          className={`mt-12 md:mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-14 transition-all duration-1000 lg:justify-start ${
-            loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ transitionDelay: '1.9s' }}
-        >
-          {[
-            { value: String(recipesCount), label: t('hero.statsRecipes') },
-            { value: String(citiesCount), label: t('hero.statsCities') },
-            { value: String(yearCount), label: t('hero.statsYear') },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center min-w-[5.5rem]">
-              <div className="type-stat text-4xl md:text-5xl text-[var(--color-accent)]">
-                {stat.value}
-              </div>
-              <div className="mt-2.5 type-label text-[var(--color-text-muted)] tracking-[var(--letter-spacing-wide)]">
-                {stat.label}
-              </div>
+    <section className="relative flex min-h-svh flex-col px-4 pb-6 pt-[calc(var(--header-height)+1rem)] md:px-8 lg:px-10 lg:pt-[calc(var(--header-height)+1.5rem)]">
+      <div className="mx-auto grid w-full max-w-[1520px] flex-1 grid-cols-1 gap-4 lg:grid-cols-[minmax(20rem,0.85fr)_minmax(0,1.4fr)] lg:gap-6">
+        <div className="relative flex min-w-0 flex-col justify-center overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface-solid)] p-6 shadow-[var(--shadow-md)] md:p-8 xl:p-10">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(158,61,79,0.13),transparent_65%)]" aria-hidden="true" />
+          <div className="relative">
+            <div className="mb-6 flex items-center gap-3 text-[var(--color-accent)]">
+              <span className="h-px w-7 bg-current" aria-hidden="true" />
+              <span className="type-label tracking-[var(--letter-spacing-label)]">{t('hero.label')}</span>
             </div>
-          ))}
+            <h1 className="w-full max-w-[25rem]">
+              <BrandLogo tone="red" size="hero" priority />
+              <span className="sr-only">{t('logo')}</span>
+            </h1>
+            <p className="mt-6 max-w-[34ch] font-display text-xl leading-relaxed text-[var(--color-text-muted)] md:text-[1.4rem]">
+              {t('hero.desc')}
+            </p>
+            <div className="mt-8 flex flex-col gap-3">
+              <Link
+                href="/recipes"
+                className="group inline-flex min-h-13 items-center justify-between gap-3 rounded-[var(--radius-sm)] bg-[var(--color-accent)] px-5 py-4 text-sm font-semibold uppercase tracking-[var(--letter-spacing-wide)] text-[var(--color-accent-contrast)] transition-colors hover:bg-[var(--color-accent-light)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+              >
+                <span>{t('hero.cta')}</span>
+                <ArrowUpRight size={18} aria-hidden="true" className="shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </Link>
+              <Link
+                href="/collection"
+                className="inline-flex min-h-13 items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-accent)]/40 px-5 py-4 text-center text-sm font-semibold uppercase tracking-[var(--letter-spacing-wide)] text-[var(--color-text-primary)] transition-colors hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
+              >
+                {t('hero.secondary')}
+              </Link>
+            </div>
+            <dl className="mt-8 grid grid-cols-3 gap-3 border-t border-[var(--color-border)] pt-6">
+              {[
+                { value: recipeCount, label: t('hero.statsRecipes') },
+                { value: cityCount, label: t('hero.statsCities') },
+                { value: 2025, label: t('hero.statsYear') },
+              ].map((stat) => (
+                <div key={stat.label} className="min-w-0">
+                  <dt className="type-label text-[0.6rem] leading-relaxed tracking-[0.08em] text-[var(--color-text-secondary)] xl:text-[0.65rem]">{stat.label}</dt>
+                  <dd className="mt-1 font-display text-3xl text-[var(--color-accent)] xl:text-4xl">{stat.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
+        <HeroVideo />
       </div>
-
-      <div className="relative z-10 shrink-0 flex justify-center pb-10 pt-2">
-        <Link
-          href="#collection-teaser"
-          className="flex flex-col items-center gap-2 text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
-        >
-          <span className="type-label tracking-[var(--letter-spacing-wide)]">{t('hero.scrollHint')}</span>
-          <ChevronDown size={26} className="animate-bounce" aria-hidden />
-        </Link>
-      </div>
+      <Link
+        href="#collection-teaser"
+        className="mx-auto mt-5 inline-flex items-center gap-2 py-1 text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+      >
+        <span className="type-label tracking-[var(--letter-spacing-wide)]">{t('hero.scrollHint')}</span>
+        <ChevronDown size={18} aria-hidden="true" />
+      </Link>
     </section>
   );
 }
