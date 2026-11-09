@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     '/api/export/pdf': ['./src/lib/pdf/fonts/**/*'],
   },
+  // Public assets are prepared and copied once by Docker's assets stage.
+  outputFileTracingExcludes: {
+    '*': ['./public/**/*'],
+  },
 
   // Image optimization
   images: {

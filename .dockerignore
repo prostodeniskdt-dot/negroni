@@ -5,3 +5,16 @@ npm-debug.log*
 deploy-logs-*.txt
 promo/node_modules
 promo/.next
+**/node_modules
+**/.next
+**/.git
+*.log
+*.tsbuildinfo
+.env
+.env.*
+.DS_Store
+legacy
+promo
+docs
+work
+output
