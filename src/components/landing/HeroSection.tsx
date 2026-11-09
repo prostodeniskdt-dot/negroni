@@ -14,8 +14,8 @@ export function HeroSection() {
   const { recipeCount, cityCount } = getCollectionStats(recipes);
 
   return (
-    <section className="relative flex flex-col px-3 pb-6 pt-[calc(var(--header-height)+0.75rem)] md:px-6 lg:px-8">
-      <div className="mx-auto w-full max-w-[1520px]">
+    <section className="relative flex flex-col pb-6 pt-[var(--header-height)]">
+      <div className="w-full">
         <HeroVideo>
           <div className="hero-overlay">
             <div className="hero-overlay-content">
@@ -31,11 +31,11 @@ export function HeroSection() {
               <p className="hero-overlay-copy">{t('hero.introTwists')}</p>
               <div className="hero-overlay-actions">
                 <Link href="/recipes" className="hero-overlay-button hero-overlay-button-outline">
-                  <MapPinned aria-hidden="true" />
+                  <MapPinned aria-hidden="true" strokeWidth={1.5} />
                   <span>{t('hero.cta')}</span>
                 </Link>
                 <Link href="/collection" className="hero-overlay-button hero-overlay-button-solid">
-                  <BookOpenText aria-hidden="true" />
+                  <BookOpenText aria-hidden="true" strokeWidth={1.5} />
                   <span>{t('hero.collectionLink')}</span>
                 </Link>
               </div>

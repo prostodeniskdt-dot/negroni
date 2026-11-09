@@ -61,7 +61,7 @@ export function HeroVideo({ children }: { children?: ReactNode }) {
         src={POSTER_SRC}
         alt={t('hero.videoLabel')}
         fill
-        sizes="(min-width: 1600px) 1520px, 100vw"
+        sizes="100vw"
         className="hero-video-picture"
         priority
       />

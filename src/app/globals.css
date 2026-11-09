@@ -1150,14 +1150,6 @@ textarea:focus-visible,
 }
 
 /* The hero's identity panel sits on the film, as a single composition. */
-@font-face {
-  font-family: 'Oswald';
-  src: url('/fonts/Oswald-Variable.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 200 700;
-  font-display: swap;
-}
-
 .hero-video-stage {
   position: relative;
   isolation: isolate;
@@ -1165,14 +1157,16 @@ textarea:focus-visible,
   width: 100%;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border: 0;
+  border-radius: 0;
   background: #000;
   box-shadow: var(--shadow-lg);
 }
 
 .hero-video-picture {
   object-fit: cover;
+  /* Crop the film's baked-in letterbox bars on narrower screens. */
+  transform: scale(1.228);
 }
 
 .hero-overlay {
@@ -1184,7 +1178,7 @@ textarea:focus-visible,
   background: rgba(0, 0, 0, 0.66);
   backdrop-filter: blur(3px);
   color: #fff;
-  font-family: 'Oswald', 'Arial Narrow', Arial, sans-serif;
+  font-family: var(--font-display);
   font-weight: 400;
   letter-spacing: 0;
 }
@@ -1223,8 +1217,8 @@ textarea:focus-visible,
 .hero-overlay-copy {
   margin: 0;
   white-space: pre-line;
-  font-size: 17px;
-  line-height: 1.25;
+  font-size: 19px;
+  line-height: 1.3;
 }
 
 .hero-overlay-actions {
@@ -1239,9 +1233,10 @@ textarea:focus-visible,
   gap: 8px;
   min-height: 44px;
   padding: 6px 8px;
-  border: 2px solid #fff;
+  border: 1px solid #fff;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 400;
   line-height: 1.2;
   transition: background-color 180ms, color 180ms;
 }
@@ -1266,7 +1261,7 @@ textarea:focus-visible,
 }
 
 .hero-overlay-stats > div { display: flex; flex-direction: column; }
-.hero-overlay-stats dt { font-size: 17px; line-height: 1.25; }
+.hero-overlay-stats dt { font-size: 19px; line-height: 1.3; }
 .hero-overlay-stats dd { order: -1; margin: 0 0 4px; font-size: 40px; line-height: 1; }
 
 @media (min-width: 768px) and (max-width: 1199px) {
@@ -1274,24 +1269,24 @@ textarea:focus-visible,
 }
 
 @media (min-width: 1200px) {
-  .hero-video-stage { aspect-ratio: 16 / 9; }
-  .hero-video-picture { object-fit: contain; }
+  .hero-video-stage { aspect-ratio: 24 / 11; }
+  .hero-video-picture { transform: none; }
   .hero-overlay {
     position: absolute;
-    inset: 9.2% auto 9.2% 3.8%;
+    inset: 4% auto 4% 3.8%;
     display: flex;
     align-items: center;
     width: min(22.4cqw, 320px);
     margin: 0;
-    padding: 2.5cqw;
+    padding: min(2cqw, 32px);
   }
   .hero-overlay-content { width: 100%; gap: min(1.1cqw, 18px); }
   .hero-overlay-logo { width: min(16.4cqw, 240px); }
   .hero-overlay-year { gap: 0.7cqw; }
   .hero-overlay-year dd, .hero-overlay-stats dd { font-size: min(3.2cqw, 48px); }
-  .hero-overlay-year dt, .hero-overlay-copy, .hero-overlay-stats dt { font-size: min(1.35cqw, 20px); }
+  .hero-overlay-year dt, .hero-overlay-copy, .hero-overlay-stats dt { font-size: min(1.5cqw, 20px); }
   .hero-overlay-actions { gap: min(0.75cqw, 12px); }
-  .hero-overlay-button { min-height: min(3.3cqw, 48px); padding: 0.35cqw 0.55cqw; font-size: min(1.2cqw, 18px); }
+  .hero-overlay-button { min-height: min(3.3cqw, 48px); padding: 0.35cqw 0.55cqw; font-size: min(1.35cqw, 18px); }
   .hero-overlay-button svg { width: min(2.1cqw, 30px); height: min(2.1cqw, 30px); }
   .hero-overlay-stats { gap: 1.5cqw; }
 }
