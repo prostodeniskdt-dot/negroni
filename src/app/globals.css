@@ -1196,22 +1196,21 @@ textarea:focus-visible,
 
 .hero-overlay-year {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: baseline;
+  gap: 0.3em;
   margin: 0;
+  white-space: nowrap;
+  font-size: 19px;
+  line-height: 1.3;
 }
 
 .hero-overlay-year dt {
-  white-space: pre-line;
-  font-size: 16px;
-  line-height: 1.2;
+  font-size: inherit;
 }
 
 .hero-overlay-year dd {
-  order: -1;
   margin: 0;
-  font-size: 40px;
-  line-height: 1;
+  font-size: inherit;
 }
 
 .hero-overlay-copy {
@@ -1236,7 +1235,7 @@ textarea:focus-visible,
   border: 1px solid #fff;
   border-radius: 8px;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.2;
   transition: background-color 180ms, color 180ms;
 }
@@ -1262,7 +1261,8 @@ textarea:focus-visible,
 
 .hero-overlay-stats > div { display: flex; flex-direction: column; }
 .hero-overlay-stats dt { font-size: 19px; line-height: 1.3; }
-.hero-overlay-stats dd { order: -1; margin: 0 0 4px; font-size: 40px; line-height: 1; }
+.hero-overlay-stats dd { order: -1; margin: 0 0 4px; font-size: 72px; line-height: 1; }
+.hero-overlay-stats span { display: inline-block; }
 
 @media (min-width: 768px) and (max-width: 1199px) {
   .hero-overlay { margin-left: 32px; }
@@ -1282,9 +1282,7 @@ textarea:focus-visible,
   }
   .hero-overlay-content { width: 100%; gap: min(1.1cqw, 18px); }
   .hero-overlay-logo { width: min(16.4cqw, 240px); }
-  .hero-overlay-year { gap: 0.7cqw; }
-  .hero-overlay-year dd, .hero-overlay-stats dd { font-size: min(3.2cqw, 48px); }
-  .hero-overlay-year dt, .hero-overlay-copy, .hero-overlay-stats dt { font-size: min(1.5cqw, 20px); }
+  .hero-overlay-year, .hero-overlay-copy, .hero-overlay-stats dt { font-size: min(1.5cqw, 20px); }
   .hero-overlay-actions { gap: min(0.75cqw, 12px); }
   .hero-overlay-button { min-height: min(3.3cqw, 48px); padding: 0.35cqw 0.55cqw; font-size: min(1.35cqw, 18px); }
   .hero-overlay-button svg { width: min(2.1cqw, 30px); height: min(2.1cqw, 30px); }

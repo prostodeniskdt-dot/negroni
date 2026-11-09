@@ -1,12 +1,48 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 import { BookOpenText, ChevronDown, MapPinned } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 import { usePublicRecipes } from '@/hooks/usePublicRecipes';
 import { getCollectionStats } from '@/lib/public-recipes';
 import BrandLogo from '@/components/BrandLogo';
 import { HeroVideo } from './HeroVideo';
+
+function HeroStat({ value, label }: { value: number; label: string }) {
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const valueRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const caption = labelRef.current;
+    const number = valueRef.current;
+    if (!caption || !number) return;
+
+    // Match the caption's width without stretching the font's letterforms.
+    const fitNumber = () => {
+      const width = number.getBoundingClientRect().width;
+      if (width > 0) {
+        const fontSize = parseFloat(getComputedStyle(number).fontSize);
+        number.style.fontSize = `${fontSize * caption.getBoundingClientRect().width / width}px`;
+      }
+    };
+    const observer = new ResizeObserver(fitNumber);
+    observer.observe(caption);
+    document.fonts.addEventListener('loadingdone', fitNumber);
+    fitNumber();
+    return () => {
+      observer.disconnect();
+      document.fonts.removeEventListener('loadingdone', fitNumber);
+    };
+  }, [value, label]);
+
+  return (
+    <div>
+      <dt><span ref={labelRef}>{label}</span></dt>
+      <dd><span ref={valueRef}>{value}</span></dd>
+    </div>
+  );
+}
 
 export function HeroSection() {
   const { t } = useI18n();
@@ -44,10 +80,7 @@ export function HeroSection() {
                   { value: recipeCount, label: t('hero.statsRecipes') },
                   { value: cityCount, label: t('hero.statsCities') },
                 ].map((stat) => (
-                  <div key={stat.label}>
-                    <dt>{stat.label}</dt>
-                    <dd>{stat.value}</dd>
-                  </div>
+                  <HeroStat key={stat.label} value={stat.value} label={stat.label} />
                 ))}
               </dl>
             </div>
