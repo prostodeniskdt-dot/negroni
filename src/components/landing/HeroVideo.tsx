@@ -56,7 +56,7 @@ export function HeroVideo() {
   };
 
   return (
-    <div className="relative isolate aspect-video min-w-0 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-black shadow-[var(--shadow-lg)] lg:self-center">
+    <div className="relative isolate aspect-video min-w-0 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-black shadow-[var(--shadow-lg)] self-start">
       <Image
         src={POSTER_SRC}
         alt={t('hero.videoLabel')}
