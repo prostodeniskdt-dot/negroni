@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
@@ -8,7 +8,7 @@ import { useI18n } from '@/hooks/useI18n';
 const VIDEO_SRC = '/videos/negroni-hero.mp4';
 const POSTER_SRC = '/images/hero/negroni-film-poster.jpg';
 
-export function HeroVideo() {
+export function HeroVideo({ children }: { children?: ReactNode }) {
   const { t } = useI18n();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasSource, setHasSource] = useState(false);
@@ -56,13 +56,13 @@ export function HeroVideo() {
   };
 
   return (
-    <div className="relative isolate aspect-video min-w-0 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-black shadow-[var(--shadow-lg)] self-start">
+    <div className="hero-video-stage">
       <Image
         src={POSTER_SRC}
         alt={t('hero.videoLabel')}
         fill
-        sizes="(min-width: 1440px) 840px, (min-width: 1024px) 60vw, 100vw"
-        className="object-contain"
+        sizes="(min-width: 1600px) 1520px, 100vw"
+        className="hero-video-picture"
         priority
       />
       {!failed && (
@@ -76,15 +76,16 @@ export function HeroVideo() {
           playsInline
           preload="none"
           aria-label={t('hero.videoLabel')}
-          className="absolute inset-0 h-full w-full object-contain"
+          className="hero-video-picture absolute inset-0 h-full w-full"
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
           onVolumeChange={(event) => setMuted(event.currentTarget.muted)}
           onError={() => { setPlaying(false); setFailed(true); }}
         />
       )}
+      {children}
       {!failed && (
-        <div className="absolute bottom-3 right-3 z-10 flex items-center gap-2 sm:bottom-4 sm:right-4">
+        <div className="absolute bottom-3 right-3 z-20 flex items-center gap-2 sm:bottom-4 sm:right-4">
           <button
             type="button"
             onClick={togglePlayback}
