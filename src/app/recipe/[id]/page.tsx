@@ -227,11 +227,24 @@ export default function RecipePage() {
               <h3 className="font-display text-lg font-bold text-[var(--color-text-primary)] mb-2 uppercase tracking-wide">
                 {t('recipe.ingredients')}
               </h3>
-              <ul className="list-disc list-inside space-y-1 text-[var(--color-text-muted)] font-prose">
-                {recipe.ingredients.map((ing, i) => (
-                  <li key={i}>{ing}</li>
-                ))}
-              </ul>
+              {recipe.ingredientGroups?.length ? (
+                <div className="space-y-4">
+                  {recipe.ingredientGroups.map((group) => (
+                    <div key={group.name}>
+                      <h4 className="mb-2 font-semibold text-[var(--color-text-primary)]">{group.name}</h4>
+                      <ul className="list-disc list-inside space-y-1 text-[var(--color-text-muted)] font-prose">
+                        {group.ingredients.map((ingredient, i) => <li key={i}>{ingredient}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <ul className="list-disc list-inside space-y-1 text-[var(--color-text-muted)] font-prose">
+                  {recipe.ingredients.map((ing, i) => (
+                    <li key={i}>{ing}</li>
+                  ))}
+                </ul>
+              )}
             </Reveal>
 
             <Reveal>
@@ -292,7 +305,7 @@ export default function RecipePage() {
             <Reveal>
               <PublicRecipeImage
                 src={getRecipePageImage(recipe)}
-                alt={recipe.name}
+                alt={recipe.imageAlt || recipe.name}
                 className="aspect-[3/4] rounded-[var(--radius-md)] border border-[var(--color-border)]"
                 variant="hero"
               />

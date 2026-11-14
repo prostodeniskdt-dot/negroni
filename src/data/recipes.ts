@@ -1,3 +1,5 @@
+import { mycharaKefRecipes } from './mychara-kef-recipes';
+
 export interface FlavorProfile {
   bitter: number;
   sweet: number;
@@ -28,6 +30,9 @@ export interface Recipe {
   image: string;
   /** Превью для карточек в коллекции и подборках → папка public/images/cards/ */
   cardImage?: string;
+  imageAlt?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   method: string;
   glass: string;
   garnish: string;
@@ -35,6 +40,8 @@ export interface Recipe {
   prebatch: string | Prebatch | Prebatch[];
   flavorProfile?: FlavorProfile;
   ingredients: string[];
+  /** Отдельные части одной подачи, например три акта дегустационного сета. */
+  ingredientGroups?: { name: string; ingredients: string[] }[];
   steps: string[];
   /** Ссылка на Instagram автора (URL или @handle). Для кнопки на карточке. */
   authorInstagram?: string;
@@ -62,6 +69,7 @@ export interface RecipeEntry {
 }
 
 export const recipes: RecipeEntry[] = [
+  ...mycharaKefRecipes,
   {
     id: 'codex-frieno',
     city: 'Калуга',

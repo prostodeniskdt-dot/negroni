@@ -22,7 +22,8 @@ const flavorLabels = [
 function present(value?: string | null) {
   const text = value?.trim();
   if (!text || text === '—' || text === '-') return '';
-  return text;
+  // Cormorant has a right chevron but no arrow glyph; keep sequences readable in PDF.
+  return text.replaceAll('→', '›');
 }
 
 function asPrebatches(value: RecipeEntry['recipe']['prebatch']): {
@@ -109,7 +110,8 @@ async function toPdfRecipe(entry: RecipeEntry): Promise<PdfRecipe> {
     difficulty: recipe.difficulty ? difficultyLabel[recipe.difficulty] ?? '' : '',
     category: present(recipe.category),
     ingredients: (recipe.ingredients ?? []).map((item) => item.trim()).filter(Boolean),
-    steps: (recipe.steps ?? []).map((item) => item.trim()).filter(Boolean),
+    ingredientGroups: recipe.ingredientGroups,
+    steps: (recipe.steps ?? []).map(present).filter(Boolean),
     prebatchNote: prebatch.note,
     prebatches: prebatch.batches
       .map((batch) => ({

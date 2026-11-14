@@ -52,6 +52,7 @@ export type PdfRecipe = {
   difficulty: string;
   category: string;
   ingredients: string[];
+  ingredientGroups?: { name: string; ingredients: string[] }[];
   steps: string[];
   prebatchNote: string;
   prebatches: PdfPrebatch[];
@@ -373,7 +374,16 @@ function RecipePage({ recipe, index, total }: { recipe: PdfRecipe; index: number
 
       <View style={styles.section}>
         <Text style={styles.h3}>Состав</Text>
-        {recipe.ingredients.length ? (
+        {recipe.ingredientGroups?.length ? (
+          recipe.ingredientGroups.map((group) => (
+            <View key={group.name}>
+              <Text style={styles.batchName} minPresenceAhead={32}>{group.name}</Text>
+              {group.ingredients.map((item, i) => (
+                <Text key={i} style={styles.ingredient}>·  {item}</Text>
+              ))}
+            </View>
+          ))
+        ) : recipe.ingredients.length ? (
           recipe.ingredients.slice(0, half).map((item, i) => (
             <Text key={i} style={styles.ingredient}>·  {item}</Text>
           ))
@@ -394,11 +404,11 @@ function RecipePage({ recipe, index, total }: { recipe: PdfRecipe; index: number
 
       {(recipe.prebatches.length > 0 || recipe.prebatchNote) && (
         <View style={styles.section}>
-          <Text style={styles.h3}>Заготовки</Text>
+          <Text style={styles.h3} minPresenceAhead={64}>Заготовки</Text>
           {recipe.prebatchNote ? <Text style={styles.story}>{recipe.prebatchNote}</Text> : null}
           {recipe.prebatches.map((batch, batchIndex) => (
             <View key={batchIndex} style={styles.batch}>
-              <Text style={styles.batchName}>{batch.name}</Text>
+              <Text style={styles.batchName} minPresenceAhead={32}>{batch.name}</Text>
               {batch.ingredients.map((item, i) => (
                 <Text key={`ing-${i}`} style={styles.batchLine}>·  {item}</Text>
               ))}
